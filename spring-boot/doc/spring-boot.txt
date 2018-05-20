@@ -5,14 +5,19 @@ Spring Boot
 
 
 
+官方starter
+1.管理各种其他组件集成依赖
+2.用于自动配置
 
+工程结构
+pom.xml
+META-INF目录存放资源文件
 
+spring boot 自动配置
+spring-boot-autoconfigure 用于解析自动配置的工程
+关键注解 @SpringBootApplication
 
-
-
-
-
-
+运行main方法之后，通过http://localhost:8080/即可访问
 
 
 

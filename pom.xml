@@ -10,7 +10,8 @@
   	<!-- 模块-子项目 -->
 	<modules>
 		<!-- 模板 -->
-		<module>spring-boot</module>			
+		<module>spring-boot</module>	
+		<module>spring-boot-starter</module>		
 		<module>spring-boot-template</module>	
 		<!--
 		<module></module>		
