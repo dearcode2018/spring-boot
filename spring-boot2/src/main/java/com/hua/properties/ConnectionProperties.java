@@ -8,14 +8,12 @@ package com.hua.properties;
 
 import java.net.InetAddress;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 /**
  * @type ConnectionProperties
  * @description 
  * @author qianye.zheng
  */
-@ConfigurationProperties(prefix = "connnection")
+//@ConfigurationProperties(prefix = "connnection")
 public class ConnectionProperties
 {
 	

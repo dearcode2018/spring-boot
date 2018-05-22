@@ -13,13 +13,15 @@
 		<module>spring-boot</module>	
 		<module>spring-boot-starter</module>		
 		<module>spring-boot-template</module>	
-		<module>spring-boot-actuator</module>		
+		<module>spring-boot-actuator</module>	
+		<module>spring-boot-config</module>	
 		<module>spring-boot-devtool</module>		
 		<module>spring-boot-jetty</module>		
+		<module>spring-boot-tomcat</module>	
+		<module>spring-boot-undertow</module>
 		<module>spring-boot-jpa</module>		
 		<module>spring-boot-security</module>		
 		<module>spring-boot-test</module>		
-		<module>spring-boot-tomcat</module>	
 		<module>spring-boot-web</module>		
 		<module>spring-boot2</module>
 	</modules>
