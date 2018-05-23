@@ -7,6 +7,10 @@
  */
 package com.hua.dao.impl;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Repository;
+
 import com.hua.dao.PersonDao;
 import com.hua.entity.Person;
 import com.hua.mapper.PersonMapper;
@@ -17,10 +21,12 @@ import com.hua.mapper.PersonMapper;
  * 
  * PersonDaoImpl
  */
-public final class PersonDaoImpl extends CoreDaoImpl<String, Person> implements
+@Repository
+public class PersonDaoImpl extends CoreDaoImpl<String, Person> implements
 		PersonDao
 {
 
+	@Resource
 	private PersonMapper mapper;
 	
 	/**

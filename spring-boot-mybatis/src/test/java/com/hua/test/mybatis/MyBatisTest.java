@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * MyBatisApplicationTest.java
+ * MyBatisTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -20,12 +20,17 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.annotation.Resource;
+
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.dao.PersonDao;
 import com.hua.test.BaseTest;
 
 
@@ -33,24 +38,17 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * MyBatisApplicationTest
+ * MyBatisTest
  */
-// spring boot 应用
-@SpringBootApplication(scanBasePackages = {"com.hua.controller.*"})
-//@MapperScan({"com.hua.mapper"})
-// 类不能声明为final
-public class MyBatisApplicationTest extends BaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+//@SpringBootApplication
+@ComponentScan(basePackages = {"com.hua.*"})
+@MapperScan({"com.hua.dao.*", "com.hua.mapper.*"})
+public class MyBatisTest extends BaseTest {
 
-	/**
-	 * 
-	 * @description 
-	 * @param args
-	 * @author qianye.zheng
-	 */
-	public static void main(String[] args)
-	{
-		SpringApplication.run(MyBatisApplicationTest.class, args);
-	}
+	@Resource
+	private PersonDao personDao;
 	
 	/**
 	 * 

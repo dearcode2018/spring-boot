@@ -37,7 +37,7 @@ import com.hua.test.BaseTest;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public final class SpringBootTemplateTest extends BaseTest {
+public class SpringBootTemplateTest extends BaseTest {
 
 	/**
 	 * 

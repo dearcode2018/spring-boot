@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hua.bean.PersonSearch;
@@ -22,6 +23,7 @@ import com.hua.entity.Person;
  * 
  * PersonMapper
  */
+@Mapper
 public interface PersonMapper extends CoreMapper<String, Person>
 {
 
