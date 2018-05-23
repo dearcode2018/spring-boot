@@ -25,6 +25,9 @@
 		<module>spring-boot-test</module>		
 		<module>spring-boot-web</module>		
 		<module>spring-boot2</module>
+		<module>spring-boot-cache</module>
+		<module>spring-boot-message</module>
+		<module>spring-boot-mvc</module>
 	</modules>
  
 	<!-- 公共属性 -->
