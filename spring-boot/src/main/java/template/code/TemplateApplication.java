@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * SpringBootTemplateTest.java
+ * TemplateApplication.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -22,9 +22,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.hua.test.BaseTest;
 
@@ -33,15 +32,38 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootTemplateTest
+ * TemplateApplication
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootTemplateTest extends BaseTest {
+// spring boot 应用
+/*
+* 注意，@SpringBootApplication(scanBasePackages = {"com.hua.controller.*"})
+* 这样配置是错误的，scanBasePackages后面加.*是错误，填写基本包结构即可
+* "com.hua.controller 或 com.hua，无需做任何匹配.
+* 
+* 通过main方法来运行驱动程序的运行，如果需要实现动态修改代码的方式
+* 则直接打开 main方法的debug模式来运行
+*即 Debug As... 而不仅仅是 Run As ...
+* 
+*/
+@SpringBootApplication(scanBasePackages = {"com.hua"})
+// 类不能声明为final
+public class TemplateApplication extends BaseTest {
 
-	//@Resource
-	//private PersonDao personDao;
+	
+	/*
+	 * 可以用Debug As ... 模式来运行main方法，实现动态部署的效果.
+	 */
+	
+	/**
+	 * 
+	 * @description 
+	 * @param args
+	 * @author qianye.zheng
+	 */
+	public static void main(String[] args)
+	{
+		SpringApplication.run(TemplateApplication.class, args);
+	}
 	
 	/**
 	 * 

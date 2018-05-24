@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * MyBatisApplicationTest.java
+ * TemplateTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.mybatis;
+package template.code;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,9 +22,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.hua.test.BaseTest;
 
@@ -33,25 +30,10 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * MyBatisApplicationTest
+ * TemplateTest
  */
-// spring boot 应用
-@SpringBootApplication(scanBasePackages = {"com.hua.controller.*"})
-//@MapperScan({"com.hua.mapper"})
-// 类不能声明为final
-public class MyBatisApplicationTest extends BaseTest {
+public final class TemplateTest extends BaseTest {
 
-	/**
-	 * 
-	 * @description 
-	 * @param args
-	 * @author qianye.zheng
-	 */
-	public static void main(String[] args)
-	{
-		SpringApplication.run(MyBatisApplicationTest.class, args);
-	}
-	
 	/**
 	 * 
 	 * 描述: 

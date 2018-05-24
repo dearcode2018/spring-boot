@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * TemplateApplicationTest.java
+ * SpringBootTemplateTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -22,8 +22,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.hua.test.BaseTest;
 
@@ -32,23 +33,15 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * TemplateApplicationTest
+ * SpringBootTemplateTest
  */
-// spring boot 应用
-@SpringBootApplication
-// 类不能声明为final
-public class TemplateApplicationTest extends BaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+//@MapperScan(basePackages = {"com.hua.mapper"})
+public class SpringBootTemplateTest extends BaseTest {
 
-	/**
-	 * 
-	 * @description 
-	 * @param args
-	 * @author qianye.zheng
-	 */
-	public static void main(String[] args)
-	{
-		SpringApplication.run(TemplateApplicationTest.class, args);
-	}
+	//@Resource
+	//private PersonDao personDao;
 	
 	/**
 	 * 

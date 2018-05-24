@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootTemplateTest.java
+ * MyBatis2Test.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.mybatis;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -20,12 +20,16 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.annotation.Resource;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.dao.PersonDao;
 import com.hua.test.BaseTest;
 
 
@@ -33,15 +37,17 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootTemplateTest
+ * MyBatis2Test
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootTemplateTest extends BaseTest {
+//@SpringBootApplication
+@ComponentScan(basePackages = {"com.hua.*"})
+//@MapperScan({"com.hua.dao.*", "com.hua.mapper.*"})
+public class MyBatis2Test extends BaseTest {
 
-	//@Resource
-	//private PersonDao personDao;
+	@Resource
+	private PersonDao personDao;
 	
 	/**
 	 * 

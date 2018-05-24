@@ -23,7 +23,11 @@ import com.hua.entity.Person;
  * 
  * PersonMapper
  */
-@Mapper
+/*
+ * 使用 @MapperScan 指定扫描的基本包之后，
+ * 无需在接口中使用 @Mapper注解了.
+ */
+//@Mapper
 public interface PersonMapper extends CoreMapper<String, Person>
 {
 

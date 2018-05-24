@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootTemplateTest.java
+ * MyBatisSpringBootTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.mybatis;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -20,28 +20,51 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.annotation.Resource;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.dao.PersonDao;
+import com.hua.entity.Person;
 import com.hua.test.BaseTest;
+import com.hua.util.JacksonUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootTemplateTest
+ * MyBatisSpringBootTest
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootTemplateTest extends BaseTest {
+@MapperScan(basePackages = {"com.hua.mapper"})
+public class MyBatisSpringBootTest extends BaseTest {
 
-	//@Resource
-	//private PersonDao personDao;
+	@Resource
+	private PersonDao personDao;
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testPersonDao() {
+		try {
+			Person p = personDao.get("3");
+			System.out.println(JacksonUtil.writeAsString(p));
+			
+		} catch (Exception e) {
+			log.error("testPersonDao =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

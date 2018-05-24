@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootTemplateTest.java
+ * MyBatisApplication.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.mybatis;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,9 +22,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.hua.test.BaseTest;
 
@@ -33,15 +33,33 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootTemplateTest
+ * MyBatisApplication
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootTemplateTest extends BaseTest {
+// spring boot 应用
+/*
+ * 注意，@SpringBootApplication(scanBasePackages = {"com.hua.controller.*"})
+ * 这样配置是错误的，scanBasePackages后面加.*是错误，填写基本包结构即可
+ * "com.hua.controller 或 com.hua，无需做任何匹配.
+ */
+@SpringBootApplication(scanBasePackages = {"com.hua"})
+/*
+ * Mapper接口扫描
+ * xml文件和实体的扫描放在application.properties配置中
+ */
+@MapperScan(basePackages = {"com.hua.mapper"})
+// 类不能声明为final
+public class MyBatisApplication extends BaseTest {
 
-	//@Resource
-	//private PersonDao personDao;
+	/**
+	 * 
+	 * @description 
+	 * @param args
+	 * @author qianye.zheng
+	 */
+	public static void main(String[] args)
+	{
+		SpringApplication.run(MyBatisApplication.class, args);
+	}
 	
 	/**
 	 * 

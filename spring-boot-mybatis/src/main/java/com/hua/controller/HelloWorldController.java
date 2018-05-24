@@ -30,8 +30,8 @@ import com.hua.util.JacksonUtil;
 public class HelloWorldController extends BaseController
 {
 	
-	//@Resource
-	//private PersonDao personDao;
+	@Resource
+	private PersonDao personDao;
 	
 	/**
 	 * 
@@ -48,8 +48,8 @@ public class HelloWorldController extends BaseController
 		user.setId(id);
 		user.setPassword("123456");
 		//System.out.println(JacksonUtil.writeAsString(user));
-		//Person p = personDao.get("3");
-		//System.out.println(JacksonUtil.writeAsString(p));
+		Person p = personDao.get("3");
+		System.out.println(JacksonUtil.writeAsString(p));
 		
 		return user;
 	}

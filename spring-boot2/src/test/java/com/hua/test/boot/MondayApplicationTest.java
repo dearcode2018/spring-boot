@@ -46,7 +46,7 @@ scanBasePackages指定包的基本扫描路径
 要指定包路径，否则无法扫描扫描各类容器对象.
  */
 // spring boot 应用
-@SpringBootApplication(scanBasePackages = {"com.hua.*"})
+@SpringBootApplication(scanBasePackages = {"com.hua"})
 //@SpringBootApplication
 // 类不能声明为final
 public class MondayApplicationTest extends BaseTest {

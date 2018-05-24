@@ -9,9 +9,6 @@ package com.hua.entity;
 
 import java.util.Date;
 
-import com.hua.constant.ext.Gender;
-import com.hua.entity.BaseEntity;
-
 /**
  * 描述: 
  * @author qye.zheng
@@ -32,9 +29,6 @@ public final class Person extends BaseEntity
 	
 	/* 证件照片url */
 	private String photoUrl;
-	
-	/* 性别 : 0-未知, 1-男(male), 2-女(female) */
-	private Gender gender = Gender.UNKNOW;
 	
 	/* 民族 */
 	private String nation;
@@ -75,22 +69,6 @@ public final class Person extends BaseEntity
 	public void setPhotoUrl(String photoUrl)
 	{
 		this.photoUrl = photoUrl;
-	}
-
-	/**
-	 * @return the gender
-	 */
-	public Gender getGender()
-	{
-		return gender;
-	}
-
-	/**
-	 * @param gender the gender to set
-	 */
-	public void setGender(Gender gender)
-	{
-		this.gender = gender;
 	}
 
 	/**

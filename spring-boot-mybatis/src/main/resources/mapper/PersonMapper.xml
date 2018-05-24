@@ -9,7 +9,6 @@
 		<id property="id" javaType="string" column="id" jdbcType="VARCHAR" />
 		<result property="name" javaType="string" column="name" jdbcType="VARCHAR" />
 		<result property="photoUrl" javaType="string" column="photoUrl" jdbcType="VARCHAR" />
-		<result property="gender" javaType="string" column="gender" jdbcType="VARCHAR" />
 		<result property="nation" javaType="string" column="nation" jdbcType="VARCHAR" />
 		<result property="birthday" javaType="date" column="birthday" jdbcType="DATE" />
 		<result property="address" javaType="string" column="address" jdbcType="VARCHAR" />
@@ -73,7 +72,7 @@
 	<select id="get"  parameterType="string" resultMap="personResultMap">
 		<![CDATA[
 			SELECT a.* FROM person a 
-			WHERE a.id = #{id}
+			WHERE a.oid = #{id}
 			]]>
 	</select>
 
