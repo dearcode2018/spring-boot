@@ -37,6 +37,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+				<!-- 忽略测试 -->
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
