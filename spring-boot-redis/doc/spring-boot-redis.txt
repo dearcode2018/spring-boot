@@ -1,0 +1,24 @@
+Spring Boot Redis
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+spring.redis.sentiner 是哨兵模式的配置	
+spring.redis.cluster是集群模式的配置
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
