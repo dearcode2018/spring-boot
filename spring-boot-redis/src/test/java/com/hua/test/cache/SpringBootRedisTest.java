@@ -20,12 +20,16 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.annotation.Resource;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.service.RedisService;
 import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 
@@ -40,17 +44,17 @@ import com.hua.test.BaseTest;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-//@ComponentScan(basePackages = {"com.hua"})
 //@MapperScan(basePackages = {"com.hua.mapper"})
 public class SpringBootRedisTest extends BaseTest {
 
 	//@Resource
 	//private PersonDao personDao;
 	
-	//StringRedisTemplate stringRedisTemplate;
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 	
-	//@Resource
-	//private RedisService redisService;
+	@Resource
+	private RedisService redisService;
 	
 	
 	/**

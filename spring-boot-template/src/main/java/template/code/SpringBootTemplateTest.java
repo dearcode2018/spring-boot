@@ -26,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 
 
@@ -36,7 +37,8 @@ import com.hua.test.BaseTest;
  * SpringBootTemplateTest
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = {ApplicationStarter.class}, 
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
 public class SpringBootTemplateTest extends BaseTest {
 

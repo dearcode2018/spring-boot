@@ -1,0 +1,35 @@
+Spring Boot
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = XxApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class HelloControllerTest {
+
+    /**
+     * @LocalServerPort 提供了 @Value("${local.server.port}") 的代替
+     */
+    @LocalServerPort
+    private int port;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
