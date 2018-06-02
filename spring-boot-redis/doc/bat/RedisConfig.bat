@@ -20,7 +20,7 @@
 @ rem ----- 变量声明区
 
 :: 指定redis home 目录
-set redisHome=D:\software\redis-2.8
+set redisHome=D:\software\redis
 
 :: 指定redis 配置文件
 set redisConfPath=redis.windows.conf

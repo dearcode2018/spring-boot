@@ -24,7 +24,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.hua.test.BaseTest;
@@ -36,7 +35,6 @@ import com.hua.test.BaseTest;
  * @author qye.zheng
  * SpringBootTemplateTest
  */
-//@ImportResource(locations = {"classpath:conf/spring.xml"})
 @RunWith(SpringRunner.class)
 @SpringBootTest
 //@MapperScan(basePackages = {"com.hua.mapper"})
