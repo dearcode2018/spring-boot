@@ -11,8 +11,6 @@
 		<property name="locations">
 			<list>				
 				<value>classpath:/conf/properties/project.properties</value>
-				<value>classpath:/conf/properties/spring.properties</value>
-				<value>classpath:/conf/properties/jdbc.properties</value>
 			</list>
 		</property>
 	</bean>

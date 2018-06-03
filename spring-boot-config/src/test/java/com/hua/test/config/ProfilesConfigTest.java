@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * PersonControllerTest.java
+ * ProfilesConfigTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.controller;
+package com.hua.test.config;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,22 +22,13 @@ import static org.junit.Assert.fail;
 
 import javax.annotation.Resource;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import com.hua.bean.PersonSearchBean;
-import com.hua.bean.ResultBean;
+import com.hua.config.UserConfig;
 import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 import com.hua.util.JacksonUtil;
@@ -47,42 +38,20 @@ import com.hua.util.JacksonUtil;
  * 描述: 
  * 
  * @author qye.zheng
- * PersonControllerTest
+ * ProfilesConfigTest
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public class PersonControllerTest extends BaseTest {
+public class ProfilesConfigTest extends BaseTest {
 
-    /* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
-   @LocalServerPort
-   protected int port;
-   
-   protected String prefix;
-   
-   protected String url;
-   
-   /* org.springframework.boot.test.web.client.TestRestTemplate */
-   @Resource
-   private TestRestTemplate testRestTemplate;
-	
 	//@Resource
 	//private PersonDao personDao;
 	
-   /**
-    * 
-    * @description 
-    * @author qianye.zheng
-    */
-   @Before
-   public void beforeMethod()
-   {
-	   prefix = "/person";
-	   System.out.println("port: " + port);
-   }
-   
-    
+	@Resource
+	private UserConfig userConfig;
+	
 	/**
 	 * 
 	 * 描述: 
@@ -90,27 +59,19 @@ public class PersonControllerTest extends BaseTest {
 	 * 
 	 */
 	@Test
-	public void testPostInBody() {
+	public void testProfilesConfig() {
 		try {
-			url = prefix + "/postNotInBody";
-			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("zhangsan");
-			searchBean.setPassword("1234567");
-			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-			headers.add("Content-Type", "application/json;charset=UTF-8");
-			headers.add("Accept", "application/json");
-			
-			HttpEntity<String> httpEntity = new HttpEntity<String>(JacksonUtil.writeAsString(searchBean), headers);
-			
-			ResponseEntity<ResultBean> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST, httpEntity, ResultBean.class);
-			
-			System.out.println(JacksonUtil.writeAsString(responseEntity.getBody()));
+			/*
+			 * 取自核心配置文件 application.properties
+			 * 以及 spring.profiles.active指定环境的配置文件
+			 */
+			System.out.println(JacksonUtil.writeAsString(userConfig));
 			
 		} catch (Exception e) {
-			log.error("testPostInBody =====> ", e);
+			log.error("testProfilesConfig =====> ", e);
 		}
 	}
-    
+	
 	/**
 	 * 
 	 * 描述: 

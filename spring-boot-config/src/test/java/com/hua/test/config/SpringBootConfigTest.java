@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * PersonControllerTest.java
+ * SpringBootConfigTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.controller;
+package com.hua.test.config;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,22 +22,16 @@ import static org.junit.Assert.fail;
 
 import javax.annotation.Resource;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import com.hua.bean.PersonSearchBean;
-import com.hua.bean.ResultBean;
+import com.hua.config.UserConfig;
+import com.hua.config.UserConfig2;
 import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 import com.hua.util.JacksonUtil;
@@ -47,42 +41,35 @@ import com.hua.util.JacksonUtil;
  * 描述: 
  * 
  * @author qye.zheng
- * PersonControllerTest
+ * SpringBootConfigTest
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {ApplicationStarter.class})
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public class PersonControllerTest extends BaseTest {
+public class SpringBootConfigTest extends BaseTest {
 
-    /* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
-   @LocalServerPort
-   protected int port;
-   
-   protected String prefix;
-   
-   protected String url;
-   
-   /* org.springframework.boot.test.web.client.TestRestTemplate */
-   @Resource
-   private TestRestTemplate testRestTemplate;
-	
 	//@Resource
 	//private PersonDao personDao;
 	
-   /**
-    * 
-    * @description 
-    * @author qianye.zheng
-    */
-   @Before
-   public void beforeMethod()
-   {
-	   prefix = "/person";
-	   System.out.println("port: " + port);
-   }
-   
-    
+	@Value("${server.contextPath}")
+	private String serverContextPath;
+	
+	@Value("${server.contextPathX}")
+	private String serverContextPathX;
+	
+	@Resource
+	private Environment envrionment;
+	
+	/* 通过 spring config配置引入的自定义配置 */
+	//@Value("${user.name}")
+	//private String username;
+	
+	@Resource
+	private UserConfig userConfig;
+	
+	@Resource
+	private UserConfig2 userConfig2;
+	
 	/**
 	 * 
 	 * 描述: 
@@ -90,27 +77,69 @@ public class PersonControllerTest extends BaseTest {
 	 * 
 	 */
 	@Test
-	public void testPostInBody() {
+	public void testValue() {
 		try {
-			url = prefix + "/postNotInBody";
-			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("zhangsan");
-			searchBean.setPassword("1234567");
-			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-			headers.add("Content-Type", "application/json;charset=UTF-8");
-			headers.add("Accept", "application/json");
-			
-			HttpEntity<String> httpEntity = new HttpEntity<String>(JacksonUtil.writeAsString(searchBean), headers);
-			
-			ResponseEntity<ResultBean> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST, httpEntity, ResultBean.class);
-			
-			System.out.println(JacksonUtil.writeAsString(responseEntity.getBody()));
-			
+			log.info("testValue =====> serverContextPath = " + serverContextPath);
+			log.info("testValue =====> serverContextPathX = " + serverContextPathX);
 		} catch (Exception e) {
-			log.error("testPostInBody =====> ", e);
+			log.error("testValue =====> ", e);
 		}
 	}
-    
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testEnvironment() {
+		try {
+			/*
+			 * 环境包括: 系统配置 + 核心配置
+			 */
+			// 系统配置 Administrator
+			log.info("testEnvironment =====> " + envrionment.getProperty("user.name"));
+			
+			// 自定义配置: 无法获取
+			log.info("testEnvironment =====> " + envrionment.getProperty("user.age"));
+			
+			// 核心配置
+			log.info("testEnvironment =====> " + envrionment.getProperty("server.contextPath"));
+		} catch (Exception e) {
+			log.error("testEnvironment =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testConfigurationProperties() {
+		try {
+			
+			//log.info("testConfigurationProperties =====> username = " + username);
+			/**
+			 * user.name 被系统的属性所覆盖，因此在定义key的时候注意
+			 * 不要跟系统与核心的重复，否则配置无法生效.
+			 * {"name":"Administrator","password":"123456","age":34,
+			 * "address":"GuangZhouCity","remark":null}
+			 */
+			// 取自核心配置文件 application.properties
+			System.out.println(JacksonUtil.writeAsString(userConfig));
+			
+			// 自定义配置 取自 project.properties
+			System.out.println(userConfig2.getName());
+			System.out.println(userConfig2.getPassword());
+			System.out.println(userConfig2.getAge());
+		} catch (Exception e) {
+			log.error("testConfigurationProperties =====> ", e);
+		}
+	}
+	
 	/**
 	 * 
 	 * 描述: 
