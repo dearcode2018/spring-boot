@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * SpringBootRedisTest.java
+ * CacheAnnotationTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -26,10 +26,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hua.service.RedisService;
+import com.hua.entity.User;
+import com.hua.service.CacheAnnotationService;
 import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 
@@ -38,24 +41,58 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootRedisTest
+ * CacheAnnotationTest
  */
-//@ImportResource(locations = {"classpath:conf/spring.xml"})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootRedisTest extends BaseTest {
+@ImportResource(locations = {"classpath:conf/xml/spring-cache.xml"})
+public class CacheAnnotationTest extends BaseTest {
 
-	
-	//@Resource
-	//private PersonDao personDao;
+	@Resource
+	private CacheAnnotationService cacheAnnotationService;
 	
 	@Resource
 	private StringRedisTemplate stringRedisTemplate;
 	
-	@Resource
-	private RedisService redisService;
+	//@Resource
+	//private RedisCacheManager redisCacheManager;
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testCachePut() {
+		try {
+			User user = new User();
+			user.setId("201834758934795");
+			user.setUsername("效率第一");
+			cacheAnnotationService.add(user);
+			
+		} catch (Exception e) {
+			log.error("testCachePut =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testCacheable() {
+		try {
+			
+			
+		} catch (Exception e) {
+			log.error("testCacheable =====> ", e);
+		}
+	}
 	
 	
 	/**
@@ -65,14 +102,12 @@ public class SpringBootRedisTest extends BaseTest {
 	 * 
 	 */
 	@Test
-	public void testSpringBootRedis() {
+	public void testCacheManager() {
 		try {
-			System.out.println(stringRedisTemplate.toString());
-			key = "USER:" + 123;
-			stringRedisTemplate.boundValueOps(key).set("haha");
 			
+			//System.out.println(redisCacheManager.toString());
 		} catch (Exception e) {
-			log.error("testSpringBootRedis =====> ", e);
+			log.error("testCacheManager =====> ", e);
 		}
 	}
 	

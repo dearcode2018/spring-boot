@@ -23,5 +23,4 @@ public class RedisService
 	@Resource
 	private StringRedisTemplate stringRedisTemplate;
 	
-	
 }
