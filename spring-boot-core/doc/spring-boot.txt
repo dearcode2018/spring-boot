@@ -27,7 +27,8 @@ spring-boot-autoconfigure 用于解析自动配置的工程
 
 运行main方法之后，通过http://localhost:8080/即可访问
 
-
+部署
+启动 java -jar app.jar --spring.profiles.active=dev
 
 
 
