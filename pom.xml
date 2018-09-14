@@ -24,7 +24,8 @@
 		<module>spring-boot-actuator</module>	
 		<module>spring-boot-config</module>	
 		<module>spring-boot-devtool</module>		
-		<module>spring-boot-jetty</module>		
+		<module>spring-boot-jetty</module>
+		<module>spring-boot-oauth2</module>		
 		<module>spring-boot-tomcat</module>	
 		<module>spring-boot-undertow</module>
 		<module>spring-boot-jpa</module>		
@@ -55,6 +56,9 @@
 		<maven.plugin.assembly.version>2.5.5</maven.plugin.assembly.version>
 		<maven.plugin.dependency.version>2.10</maven.plugin.dependency.version>
 		<maven.plugin.war.version>3.0</maven.plugin.war.version>
+		<spring-security-oauth2.version>2.3.3.RELEASE</spring-security-oauth2.version>
+		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>	
+		<spring-security-test.version>5.0.8.RELEASE</spring-security-test.version>	
 	</properties>  
   
   
