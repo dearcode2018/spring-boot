@@ -51,8 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		http.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class).antMatcher("/**").authorizeRequests()
 		// 都允许访问
 		.antMatchers("/", "'/index", "/403", "/css/**", "/js/**", "/font/**").permitAll()
-		.anyRequest()
-		.authenticated().and().logout().logoutSuccessUrl("/").permitAll()
+		.anyRequest();
+		//.authenticated().and().logout().logoutSuccessUrl("/").permitAll()
 		//.and().csrf().csrfTokenRepository(CookieCr);
 	}
 	
