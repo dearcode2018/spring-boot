@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * @type SecurityConfig
@@ -51,11 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		http.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class).antMatcher("/**").authorizeRequests()
 		// 都允许访问
 		.antMatchers("/", "'/index", "/403", "/css/**", "/js/**", "/font/**").permitAll()
-		.anyRequest();
-		//.authenticated().and().logout().logoutSuccessUrl("/").permitAll()
-		//.and().csrf().csrfTokenRepository(CookieCr);
+		.anyRequest()
+		.authenticated().and().logout().logoutSuccessUrl("/").permitAll()
+	.	and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	
+	/**
+	 * 
+	 * @description 
+	 * @return
+	 * @author qianye.zheng
+	 */
 	private Filter ssoFilter()
 	{
 		OAuth2ClientAuthenticationProcessingFilter githubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login");

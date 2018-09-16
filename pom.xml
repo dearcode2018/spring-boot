@@ -25,7 +25,8 @@
 		<module>spring-boot-config</module>	
 		<module>spring-boot-devtool</module>		
 		<module>spring-boot-jetty</module>
-		<module>spring-boot-oauth2</module>		
+		<module>spring-boot-oauth2</module>
+		<module>spring-boot-oauth2-github</module>	
 		<module>spring-boot-tomcat</module>	
 		<module>spring-boot-undertow</module>
 		<module>spring-boot-jpa</module>		

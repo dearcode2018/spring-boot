@@ -1,0 +1,37 @@
+Spring Boot OAuth2
+
+
+引入依赖之后，启动服务器，访问接口，发现需要输入密码
+用户名默认为 user，密码在控制台可以看到.
+类似: Using generated security password: 8145f8f0-0502-40c8-b2f9-4d6b99522dac
+
+
+
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+
+https://github.com/login?client_id=13039d814beb6deec6bc&return_to=/login/oauth/authorize?client_id=13039d814beb6deec6bc&redirect_uri=http://localhost:8080/login/github&response_type=code&state=suNrmR
+
+
+
+在创建OAuth2.x应用
+https://github.com/settings/applications
+主页可以随意填写，授权回调地址填写自身应用的地址，填错错误将授权失败.
+Client ID
+    13039d814beb6deec6bc
+Client Secret
+    a60534c82e0b9e1cce91f9e0d96f326f7da7cbea
+
+
+
+
+
+
+
+
+
+
+
+

@@ -39,20 +39,20 @@ import com.hua.properties.ConnectionProperties;
  */
 // 控制器
 // 使用@RestController不能正常启动
-@RestController
+//@RestController
 //@Controller
-@RequestMapping(value={"/PersonController"}, method = RequestMethod.GET)
+//@RequestMapping(value={"/PersonController"}, method = RequestMethod.GET)
 //@RequestMapping(value={"/"})
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 //@SpringBootApplication
 //@ComponentScan
 /*
  * @PropertySource 引入指定的配置文件，然后通过 @Value注入值
  */
 //@PropertySource("classpath:/conf/properties/spring-boot.properties")
-@PropertySource("classpath:/conf/properties/spring-boot.properties")
-@Configuration
-@EnableConfigurationProperties(ConnectionProperties.class)
+//@PropertySource("classpath:/conf/properties/spring-boot.properties")
+//@Configuration
+//@EnableConfigurationProperties(ConnectionProperties.class)
 //@Profile("dev")
 //@CrossOrigin
 public class PersonController extends BaseController

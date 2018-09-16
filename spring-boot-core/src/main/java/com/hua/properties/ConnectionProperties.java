@@ -15,7 +15,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description 
  * @author qianye.zheng
  */
-@ConfigurationProperties(prefix = "connnection")
+//@ConfigurationProperties(prefix = "connnection")
 public class ConnectionProperties
 {
 	

@@ -1,0 +1,31 @@
+Spring Boot OAuth2
+
+
+引入依赖之后，启动服务器，访问接口，发现需要输入密码
+用户名默认为 user，密码在控制台可以看到.
+类似: Using generated security password: 8145f8f0-0502-40c8-b2f9-4d6b99522dac
+
+
+
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
