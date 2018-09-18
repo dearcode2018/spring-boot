@@ -2,10 +2,9 @@ package com.hua.start;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @SpringBootApplication(scanBasePackages = {"com.hua"})
-public class OAuth2Application extends WebSecurityConfigurerAdapter {
+public class OAuth2Application {
 
 	/**
 	 * 

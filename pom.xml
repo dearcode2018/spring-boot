@@ -60,6 +60,10 @@
 		<spring-security-oauth2.version>2.3.3.RELEASE</spring-security-oauth2.version>
 		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>	
 		<spring-security-test.version>5.0.8.RELEASE</spring-security-test.version>	
+		<spring-security-oauth2-autoconfigure.version>2.0.5.RELEASE</spring-security-oauth2-autoconfigure.version>
+		<jquery.version>2.1.1</jquery.version>
+		<bootstrap.version>3.2.0</bootstrap.version>
+		<js-cookie.version>2.1.0</js-cookie.version>
 	</properties>  
   
   
