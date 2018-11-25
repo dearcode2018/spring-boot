@@ -8,12 +8,14 @@ package com.hua.start;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
  /**
  * @type ApplicationStarter
  * @description 应用启动器
  * @author qianye.zheng
  */
+@PropertySource("classpath:/conf/properties/spring-boot.properties")
 @SpringBootApplication(scanBasePackages = {"com.hua"})
 public class ApplicationStarter
 {
