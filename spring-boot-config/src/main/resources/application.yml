@@ -1,0 +1,30 @@
+
+server:
+  port: 7070
+ 
+spring:
+  profiles:
+    active:
+    - dev 
+
+# spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
+  devtools:
+    restart:
+      enabled: false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

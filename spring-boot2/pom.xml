@@ -22,6 +22,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 是否排除 devtools依赖 -->
+					<excludeDevtools>false</excludeDevtools>
+					<!-- 忽略的groupIds，用逗号隔开 -->
+					<excludeGroupIds>
+						junit,
+					</excludeGroupIds>
+					<fork>true</fork>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -37,13 +46,7 @@
 			<groupId>com.hua</groupId>
 			<artifactId>web</artifactId>
 			<version>${web.version}</version>
-		</dependency>	
-	
-<!-- 		<dependency>
-			<groupId>com.hua</groupId>
-			<artifactId>web</artifactId>
-			<version>${web.version}</version>
-		</dependency> -->
+		</dependency>
 		
 		<!-- spring boot starter web -->
 		<dependency>
@@ -74,16 +77,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>	
-			
-			<!--  -->
-<!-- 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
-		</dependency>	 -->
+		</dependency>	
+			
+		<!-- 开发工具 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+			<scope>runtime</scope>
+		</dependency>
 		
 	</dependencies>
 

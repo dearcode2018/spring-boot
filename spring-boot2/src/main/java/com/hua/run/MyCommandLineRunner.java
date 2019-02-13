@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @description 
  * @author qianye.zheng
  */
-//@Component
+@Component
 public class MyCommandLineRunner implements CommandLineRunner
 {
 
@@ -27,7 +27,8 @@ public class MyCommandLineRunner implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception
 	{
-		System.out.println("MyCommandLineRunner: " + args[0]);
+		System.out.println("MyCommandLineRunner.run()");
+		//System.out.println("MyCommandLineRunner: " + args[0]);
 	}
 
 

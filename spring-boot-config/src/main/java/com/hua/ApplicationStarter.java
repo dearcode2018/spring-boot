@@ -4,26 +4,27 @@
   * @version 1.0
   * @author qianye.zheng
  */
-package com.hua.start;
+package com.hua;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-
-import com.hua.config.UserConfig;
+import org.springframework.context.annotation.ImportResource;
 
  /**
  * @type ApplicationStarter
  * @description 应用启动器
  * @author qianye.zheng
  */
-@SpringBootApplication(scanBasePackages = {"com.hua"})
-/*
- * 引入spring其他配置文件
- */
-/* 引入自定义配置对象 */
-//@EnableConfigurationProperties(value = {UserConfig.class})
-//@ImportResource(locations = {"classpath:conf/xml/spring-config.xml"})
+/* 导入资源: xml配置文件 */
+@ImportResource({"classpath:conf/xml/spring-config.xml"})
+/* @SpringBootApplication已经包含 @Configuration @EnableAutoConfiguration @ComponentScan */
+//@SpringBootApplication(scanBasePackages = {"com.hua"})
+/* 该类在根包(basePackage)下，则无须再指定scanBasePackages */
+@SpringBootApplication
+/* 启动指定特性 */
+//@EnableDiscoveryClient
+//@EnableCircuitBreaker
+//@EnableHystrixDashboard //
 public class ApplicationStarter
 {
 	
@@ -38,6 +39,10 @@ public class ApplicationStarter
 	{
 		SpringApplication.run(ApplicationStarter.class, args);
 	}
+	
+	
+	
+	
 	
 	
 }

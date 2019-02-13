@@ -4,7 +4,7 @@
   * @version 1.0
   * @author qianye.zheng
  */
-package com.hua.properties;
+package com.hua.config;
 
 import java.net.InetAddress;
 

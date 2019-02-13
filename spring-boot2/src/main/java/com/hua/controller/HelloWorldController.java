@@ -6,13 +6,13 @@
  */
 package com.hua.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.entity.User;
-import com.hua.util.JacksonUtil;
 
  /**
  * @type HelloWorldController
@@ -23,8 +23,12 @@ import com.hua.util.JacksonUtil;
  * @RestController(value = 对象的名称，并非是接口路径) 
  */
 @RestController
+@RequestMapping("/hello")
 public class HelloWorldController extends BaseController
 {
+	
+	@Value("${system.name}")
+	private String value;
 	
 	/**
 	 * 
@@ -36,10 +40,11 @@ public class HelloWorldController extends BaseController
 	@GetMapping({"/get", "/get23"})
 	public User get(final String id)
 	{
+		System.out.println("values= " + value);
 		User user = new User();
 		user.setNickname("张三");
 		user.setId(id);
-		user.setPassword("123456");
+		user.setPassword("12345678");
 		//System.out.println(JacksonUtil.writeAsString(user));
 		
 		return user;

@@ -32,7 +32,8 @@
 			<artifactId>spring-boot-core</artifactId>
 			<version>${spring.boot.core.version}</version>
 		</dependency>
-		
+
+	<!-- 添加Web应用程序的典型依赖项 --> 		
 		<!-- spring boot starter web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

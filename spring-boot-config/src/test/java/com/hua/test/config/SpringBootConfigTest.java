@@ -30,9 +30,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.ApplicationStarter;
 import com.hua.config.UserConfig;
 import com.hua.config.UserConfig2;
-import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 import com.hua.util.JacksonUtil;
 
