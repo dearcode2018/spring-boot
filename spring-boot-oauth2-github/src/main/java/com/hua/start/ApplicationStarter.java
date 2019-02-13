@@ -15,8 +15,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @description 应用启动器
  * @author qianye.zheng
  */
-@SpringBootApplication(scanBasePackages = {"com.hua"})
-@EnableOAuth2Client
+//@SpringBootApplication(scanBasePackages = {"com.hua"})
+//@EnableOAuth2Client
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationStarter
 {
