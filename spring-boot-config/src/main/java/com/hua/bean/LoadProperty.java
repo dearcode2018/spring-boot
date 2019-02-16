@@ -6,12 +6,14 @@
  */
 package com.hua.bean;
 
+import lombok.Data;
 
 /**
  * 描述: 公共 - 拷贝参数
  * @author  qye.zheng
  * LoadProperty
  */
+@Data
 public class LoadProperty
 {
 	
@@ -25,36 +27,4 @@ public class LoadProperty
 	 */
 	private String value;
 
-	/**
-	 * @return the name
-	 */
-	public final String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public final void setName(String name)
-	{
-		this.name = name;
-	}
-
-	/**
-	 * @return the value
-	 */
-	public final String getValue()
-	{
-		return value;
-	}
-
-	/**
-	 * @param value the value to set
-	 */
-	public final void setValue(String value)
-	{
-		this.value = value;
-	}
-	
 }

@@ -6,14 +6,35 @@ spring:
   profiles:
     active:
     - dev 
+    # 无条件添加活动配置文件，编程方式: setAdditionalProfiles()
+   # include:
+   # - test
+   #- prod
+
 
 # spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
   devtools:
     restart:
       enabled: false
 
+  output:
+    ansi:
+      enabled: always
 
+---      
 
+logging:
+  #path: /data/logs
+  #file: /data/logs/abc.log
+  # 日志组，将多个包定义为一个组，然后定义组属性即可
+  group:
+    tomcat: org.apache.catalina, org.apache.coyote, org.apache.tomcat
+  level:
+    # TRACE / DEBUG / INFO / WARN / ERROR / FATAL
+    root: INFO
+    com.hua: TRACE
+    # 定义组的level属性
+    tomcat: INFO
 
 
 

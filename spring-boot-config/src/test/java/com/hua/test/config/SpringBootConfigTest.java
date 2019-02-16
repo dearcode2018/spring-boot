@@ -7,34 +7,35 @@
  */
 package com.hua.test.config;
 
-// 静态导入
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+//静态导入
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import javax.annotation.Resource;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
-import com.hua.config.UserConfig;
-import com.hua.config.UserConfig2;
+import com.hua.config.UserConfigPrefix;
 import com.hua.test.BaseTest;
-import com.hua.util.JacksonUtil;
 
 
 /**
@@ -43,46 +44,104 @@ import com.hua.util.JacksonUtil;
  * @author qye.zheng
  * SpringBootConfigTest
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ApplicationStarter.class})
+//@DisplayName("测试类名称")
+//@Tag("测试类标签")
+//@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
+// for Junit 5.x
+@ExtendWith(SpringExtension.class)
+//@WebAppConfiguration(value = "src/main/webapp")
+@SpringBootTest(classes = {ApplicationStarter.class}, 
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public class SpringBootConfigTest extends BaseTest {
+public final class SpringBootConfigTest extends BaseTest {
 
+	
+	/*
+	配置方式1: 
+	@WebAppConfiguration(value = "src/main/webapp")  
+	@ContextConfiguration(locations = {
+			"classpath:conf/xml/spring-bean.xml", 
+			"classpath:conf/xml/spring-config.xml", 
+			"classpath:conf/xml/spring-mvc.xml", 
+			"classpath:conf/xml/spring-service.xml"
+		})
+	@ExtendWith(SpringExtension.class)
+	
+	配置方式2: 	
+	@WebAppConfiguration(value = "src/main/webapp")  
+	@ContextHierarchy({  
+		 @ContextConfiguration(name = "parent", locations = "classpath:spring-config.xml"),  
+		 @ContextConfiguration(name = "child", locations = "classpath:spring-mvc.xml")  
+		}) 
+	@ExtendWith(SpringExtension.class)
+	 */
+	
+	/**
+	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
+	 * 
+	 */
 	//@Resource
-	//private PersonDao personDao;
+	//private UserController userController;
 	
-	@Value("${server.contextPath}")
-	private String serverContextPath;
+	/**
+	 * 引当前项目用其他项目之后，然后可以使用
+	 * SpringJunitTest模板测试的其他项目
+	 * 
+	 * 可以使用所引用目标项目的所有资源
+	 * 若引用的项目的配置与本地的冲突或无法生效，需要
+	 * 将目标项目的配置复制到当前项目同一路径下
+	 * 
+	 */
+	@Value("${my.secret}")
+	private String mySecret;
 	
-	@Value("${server.contextPathX}")
-	private String serverContextPathX;
+	@Value("${my.number}")
+	private Integer myNumber;
+	
+	@Value("${my.bignumber}")
+	private Long myBignumber;
+	
+	@Value("${my.uuid}")
+	private String myUUID;
+	
+	@Value("${my.number.less.than}")
+	private Integer myNumberLessThan;
+	
+	@Value("${my.number.rang}")
+	private Integer myNumberRange;
 	
 	@Resource
-	private Environment envrionment;
+	private UserConfigPrefix userConfigPrefix;
 	
-	/* 通过 spring config配置引入的自定义配置 */
-	//@Value("${user.name}")
-	//private String username;
+	@Value("${spring.profiles.active}")
+	private String springConfig1;
 	
-	@Resource
-	private UserConfig userConfig;
-	
-	@Resource
-	private UserConfig2 userConfig2;
+	/**
+	 * 配置
+	 * 1.Spring自身的配置: application-*.properties
+	 * 
+	 * 2.自定义引入的properties文件
+	 * 
+	 * 3.
+	 * 
+	 * 
+	 */
 	
 	/**
 	 * 
-	 * 描述: 
+	 * 描述: 读取Spring 自身配置
 	 * @author qye.zheng
 	 * 
 	 */
+	//@DisplayName("test")
 	@Test
-	public void testValue() {
+	public void testSpringConfig1() {
 		try {
-			log.info("testValue =====> serverContextPath = " + serverContextPath);
-			log.info("testValue =====> serverContextPathX = " + serverContextPathX);
+			
+			System.out.println(springConfig1);
+			
 		} catch (Exception e) {
-			log.error("testValue =====> ", e);
+			log.error("testSpringConfig1 =====> ", e);
 		}
 	}
 	
@@ -92,22 +151,18 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	//@DisplayName("test")
 	@Test
-	public void testEnvironment() {
+	public void testRandomConfig() {
 		try {
-			/*
-			 * 环境包括: 系统配置 + 核心配置
-			 */
-			// 系统配置 Administrator
-			log.info("testEnvironment =====> " + envrionment.getProperty("user.name"));
-			
-			// 自定义配置: 无法获取
-			log.info("testEnvironment =====> " + envrionment.getProperty("user.age"));
-			
-			// 核心配置
-			log.info("testEnvironment =====> " + envrionment.getProperty("server.contextPath"));
+			System.out.println("mySecret = " + mySecret);
+			System.out.println("myNumber = " + myNumber);
+			System.out.println("myBignumber = " + myBignumber);	
+			System.out.println("myUUID = " + myUUID);	
+			System.out.println("myNumberLessThan = " + myNumberLessThan);	
+			System.out.println("myNumberRange = " + myNumberRange);	
 		} catch (Exception e) {
-			log.error("testEnvironment =====> ", e);
+			log.error("testRandomConfig =====> ", e);
 		}
 	}
 	
@@ -117,26 +172,16 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	//@DisplayName("test")
 	@Test
-	public void testConfigurationProperties() {
+	public void testUserConfig() {
 		try {
 			
-			//log.info("testConfigurationProperties =====> username = " + username);
-			/**
-			 * user.name 被系统的属性所覆盖，因此在定义key的时候注意
-			 * 不要跟系统与核心的重复，否则配置无法生效.
-			 * {"name":"Administrator","password":"123456","age":34,
-			 * "address":"GuangZhouCity","remark":null}
-			 */
-			// 取自核心配置文件 application.properties
-			System.out.println(JacksonUtil.writeAsString(userConfig));
+			System.out.println(userConfigPrefix.toString());
 			
-			// 自定义配置 取自 project.properties
-			System.out.println(userConfig2.getName());
-			System.out.println(userConfig2.getPassword());
-			System.out.println(userConfig2.getAge());
+			
 		} catch (Exception e) {
-			log.error("testConfigurationProperties =====> ", e);
+			log.error("testUserConfig =====> ", e);
 		}
 	}
 	
@@ -146,6 +191,7 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	//@DisplayName("test")
 	@Test
 	public void test() {
 		try {
@@ -162,6 +208,7 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testTemp")
 	@Test
 	public void testTemp() {
 		try {
@@ -178,6 +225,7 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testCommon")
 	@Test
 	public void testCommon() {
 		try {
@@ -194,6 +242,7 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testSimple")
 	@Test
 	public void testSimple() {
 		try {
@@ -210,6 +259,7 @@ public class SpringBootConfigTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testBase")
 	@Test
 	public void testBase() {
 		try {
@@ -222,11 +272,51 @@ public class SpringBootConfigTest extends BaseTest {
 	
 	/**
 	 * 
+	 * 描述: [每个测试-方法]开始之前运行
+	 * @author qye.zheng
+	 * 
+	 */
+	@DisplayName("beforeMethod")
+	@Tag(" [每个测试-方法]结束之后运行")
+	@BeforeEach
+	public void beforeMethod() {
+		System.out.println("beforeMethod()");
+	}
+	
+	/**
+	 * 
+	 * 描述: [每个测试-方法]结束之后运行
+	 * @author qye.zheng
+	 * 
+	 */
+	@DisplayName("afterMethod")
+	@Tag(" [每个测试-方法]结束之后运行")
+	@AfterEach
+	public void afterMethod() {
+		System.out.println("afterMethod()");
+	}
+	
+	/**
+	 * 
+	 * 描述: 测试忽略的方法
+	 * @author qye.zheng
+	 * 
+	 */
+	@Disabled
+	@DisplayName("ignoreMethod")
+	@Test
+	public void ignoreMethod() {
+		System.out.println("ignoreMethod()");
+	}
+	
+	/**
+	 * 
 	 * 描述: 解决ide静态导入消除问题 
 	 * @author qye.zheng
 	 * 
 	 */
-	@Ignore("解决ide静态导入消除问题 ")
+	@DisplayName("noUse")
+	@Disabled("解决ide静态导入消除问题 ")
 	private void noUse() {
 		String expected = null;
 		String actual = null;
@@ -240,28 +330,27 @@ public class SpringBootConfigTest extends BaseTest {
 		assertNotEquals(message, expected, actual);
 		
 		assertArrayEquals(expecteds, actuals);
-		assertArrayEquals(message, expecteds, actuals);
+		assertArrayEquals(expecteds, actuals, message);
 		
 		assertFalse(true);
 		assertTrue(true);
-		assertFalse(message, true);
-		assertTrue(message, true);
+		assertFalse(true, message);
+		assertTrue(true, message);
 		
 		assertSame(expecteds, actuals);
 		assertNotSame(expecteds, actuals);
-		assertSame(message, expecteds, actuals);
-		assertNotSame(message, expecteds, actuals);
+		assertSame(expecteds, actuals, message);
+		assertNotSame(expecteds, actuals, message);
 		
 		assertNull(actuals);
 		assertNotNull(actuals);
-		assertNull(message, actuals);
-		assertNotNull(message, actuals);
-		
-		assertThat(null, null);
-		assertThat(null, null, null);
+		assertNull(actuals, message);
+		assertNotNull(actuals, message);
 		
 		fail();
 		fail("Not yet implemented");
+		
+		dynamicTest(null, null);
 		
 	}
 

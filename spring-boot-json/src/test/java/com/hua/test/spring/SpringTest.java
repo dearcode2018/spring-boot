@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * ProfilesConfigTest.java
+ * SpringTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.config;
+package com.hua.test.spring;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -20,58 +20,20 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import javax.annotation.Resource;
-
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hua.ApplicationStarter;
-import com.hua.config.UserConfig;
 import com.hua.test.BaseTest;
-import com.hua.util.JacksonUtil;
 
 
 /**
- * 描述: 
+ * 描述: Spring - 测试
  * 
  * @author qye.zheng
- * ProfilesConfigTest
+ * SpringTest
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class ProfilesConfigTest extends BaseTest {
+public final class SpringTest extends BaseTest {
 
-	//@Resource
-	//private PersonDao personDao;
-	
-	@Resource
-	private UserConfig userConfig;
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testProfilesConfig() {
-		try {
-			/*
-			 * 取自核心配置文件 application.properties
-			 * 以及 spring.profiles.active指定环境的配置文件
-			 */
-			System.out.println(JacksonUtil.writeAsString(userConfig));
-			
-		} catch (Exception e) {
-			log.error("testProfilesConfig =====> ", e);
-		}
-	}
-	
 	/**
 	 * 
 	 * 描述: 
@@ -85,6 +47,22 @@ public class ProfilesConfigTest extends BaseTest {
 			
 		} catch (Exception e) {
 			log.error("test =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testSpring() {
+		try {
+			
+			
+		} catch (Exception e) {
+			log.error("testSpring =====> ", e);
 		}
 	}
 	
