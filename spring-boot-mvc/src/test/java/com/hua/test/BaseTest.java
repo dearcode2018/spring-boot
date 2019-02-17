@@ -7,11 +7,12 @@
  */
 package com.hua.test;
 
-// 静态导入
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import com.hua.log.BaseLog;
 
@@ -22,15 +23,28 @@ import com.hua.log.BaseLog;
  * @author qye.zheng
  * BaseTest
  */
-//@RunWith()
+//@RunWith(JUnitPlatform.class)
+//@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@DisplayName("BaseTest")
 public class BaseTest extends BaseLog {
+	
+	
+	/* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
+	//@LocalServerPort
+	protected int port;
+
+	protected String prefix;
+
+	protected String url;
+
 	/**
 	 * 
 	 * 描述: [所有测试]开始之前运行
 	 * @author qye.zheng
 	 * 
 	 */
-	@BeforeClass
+	@DisplayName("beforeClass")
+	@BeforeAll
 	public static void beforeClass() {
 		System.out.println("beforeClass()");
 	}
@@ -41,7 +55,8 @@ public class BaseTest extends BaseLog {
 	 * @author qye.zheng
 	 * 
 	 */
-	@AfterClass
+	@DisplayName("afterClass")
+	@AfterAll
 	public static void afterClass() {
 		System.out.println("afterClass()");
 	}
@@ -52,7 +67,8 @@ public class BaseTest extends BaseLog {
 	 * @author qye.zheng
 	 * 
 	 */
-	@Before
+	@DisplayName("beforeMethod")
+	@BeforeEach
 	public void beforeMethod() {
 		System.out.println("beforeMethod()");
 	}
@@ -63,7 +79,8 @@ public class BaseTest extends BaseLog {
 	 * @author qye.zheng
 	 * 
 	 */
-	@After
+	@DisplayName("afterMethod")
+	@AfterEach
 	public void afterMethod() {
 		System.out.println("afterMethod()");
 	}

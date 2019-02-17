@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,8 +34,8 @@ import com.hua.bean.ResultBean;
 public class PersonController extends BaseController
 {
 	
-	@Value("${system.name}")
-	private String name;
+	//@Value("${system.name}")
+	//private String name;
 	
 	/**
 	 * 
@@ -52,7 +54,6 @@ public class PersonController extends BaseController
 		/*
 		 * @RequestBody 注解: 处理放在请求消息体中的报文，格式由客户端的Content-Type参数决定
 		 */
-		log.info("postNotInBody =====> name = " + name);
 		log.info("postNotInBody =====> name = " + searchBean.getName());
 		log.info("postNotInBody =====> password = " + searchBean.getPassword());
 		ResultBean result = new ResultBean();
@@ -100,7 +101,8 @@ public class PersonController extends BaseController
 	 * @param searchBean
 	 * @return
 	 */
-	@RequestMapping(value={"/getAndPost"}, method = {RequestMethod.GET, RequestMethod.POST})
+	//@RequestMapping(value={"/getAndPost"}, method = {RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value={"/getAndPost"})
 	@ResponseBody
 	public ResultBean getAndPost(final HttpServletRequest request, 
 			final HttpServletResponse response, final PersonSearchBean searchBean) {
@@ -130,6 +132,24 @@ public class PersonController extends BaseController
 			final HttpServletResponse response, final PersonSearchBean searchBean) {
 		ResultBean result = new ResultBean();
 		result.setMessage("收到[" + searchBean.getName() + "]的请求");
+		result.setMessageCode("205");
+		result.setSuccess(true);
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @description 
+	 * @param code
+	 * @return
+	 * @author qianye.zheng
+	 */
+	@GetMapping(path = {"/get/{code}"})
+	public ResultBean get(@PathVariable final String code)
+	{
+		ResultBean result = new ResultBean();
+		result.setMessage("收到[" + code + "]的请求");
 		result.setMessageCode("205");
 		result.setSuccess(true);
 		

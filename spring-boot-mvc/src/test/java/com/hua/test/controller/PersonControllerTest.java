@@ -7,38 +7,51 @@
  */
 package com.hua.test.controller;
 
-// 静态导入
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+//静态导入
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.hua.ApplicationStarter;
 import com.hua.bean.PersonSearchBean;
 import com.hua.bean.ResultBean;
-import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 import com.hua.util.JacksonUtil;
 
@@ -49,40 +62,65 @@ import com.hua.util.JacksonUtil;
  * @author qye.zheng
  * PersonControllerTest
  */
-@RunWith(SpringRunner.class)
+//@DisplayName("测试类名称")
+//@Tag("测试类标签")
+//@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
+// for Junit 5.x
+@ExtendWith(SpringExtension.class)
+@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class PersonControllerTest extends BaseTest {
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+public final class PersonControllerTest extends BaseTest {
 
-    /* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
-   @LocalServerPort
-   protected int port;
-   
-   protected String prefix;
-   
-   protected String url;
-   
-   /* org.springframework.boot.test.web.client.TestRestTemplate */
-   @Resource
-   private TestRestTemplate testRestTemplate;
 	
+	/*
+	配置方式1: 
+	@WebAppConfiguration(value = "src/main/webapp")  
+	@ContextConfiguration(locations = {
+			"classpath:conf/xml/spring-bean.xml", 
+			"classpath:conf/xml/spring-config.xml", 
+			"classpath:conf/xml/spring-mvc.xml", 
+			"classpath:conf/xml/spring-service.xml"
+		})
+	@ExtendWith(SpringExtension.class)
+	
+	配置方式2: 	
+	@WebAppConfiguration(value = "src/main/webapp")  
+	@ContextHierarchy({  
+		 @ContextConfiguration(name = "parent", locations = "classpath:spring-config.xml"),  
+		 @ContextConfiguration(name = "child", locations = "classpath:spring-mvc.xml")  
+		}) 
+	@ExtendWith(SpringExtension.class)
+	 */
+	
+	/**
+	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
+	 * 
+	 */
 	//@Resource
-	//private PersonDao personDao;
+	//private UserController userController;
 	
-   /**
-    * 
-    * @description 
-    * @author qianye.zheng
-    */
-   @Before
-   public void beforeMethod()
-   {
-	   prefix = "/person";
-	   System.out.println("port: " + port);
-   }
-   
-    
+	//@PathVariable
+	
+	//@Resource(type = WebApplicationContext.class)
+	//@Autowired
+	@Resource
+    private WebApplicationContext webApplicationContext; 
+	
+	   /* org.springframework.boot.test.web.client.TestRestTemplate */
+	   //@Resource
+	   private TestRestTemplate testRestTemplate;
+	
+	/**
+	 * 引当前项目用其他项目之后，然后可以使用
+	 * SpringJunitTest模板测试的其他项目
+	 * 
+	 * 可以使用所引用目标项目的所有资源
+	 * 若引用的项目的配置与本地的冲突或无法生效，需要
+	 * 将目标项目的配置复制到当前项目同一路径下
+	 * 
+	 */
+	
 	/**
 	 * 
 	 * 描述: 
@@ -92,9 +130,105 @@ public class PersonControllerTest extends BaseTest {
 	@Test
 	public void testPostInBody() {
 		try {
+			// 页面/服务 地址
+			String url = prefix + "/postNotInBody";
+			// 请求构建器
+			// get 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			
+			/*
+			 * 设置请求参数
+			 */
+			PersonSearchBean searchBean = new PersonSearchBean();
+			searchBean.setName("张三1");
+			searchBean.setPassword("1234567");
+			requestBuilder.content(JacksonUtil.writeAsString(searchBean));
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testPostInBody =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testGet() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/get/MX939KD";
+			// 请求构建器
+			// get 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("username", "admin");
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testGet =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testPostInBody2() {
+		try {
 			url = prefix + "/postNotInBody";
 			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("zhangsan");
+			searchBean.setName("张三");
 			searchBean.setPassword("1234567");
 			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 			headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -107,16 +241,148 @@ public class PersonControllerTest extends BaseTest {
 			System.out.println(JacksonUtil.writeAsString(responseEntity.getBody()));
 			
 		} catch (Exception e) {
-			log.error("testPostInBody =====> ", e);
+			log.error("testPostInBody2 =====> ", e);
 		}
 	}
-    
+	
 	/**
 	 * 
 	 * 描述: 
 	 * @author qye.zheng
 	 * 
 	 */
+	@Test
+	public void testMockMVC() {
+		try {
+			// 页面/服务 地址
+			String url = "/api/sys/login";
+			// 请求构建器
+			// get 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("username", "admin");
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testMockMVC =====> ", e);
+		}
+	}
+	
+	/**
+	 * 控制器 单元测试
+	 * 描述: spring mvc 单元测试 (单元测试只能确保整个业务流程可以跑通)
+	 * 直接注入控制器的方式只能做单元测试，不能做系统集成测试，
+	 * 例如 可以走 spring mvc 过滤器链、类型转换、数据验证、数据绑定、拦截器等..
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testUnitController() {
+		try {
+			/**
+			 * 构造 request / response 和参数对象
+			 * 可以将此测试代码写在要测试的项目中，
+			 * 也可以新建一个项目，然后引用需要测试的项目，
+			 * 将 spring spring-mvc 系列环境启动起来，就可以测试了.
+			 * dao / service / controller / tx / 数据源 ...
+			 */
+			HttpServletRequest request = new MockHttpServletRequest();
+			HttpServletResponse response = new MockHttpServletResponse();
+			//User user = new User();
+			//user.setUsername("admin");
+			//user.setPassword("123456");
+			
+			//userController.login(request, response, user);
+			
+		} catch (Exception e) {
+			log.error("testInjectController =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testMockMVCExample() {
+		try {
+			// 页面/服务 地址
+			String url = "/api/sys/login";
+			// 请求构建器
+			//RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// get 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			//String json = "{\"username\":\"admin\", \"password\":\"123456\"}";
+			//requestBuilder.content(json);
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("username", "admin");
+			requestBuilder.param("password", "123456");
+			//MockMvc mockMvc =  MockMvcBuilders.standaloneSetup(userController).build(); 
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			System.out.println(result);
+			
+			//Map<String, Object> map = mvcResult.getModelAndView().getModel();
+			//System.out.println(map);
+			// 结果对象
+			//Object resultObj = mvcResult.getAsyncResult();
+			//System.out.println(resultObj.toString());
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testMockMVCExample =====> ", e);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
 	@Test
 	public void test() {
 		try {
@@ -133,6 +399,7 @@ public class PersonControllerTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testTemp")
 	@Test
 	public void testTemp() {
 		try {
@@ -149,6 +416,7 @@ public class PersonControllerTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testCommon")
 	@Test
 	public void testCommon() {
 		try {
@@ -165,6 +433,7 @@ public class PersonControllerTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testSimple")
 	@Test
 	public void testSimple() {
 		try {
@@ -181,6 +450,7 @@ public class PersonControllerTest extends BaseTest {
 	 * @author qye.zheng
 	 * 
 	 */
+	@DisplayName("testBase")
 	@Test
 	public void testBase() {
 		try {
@@ -193,11 +463,52 @@ public class PersonControllerTest extends BaseTest {
 	
 	/**
 	 * 
+	 * 描述: [每个测试-方法]开始之前运行
+	 * @author qye.zheng
+	 * 
+	 */
+	@DisplayName("beforeMethod")
+	@Tag(" [每个测试-方法]结束之后运行")
+	@BeforeEach
+	public void beforeMethod() {
+		System.out.println("beforeMethod()");
+		   prefix = "/person";
+	}
+	
+	/**
+	 * 
+	 * 描述: [每个测试-方法]结束之后运行
+	 * @author qye.zheng
+	 * 
+	 */
+	@DisplayName("afterMethod")
+	@Tag(" [每个测试-方法]结束之后运行")
+	@AfterEach
+	public void afterMethod() {
+		System.out.println("afterMethod()");
+	}
+	
+	/**
+	 * 
+	 * 描述: 测试忽略的方法
+	 * @author qye.zheng
+	 * 
+	 */
+	@Disabled
+	@DisplayName("ignoreMethod")
+	@Test
+	public void ignoreMethod() {
+		System.out.println("ignoreMethod()");
+	}
+	
+	/**
+	 * 
 	 * 描述: 解决ide静态导入消除问题 
 	 * @author qye.zheng
 	 * 
 	 */
-	@Ignore("解决ide静态导入消除问题 ")
+	@DisplayName("noUse")
+	@Disabled("解决ide静态导入消除问题 ")
 	private void noUse() {
 		String expected = null;
 		String actual = null;
@@ -211,28 +522,27 @@ public class PersonControllerTest extends BaseTest {
 		assertNotEquals(message, expected, actual);
 		
 		assertArrayEquals(expecteds, actuals);
-		assertArrayEquals(message, expecteds, actuals);
+		assertArrayEquals(expecteds, actuals, message);
 		
 		assertFalse(true);
 		assertTrue(true);
-		assertFalse(message, true);
-		assertTrue(message, true);
+		assertFalse(true, message);
+		assertTrue(true, message);
 		
 		assertSame(expecteds, actuals);
 		assertNotSame(expecteds, actuals);
-		assertSame(message, expecteds, actuals);
-		assertNotSame(message, expecteds, actuals);
+		assertSame(expecteds, actuals, message);
+		assertNotSame(expecteds, actuals, message);
 		
 		assertNull(actuals);
 		assertNotNull(actuals);
-		assertNull(message, actuals);
-		assertNotNull(message, actuals);
-		
-		assertThat(null, null);
-		assertThat(null, null, null);
+		assertNull(actuals, message);
+		assertNotNull(actuals, message);
 		
 		fail();
 		fail("Not yet implemented");
+		
+		dynamicTest(null, null);
 		
 	}
 
