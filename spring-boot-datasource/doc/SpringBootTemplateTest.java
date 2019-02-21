@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringTest.java
+ * SpringBootTemplateTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.spring;
+package template.code;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,18 +22,29 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 
 
 /**
- * 描述: Spring - 测试
+ * 描述: 
  * 
  * @author qye.zheng
- * SpringTest
+ * SpringBootTemplateTest
  */
-public final class SpringTest extends BaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ApplicationStarter.class}, 
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+//@MapperScan(basePackages = {"com.hua.mapper"})
+public class SpringBootTemplateTest extends BaseTest {
 
+	//@Resource
+	//private PersonDao personDao;
+	
 	/**
 	 * 
 	 * 描述: 
@@ -47,22 +58,6 @@ public final class SpringTest extends BaseTest {
 			
 		} catch (Exception e) {
 			log.error("test =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testSpring() {
-		try {
-			
-			
-		} catch (Exception e) {
-			log.error("testSpring =====> ", e);
 		}
 	}
 	

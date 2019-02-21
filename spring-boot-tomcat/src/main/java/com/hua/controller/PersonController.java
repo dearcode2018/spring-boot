@@ -5,7 +5,7 @@
  * 
  *  version 1.0
  */
-package com.hua.controller.spring;
+package com.hua.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.bean.PersonSearchBean;
 import com.hua.bean.ResultBean;
-import com.hua.controller.BaseController;
 import com.hua.properties.ConnectionProperties;
 
 /**

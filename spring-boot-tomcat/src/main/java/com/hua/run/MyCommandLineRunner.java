@@ -27,7 +27,7 @@ public class MyCommandLineRunner implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception
 	{
-		System.out.println("MyCommandLineRunner: " + args[0]);
+		//System.out.println("MyCommandLineRunner: " + args[0]);
 	}
 
 
