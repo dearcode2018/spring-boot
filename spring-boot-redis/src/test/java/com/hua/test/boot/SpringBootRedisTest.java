@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * SpringBootRedisTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.boot;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -39,18 +42,18 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * SpringBootRedisTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
 @ExtendWith(SpringExtension.class)
-//@WebAppConfiguration(value = "src/main/webapp")
+@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootJunit5Test extends BaseTest {
+public final class SpringBootRedisTest extends BaseTest {
 
 	
 	/*
@@ -90,7 +93,28 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 
 	 */
 	
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testRedis() {
+		try {
+			String key = "COM:VALUE:DBy";
+			System.out.println(stringRedisTemplate.hasKey(key));
+			
+			System.out.println(stringRedisTemplate.boundValueOps(key).get());
+			
+		} catch (Exception e) {
+			log.error("testRedis =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

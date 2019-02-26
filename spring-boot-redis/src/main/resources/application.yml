@@ -8,6 +8,7 @@ server:
 spring:
   profiles:
     active:
+    - test
     - dev
 
   autoconfigure:
@@ -25,7 +26,17 @@ spring:
       - src/main/java
 
 
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 
+    database: 0
+    timeout: 100000
+    jedis:
+      pool:
+        max-idle: 500
+        min-idle: 50
+        max-active: 2000
 
 
 
