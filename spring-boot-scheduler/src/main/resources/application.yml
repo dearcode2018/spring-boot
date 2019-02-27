@@ -10,9 +10,8 @@ spring:
     active:
     - dev
 
-  autoconfigure:
-    exclude:
-    - 
+
+
 
   http:
     log-request-details: true
@@ -23,6 +22,44 @@ spring:
       enabled: true
       additional-paths:
       - src/main/java
+  # 默认情况下，使用Quartz库提供的标准脚本检测并初始化数据库。
+  # 这些脚本删除现有表，在每次重启时删除所有触发器
+  quartz:
+    # 任务存储类型 memory(默认) | jdbc
+    job-store-type: jdbc
+    jdbc:
+      # 初始化 模式(数据库)
+      initialize-schema: always
+    # 自动启动
+    auto-startup: true
+    # 是否覆盖已注册的任务(从持久化读取的任务)
+    overwrite-existing-jobs: true
+    # 属性key-value
+    properties:
+       a: b
+    
+    
+  # 任务执行和调度
+  task:
+    # 任务执行
+    execution:
+      pool:
+        max-size: 16
+        # 队列容量
+        queue-capacity: 100
+        # 闲置时间(超时将回收空闲线程)
+        keep-alive: 10s
+    # 任务调度
+    scheduling:
+      pool:
+        size: 10     
+         
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/spring?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
 
 

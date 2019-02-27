@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -28,8 +30,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
@@ -77,8 +80,11 @@ public final class SchedulerTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
+	@Resource
+	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+	
 	//@Resource
-	//private UserController userController;
+	private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -90,7 +96,22 @@ public final class SchedulerTest extends BaseTest {
 	 * 
 	 */
 	
-	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testScheduler() {
+		try {
+			
+			
+		} catch (Exception e) {
+			log.error("testScheduler =====> ", e);
+		}
+	}	
 	
 	/**
 	 * 
