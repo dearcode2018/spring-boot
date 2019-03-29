@@ -51,10 +51,11 @@ public class DataSourceAspect implements Ordered {
 
         final DataSource dataSource = method.getAnnotation(DataSource.class);
         if(null == dataSource)
-        {
+        { // 为空，默认使用第一个
             DynamicDataSource.setDataSource(DataSourceNames.FIRST);
             logger.debug("set datasource is " + DataSourceNames.FIRST);
         } else {
+        	// 使用方法标注的数据源
             DynamicDataSource.setDataSource(dataSource.name());
             logger.debug("set datasource is " + dataSource.name());
         }

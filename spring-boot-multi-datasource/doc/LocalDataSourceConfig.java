@@ -1,7 +1,11 @@
-package com.hua.datasource;
+/**
+  * @filename LocalDataSourceConfig.java
+  * @description 
+  * @version 1.0
+  * @author qianye.zheng
+ */
+package com.wehotel.uni.user.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -23,62 +27,47 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.github.pagehelper.PageInterceptor;
+import com.wehotel.uni.user.common.Constant;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
- * 
- * @type DynamicDataSourceConfig
- * @description  动态数据源配置
+ * @type LocalDataSourceConfig
+ * @description 本地主数据源配置
  * @author qianye.zheng
  */
 @Configuration
-@MapperScan(basePackages = "com.hua.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
-public class DynamicDataSourceConfig 
+@MapperScan(basePackages = "com.wehotel.uni.user.mapper.local", sqlSessionTemplateRef = "localSqlSessionTemplate")
+public class LocalDataSourceConfig
 {
 	
 	/**
 	 * 
-	 * @description 
+	 * @description 数据源
 	 * @return
 	 * @author qianye.zheng
 	 */
-    @Bean
-    @ConfigurationProperties("datasource.first")
-    public DataSource firstDataSource(){
-    	System.out.println("DynamicDataSourceConfig.firstDataSource()");
-    	 return DataSourceBuilder.create().type(HikariDataSource.class).build();
-    }
-
-    /**
-     * 
-     * @description 
-     * @return
-     * @author qianye.zheng
-     */
-    @Bean
-    @ConfigurationProperties("datasource.second")
-    public DataSource secondDataSource(){
-    	System.out.println("DynamicDataSourceConfig.secondDataSource()");
-    	 return DataSourceBuilder.create().type(HikariDataSource.class).build();
-    }
-
-    /**
-     * 
-     * @description 
-     * @param firstDataSource
-     * @param secondDataSource
-     * @return
-     * @author qianye.zheng
-     */
-    @Bean("dynamicDataSource")
+	@Bean(name = "localDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource.hikari.local")
+	@Primary
+	public DataSource setDataSource()
+	{
+		 return DataSourceBuilder.create().type(HikariDataSource.class).build();
+	}
+	
+	/**
+	 * 
+	 * @description 事务管管理器
+	 * @param dataSource
+	 * @return
+	 * @author qianye.zheng
+	 */
+    @Bean(name = "localTransactionManager")
     @Primary
-    public DynamicDataSource dataSource(final DataSource firstDataSource, 
-    		final DataSource secondDataSource) {
-    	final Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceNames.FIRST, firstDataSource);
-        targetDataSources.put(DataSourceNames.SECOND, secondDataSource);
-        
-        return new DynamicDataSource(firstDataSource, targetDataSources);
+    public DataSourceTransactionManager setTransactionManager(final @Qualifier("localDataSource") DataSource dataSource) {
+    	final DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
+    	manager.setDefaultTimeout(600);
+    	
+        return manager;
     }
     
     /**
@@ -89,16 +78,15 @@ public class DynamicDataSourceConfig
      * @throws Exception
      * @author qianye.zheng
      */
-    @Bean(name = "sqlSessionFactory")
+    @Bean(name = "localSqlSessionFactory")
     @Primary
-    public SqlSessionFactory setSqlSessionFactory(final @Qualifier("dynamicDataSource") 
-    DataSource dataSource) throws Exception {
+    public SqlSessionFactory setSqlSessionFactory(final @Qualifier("localDataSource") DataSource dataSource) throws Exception {
     	VFS.addImplClass(SpringBootVFS.class);
     	final SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("com.hua" + ".entity");
+        bean.setTypeAliasesPackage(Constant.BASE_PACKAGE + ".entity");
         bean.setConfiguration(configuration());
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*Mapper.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/local/**/*Mapper.xml"));
         // 分页拦截器
         final PageInterceptor pageInterceptor = new PageInterceptor();
         final Properties props = new Properties();
@@ -131,6 +119,7 @@ public class DynamicDataSourceConfig
     	return configuration;
     }
     
+    
     /**
      * 
      * @description Sql会话模板
@@ -139,30 +128,12 @@ public class DynamicDataSourceConfig
      * @throws Exception
      * @author qianye.zheng
      */
-    @Bean("sqlSessionTemplate")
+    @Bean(name = "localSqlSessionTemplate")
     @Primary
-    public SqlSessionTemplate setSqlSessionTemplate(final @Qualifier("sqlSessionFactory") 
-    	SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate setSqlSessionTemplate(final @Qualifier("localSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
     	
         return new SqlSessionTemplate(sqlSessionFactory);
-    }    
-    
-    /**
-	 * 
-	 * @description 事务管理器
-	 * @param dataSource
-	 * @return
-	 * @author qianye.zheng
-	 */
-    @Bean(name = "transactionManager")
-    @Primary
-    public DataSourceTransactionManager setTransactionManager(final @Qualifier("dynamicDataSource") DataSource dataSource) 
-    {
-    	final DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
-    	manager.setDefaultTimeout(600);
-    	
-        return manager;
     }
-        
+    
     
 }

@@ -9,6 +9,7 @@ package com.hua;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
  /**
  * @type ApplicationStarter
@@ -29,6 +30,7 @@ import org.springframework.context.annotation.ImportResource;
 //@EnableCircuitBreaker
 //@EnableHystrixDashboard //
 //@EntityScan
+@EnableTransactionManagement
 public class ApplicationStarter
 {
 	

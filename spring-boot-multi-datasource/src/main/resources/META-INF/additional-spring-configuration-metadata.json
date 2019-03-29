@@ -1,0 +1,102 @@
+{"properties": [
+  {
+    "name": "datasource.frist.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.jdbc-url'"
+  },
+  {
+    "name": "datasource.frist.username",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.username'"
+  },
+  {
+    "name": "datasource.frist.password",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.password'"
+  },
+  {
+    "name": "datasource.frist.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.driver-class-name'"
+  },
+  {
+    "name": "datasource.frist.auto-commit",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.auto-commit'"
+  },
+  {
+    "name": "datasource.frist.idle-timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.idle-timeout'"
+  },
+  {
+    "name": "datasource.frist.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.maximum-pool-size'"
+  },
+  {
+    "name": "datasource.frist.minimum-idle",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.minimum-idle'"
+  },
+  {
+    "name": "datasource.frist.connection-timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.connection-timeout'"
+  },
+  {
+    "name": "datasource.frist.connection-test-query",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.frist.connection-test-query'"
+  },
+  {
+    "name": "datasource.second.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.jdbc-url'"
+  },
+  {
+    "name": "datasource.second.username",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.username'"
+  },
+  {
+    "name": "datasource.second.password",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.password'"
+  },
+  {
+    "name": "datasource.second.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.driver-class-name'"
+  },
+  {
+    "name": "datasource.second.auto-commit",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.auto-commit'"
+  },
+  {
+    "name": "datasource.second.idle-timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.idle-timeout'"
+  },
+  {
+    "name": "datasource.second.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.maximum-pool-size'"
+  },
+  {
+    "name": "datasource.second.minimum-idle",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.minimum-idle'"
+  },
+  {
+    "name": "datasource.second.connection-timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.connection-timeout'"
+  },
+  {
+    "name": "datasource.second.connection-test-query",
+    "type": "java.lang.String",
+    "description": "A description for 'datasource.second.connection-test-query'"
+  }
+]}

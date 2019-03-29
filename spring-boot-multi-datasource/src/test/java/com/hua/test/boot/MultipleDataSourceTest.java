@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -29,7 +31,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hua.ApplicationStarter;
+import com.hua.entity.CollegeStudent;
+import com.hua.service.QueryService;
+import com.hua.service.WriteService;
 import com.hua.test.BaseTest;
+import com.hua.util.JacksonUtil;
 
 
 /**
@@ -74,8 +80,11 @@ public final class MultipleDataSourceTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	@Resource
+	private QueryService queryService;
+	
+	@Resource
+	private WriteService writeService;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -86,7 +95,129 @@ public final class MultipleDataSourceTest extends BaseTest {
 	 * 将目标项目的配置复制到当前项目同一路径下
 	 * 
 	 */
+
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testGet() {
+		try {
+			
+			CollegeStudent entity = queryService.get(3);
+			System.out.println(JacksonUtil.writeAsString(entity));
+			
+		} catch (Exception e) {
+			log.error("testGet =====> ", e);
+		}
+	}
 	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testGetFromFirst() {
+		try {
+			CollegeStudent entity = queryService.getFromFirst(3);
+			System.out.println(JacksonUtil.writeAsString(entity));
+			
+		} catch (Exception e) {
+			log.error("testGetFromFirst =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testGetFromSecond() {
+		try {
+			CollegeStudent entity = queryService.getFromSecond(3);
+			System.out.println(JacksonUtil.writeAsString(entity));			
+			
+		} catch (Exception e) {
+			log.error("testGetFromSecond =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsert() {
+		try {
+			writeService.insert();
+			
+		} catch (Exception e) {
+			log.error("testInsert =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertToFirst() {
+		try {
+			writeService.insertToFirst();			
+			
+		} catch (Exception e) {
+			log.error("testInsertToFirst =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertToSecond() {
+		try {
+			writeService.insertToSecond();
+			
+		} catch (Exception e) {
+			log.error("testInsertToSecond =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertWithManualTx() {
+		try {
+			writeService.insertWithManualTx();
+			
+		} catch (Exception e) {
+			log.error("testInsertWithManualTx =====> ", e);
+		}
+	}	
 	
 	
 	/**

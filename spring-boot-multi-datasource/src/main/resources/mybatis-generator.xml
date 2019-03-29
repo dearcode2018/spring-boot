@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<!-- 配置文件 -->
+	<properties resource="generatorConfig.properties" />
+	
+	<!-- classpath 自定义 -->	
+<!-- 	<classPathEntry location=""/> -->
+
+    <!--反向生成mybatis的mapper和model的配置-->
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+		<property name="javaFileEncoding" value="UTF-8" />
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		<property name="useActualColumnNames" value="true"/>
+		
+		<!-- 自定义插件 -->
+		<!-- 可序列化插件 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />  
+		<!-- 扩展插件 -->
+        <plugin type="${plugin.extendedMapper}">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="generateColumnConsts" value="true"/>
+            <property name="lombok" value="ToString"/>
+            <property name="databaseDialect" value="mysql"/>
+        </plugin>		
+        
+        <!-- 注释生成器 -->  
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        
+        <!-- JDBC连接配置 -->
+        <jdbcConnection driverClass="${jdbc.driverClass}" 
+        	connectionURL="${jdbc.url}" 
+        	userId="${jdbc.username}" password="${jdbc.password}">
+			<property name="useInformationSchema" value="false" />         	
+        </jdbcConnection>
+        
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时
+        把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        
+        <!--  实体生成器 -->
+        <javaModelGenerator targetPackage="${model.targetPackage}" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        
+        <!-- SQL映射生成器-->
+        <sqlMapGenerator targetPackage="${sqlMap.targetPackage}" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+        
+        <!-- 客户端生成器-->
+        <!--  生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的 Mapper对象
+                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator type="XMLMAPPER" 
+        targetPackage="${client.targetPackage}" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+		
+		
+		<!-- 表 -->
+        <table tableName="college_student" />
+        
+    </context>
+</generatorConfiguration>
