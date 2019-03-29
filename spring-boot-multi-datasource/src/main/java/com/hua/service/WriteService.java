@@ -124,7 +124,7 @@ public class WriteService
 		// 获得事务状态
 		final TransactionStatus st = transactionManager.getTransaction(def);		
 		CollegeStudent entity = new CollegeStudent();
-		entity.setName("赵东来Second");
+		entity.setName("赵东来manual tx");
 		entity.setCredit(new BigDecimal(15.5));
 		entity.setBirthday(new Date());
 		entity.setAddress("广西省桂林市阳朔县大桂路345号");

@@ -112,12 +112,17 @@
             <artifactId>pagehelper</artifactId>
  			<version>${pagehelper.version}</version>           
         </dependency>
-        
+ 
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
  			<version>${guava.version}</version>			
 		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

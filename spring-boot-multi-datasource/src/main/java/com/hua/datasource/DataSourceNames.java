@@ -9,6 +9,7 @@ package com.hua.datasource;
 public interface DataSourceNames 
 {
 	
+	// 默认数据源
     String FIRST = "first";
     
     String SECOND = "second";

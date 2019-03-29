@@ -6,22 +6,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Component;
 
 import com.hua.annotation.DataSource;
 import com.hua.datasource.DataSourceNames;
 import com.hua.datasource.DynamicDataSource;
 
 /**
- * @Aspect
  * @type DataSourceAspect
  * @description 数据源，切面处理类
  * @author qianye.zheng
  */
-@Component
+@Aspect
+@Configuration
 public class DataSourceAspect implements Ordered {
 	
 	protected final Logger logger = LogManager.getLogger(this.getClass().getName());
@@ -48,7 +49,6 @@ public class DataSourceAspect implements Ordered {
     public Object around(final ProceedingJoinPoint point) throws Throwable {
     	final MethodSignature signature = (MethodSignature) point.getSignature();
     	final  Method method = signature.getMethod();
-
         final DataSource dataSource = method.getAnnotation(DataSource.class);
         if(null == dataSource)
         { // 为空，默认使用第一个

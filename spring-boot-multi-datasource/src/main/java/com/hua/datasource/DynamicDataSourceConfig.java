@@ -18,7 +18,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
@@ -42,10 +41,9 @@ public class DynamicDataSourceConfig
 	 * @return
 	 * @author qianye.zheng
 	 */
-    @Bean
+    @Bean("firstDataSource")
     @ConfigurationProperties("datasource.first")
     public DataSource firstDataSource(){
-    	System.out.println("DynamicDataSourceConfig.firstDataSource()");
     	 return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
@@ -55,30 +53,28 @@ public class DynamicDataSourceConfig
      * @return
      * @author qianye.zheng
      */
-    @Bean
+    @Bean("secondDataSource")
     @ConfigurationProperties("datasource.second")
     public DataSource secondDataSource(){
-    	System.out.println("DynamicDataSourceConfig.secondDataSource()");
     	 return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
     /**
      * 
-     * @description 
-     * @param firstDataSource
-     * @param secondDataSource
+     * @description 动态数据源
+     * 注意 @Primary 不能标注在动态数据源上
      * @return
      * @author qianye.zheng
      */
     @Bean("dynamicDataSource")
-    @Primary
-    public DynamicDataSource dataSource(final DataSource firstDataSource, 
-    		final DataSource secondDataSource) {
+    public DynamicDataSource dataSource() {
     	final Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceNames.FIRST, firstDataSource);
-        targetDataSources.put(DataSourceNames.SECOND, secondDataSource);
+    	// 多个数据源
+        targetDataSources.put(DataSourceNames.FIRST, firstDataSource());
+        targetDataSources.put(DataSourceNames.SECOND, secondDataSource());
+        // 
         
-        return new DynamicDataSource(firstDataSource, targetDataSources);
+        return new DynamicDataSource(firstDataSource(), targetDataSources);
     }
     
     /**
@@ -90,7 +86,6 @@ public class DynamicDataSourceConfig
      * @author qianye.zheng
      */
     @Bean(name = "sqlSessionFactory")
-    @Primary
     public SqlSessionFactory setSqlSessionFactory(final @Qualifier("dynamicDataSource") 
     DataSource dataSource) throws Exception {
     	VFS.addImplClass(SpringBootVFS.class);
@@ -140,22 +135,21 @@ public class DynamicDataSourceConfig
      * @author qianye.zheng
      */
     @Bean("sqlSessionTemplate")
-    @Primary
     public SqlSessionTemplate setSqlSessionTemplate(final @Qualifier("sqlSessionFactory") 
     	SqlSessionFactory sqlSessionFactory) throws Exception {
     	
         return new SqlSessionTemplate(sqlSessionFactory);
-    }    
+    }   
     
     /**
 	 * 
 	 * @description 事务管理器
+	 * 整个工程声明一个事务管理器即可
 	 * @param dataSource
 	 * @return
 	 * @author qianye.zheng
 	 */
     @Bean(name = "transactionManager")
-    @Primary
     public DataSourceTransactionManager setTransactionManager(final @Qualifier("dynamicDataSource") DataSource dataSource) 
     {
     	final DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
