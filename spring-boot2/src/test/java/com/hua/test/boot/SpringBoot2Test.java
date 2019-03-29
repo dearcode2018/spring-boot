@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -73,7 +75,7 @@ public final class SpringBoot2Test extends BaseTest {
 		}) 
 	@ExtendWith(SpringExtension.class)
 	 */
-	@Value("${system.name}")
+	//@Value("${system.name}")
 	private String value;
 	
 	
@@ -93,6 +95,12 @@ public final class SpringBoot2Test extends BaseTest {
 	 * 将目标项目的配置复制到当前项目同一路径下
 	 * 
 	 */
+	@Value("${spring.profiles.active}")
+	//@Value("${a.b}")
+	private String profile;
+
+	//@Value("${spring.profiles.active}")
+	//private List<String> profiles;
 	
 	/**
 	 * 
@@ -105,7 +113,8 @@ public final class SpringBoot2Test extends BaseTest {
 	public void testSpringBoot2() {
 		try {
 			System.out.println("value = " + value);
-			
+			System.out.println("profile = " + profile);
+			//System.out.println("profiles = " + profiles.get(0));
 		} catch (Exception e) {
 			log.error("testSpringBoot2 =====> ", e);
 		}

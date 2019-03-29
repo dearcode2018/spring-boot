@@ -18,7 +18,7 @@ import org.springframework.context.annotation.ImportResource;
  * @author qianye.zheng
  */
 /* 导入资源: xml配置文件 */
-@ImportResource({"classpath:conf/xml/spring-config.xml"})
+//@ImportResource({"classpath:conf/xml/spring-config.xml"})
 /* @SpringBootApplication已经包含 @Configuration @EnableAutoConfiguration @ComponentScan */
 //@SpringBootApplication(scanBasePackages = {"com.hua"})
 /* 该类在根包(basePackage)下，则无须再指定scanBasePackages */
