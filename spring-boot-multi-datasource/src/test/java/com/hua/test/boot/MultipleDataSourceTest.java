@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hua.ApplicationStarter;
 import com.hua.entity.CollegeStudent;
-import com.hua.service.QueryService;
+import com.hua.service.ReadService;
 import com.hua.service.WriteService;
 import com.hua.test.BaseTest;
 import com.hua.util.JacksonUtil;
@@ -81,7 +81,7 @@ public final class MultipleDataSourceTest extends BaseTest {
 	 * 
 	 */
 	@Resource
-	private QueryService queryService;
+	private ReadService readService;
 	
 	@Resource
 	private WriteService writeService;
@@ -107,7 +107,7 @@ public final class MultipleDataSourceTest extends BaseTest {
 	public void testGet() {
 		try {
 			
-			CollegeStudent entity = queryService.get(3);
+			CollegeStudent entity = readService.get(3);
 			System.out.println(JacksonUtil.writeAsString(entity));
 			
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public final class MultipleDataSourceTest extends BaseTest {
 	@Test
 	public void testGetFromFirst() {
 		try {
-			CollegeStudent entity = queryService.getFromFirst(3);
+			CollegeStudent entity = readService.getFromFirst(3);
 			System.out.println(JacksonUtil.writeAsString(entity));
 			
 		} catch (Exception e) {
@@ -143,7 +143,7 @@ public final class MultipleDataSourceTest extends BaseTest {
 	@Test
 	public void testGetFromSecond() {
 		try {
-			CollegeStudent entity = queryService.getFromSecond(3);
+			CollegeStudent entity = readService.getFromSecond(3);
 			System.out.println(JacksonUtil.writeAsString(entity));			
 			
 		} catch (Exception e) {
@@ -218,7 +218,104 @@ public final class MultipleDataSourceTest extends BaseTest {
 			log.error("testInsertWithManualTx =====> ", e);
 		}
 	}	
+
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertWithoutTransactionalAnno() {
+		try {
+			writeService.insertWithoutTransactionalAnno();			
+			
+		} catch (Exception e) {
+			log.error("testInsertWithoutTransactionalAnno =====> ", e);
+		}
+	}	
 	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertWithReadOnlyTxAnno() {
+		try {
+			/*
+			 * ### Error updating database.  Cause: java.sql.SQLException: Connection is read-only. 
+			 * Queries leading to data modification are not allowed
+			 */
+			writeService.insertWithReadOnlyTxAnno();
+			
+		} catch (Exception e) {
+			log.error("testInsertWithReadOnlyTxAnno =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testInsertWithTxTimeOut() {
+		try {
+			/*
+			 * ### Error updating database.  Cause: java.sql.SQLException: Connection is read-only. 
+			 * Queries leading to data modification are not allowed
+			 */
+			writeService.insertWithTxTimeOut();
+			
+		} catch (Exception e) {
+			log.error("testInsertWithTxTimeOut =====> ", e);
+		}
+	}	
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testReadManyWriteLittle() {
+		try {
+			/*
+			 * 读多写少的服务
+			 * 当前方法读，调用另外一个对象的写方法，其方法事务传播属性
+			 */
+			CollegeStudent entity = readService.readManyWriteLittle(3);
+			System.out.println(JacksonUtil.writeAsString(entity));			
+			
+		} catch (Exception e) {
+			log.error("testReadManyWriteLittle", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 写多读少
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testWriteManyReadLittle() {
+		try {
+			writeService.writeManyReadLittle();
+			
+		} catch (Exception e) {
+			log.error("testWriteManyReadLittle =====> ", e);
+		}
+	}	
 	
 	/**
 	 * 

@@ -34,7 +34,7 @@ datasource:
     password: 'root'
     driver-class-name: com.mysql.jdbc.Driver
     auto-commit: false
-    idle-timeout: 5000
+    idle-timeout: 180000
     maximum-pool-size: 2000
     minimum-idle: 100
     connection-timeout: 10000
@@ -46,7 +46,7 @@ datasource:
     password: 'root'
     driver-class-name: com.mysql.jdbc.Driver
     auto-commit: false
-    idle-timeout: 5000
+    idle-timeout: 180000
     maximum-pool-size: 2000
     minimum-idle: 100
     connection-timeout: 10000
