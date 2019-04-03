@@ -73,7 +73,7 @@ public class DynamicDataSourceConfig
         targetDataSources.put(DataSourceNames.FIRST, firstDataSource());
         targetDataSources.put(DataSourceNames.SECOND, secondDataSource());
         // 
-        
+        // 第一个参数指定默认数据源，修改默认数据源修改此处即可
         return new DynamicDataSource(firstDataSource(), targetDataSources);
     }
     

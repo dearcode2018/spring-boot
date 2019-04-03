@@ -168,7 +168,7 @@ public class WriteService
 		 *  通常情况下，insertSelectvie使用得较多
 		 */
 		collegeStudentMapper.insertSelective(entity);
-	}		
+	}
 	
 	/**
 	 * 
