@@ -221,6 +221,41 @@ public final class TxServiceOneTest extends BaseTest {
 	 */
 	//@DisplayName("test")
 	@Test
+	public void testGetCallInsert() {
+		try {
+			
+			txServiceOne.getCallInsert();
+			
+		} catch (Exception e) {
+			log.error("testGetCallInsert =====> ", e);
+		}
+	}	
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testGetFromSecondCallDefaultDataSource() {
+		try {
+			txServiceOne.getFromSecondCallDefaultDataSource();
+			
+		} catch (Exception e) {
+			log.error("testGetFromSecondCallDefaultDataSource =====> ", e);
+		}
+	}	
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
 	public void test() {
 		try {
 			

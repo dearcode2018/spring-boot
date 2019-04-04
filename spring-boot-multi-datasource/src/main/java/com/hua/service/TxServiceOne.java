@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hua.annotation.DataSource;
@@ -293,5 +294,50 @@ public class TxServiceOne
 		 */
 		collegeStudentMapper.insertSelective(entity);
 	}			
+	
+	/**
+	 * 
+	 * @description 
+	 * @author qianye.zheng
+	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+	@DataSource(name = DataSourceNames.FIRST)
+	public void getCallInsert()
+	{
+		CollegeStudent entity = collegeStudentMapper.selectByPrimaryKey(3);
+		System.out.println(JacksonUtil.writeAsString(entity));
+		// 调用其他对象的方法
+		txServiceTwo.insertToSecond();
+	}
+	
+	/**
+	 * 
+	 * @description 查询第二个数据源，调用的方法必须声明为不支持事务或开启新的事务，然后声明自己要使用
+	 * 的数据源，若使用同一个数据源则无需声明
+	 * 1) 使用同一个数据源和同一个事务，则无需任何声明
+	 * 2) 使用同一个数据源和不同的事务，则声明开启新的事务 @Transactional(propagation = Propagation.REQUIRES_NEW)
+	 * 3) 使用不同的数据源的查询，声明为不支持事务@Transactional(propagation = Propagation.NOT_SUPPORTED) 
+	 * 和 @DataSource(name = DataSourceNames.SECOND) 指定数据源
+	 * 声明为不支持事务，主要是避免受调用方事务的影响
+	 * 4) 使用不同的数据源需支持事务: 开启新的事务 @Transactional(propagation = Propagation.REQUIRES_NEW)
+	 *  和 @DataSource(name = DataSourceNames.SECOND) 指定数据源
+	 * 声明新事务，主要是避免受调用方事务的影响
+	 * 
+	 * 不支持事务或者开启新的事务 设置新的数据源才能生效，否则将受调用方事务传播的影响
+	 * 
+	 * 数据源: second 据源
+	 * @author qianye.zheng
+	 */
+	@DataSource(name = DataSourceNames.SECOND)
+	public void getFromSecondCallDefaultDataSource()
+	{
+		CollegeStudent entity = collegeStudentMapper.selectByPrimaryKey(3);
+		System.out.println(JacksonUtil.writeAsString(entity));
+		/*
+		 * @Transactional(propagation = Propagation.NOT_SUPPORTED) 不支持事务，因此insertToSecond3
+		 * 数据不持久化到数据库
+		 */
+		txServiceTwo.getFromDefaultDataSource();
+	}		
 	
 }

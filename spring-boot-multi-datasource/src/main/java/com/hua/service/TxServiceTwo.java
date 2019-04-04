@@ -19,6 +19,7 @@ import com.hua.annotation.DataSource;
 import com.hua.datasource.DataSourceNames;
 import com.hua.entity.CollegeStudent;
 import com.hua.mapper.auto.CollegeStudentMapper;
+import com.hua.util.JacksonUtil;
 
 /**
  * @type TxServiceTwo
@@ -149,6 +150,21 @@ public class TxServiceTwo
 		 *  通常情况下，insertSelectvie使用得较多
 		 */
 		collegeStudentMapper.insertSelective(entity);
-	}	
+	}
+	
+	/**
+	 * 
+	 * @description 不声明数据源，使用默认数据源
+	 * 数据源: second据源
+	 * @author qianye.zheng
+	 */
+	@DataSource(name = DataSourceNames.FIRST)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	//@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void getFromDefaultDataSource()
+	{
+		CollegeStudent entity = collegeStudentMapper.selectByPrimaryKey(3);
+		System.out.println(JacksonUtil.writeAsString(entity));
+	}		
 	
 }
