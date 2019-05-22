@@ -21,7 +21,7 @@ import com.hua.entity.User;
  * @description 
  * @author qianye.zheng
  */
-@Service
+//@Service
 public class CacheAnnotationService
 {
 	

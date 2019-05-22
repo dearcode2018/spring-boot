@@ -8,7 +8,6 @@ server:
 spring:
   profiles:
     active:
-    - test
     - dev
 
   autoconfigure:
@@ -26,10 +25,11 @@ spring:
       - src/main/java
 
 
+# 第一个redis，默认
   redis:
-    host: 127.0.0.1
+    host: 192.168.5.11
     port: 6379
-    password: 
+    password: dev_redis_1234
     database: 0
     timeout: 100000
     jedis:
@@ -38,6 +38,18 @@ spring:
         min-idle: 50
         max-active: 2000
 
+  # 多个redis， 第二个redis
+  redis2:
+    host: 192.168.5.11
+    port: 6379
+    password: dev_redis_1234
+    database: 1
+    timeout: 100000
+    jedis:
+      pool:
+        max-idle: 500
+        min-idle: 50
+        max-active: 2000
 
 
 

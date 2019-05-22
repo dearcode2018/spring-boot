@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @description 
  * @author qianye.zheng
  */
-@Service
+//@Service
 public class RedisService
 {
 

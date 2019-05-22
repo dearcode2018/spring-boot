@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * MultipleRedisTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.boot;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
@@ -38,18 +41,17 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * MultipleRedisTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
 @ExtendWith(SpringExtension.class)
-//@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootJunit5Test extends BaseTest {
+public final class MultipleRedisTest extends BaseTest {
 
 	
 	/*
@@ -88,8 +90,33 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 将目标项目的配置复制到当前项目同一路径下
 	 * 
 	 */
+	@Resource
+	private StringRedisTemplate firstRedisTemplate;
 	
+	@Resource
+	private StringRedisTemplate secondRedisTemplate;
 	
+
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testMultipleRedis() {
+		try {
+			String key = "A:B";
+			
+			System.out.println("first = " + firstRedisTemplate.boundValueOps(key).get());
+			
+			System.out.println("second = " + secondRedisTemplate.boundValueOps(key).get());
+			
+		} catch (Exception e) {
+			log.error("testMultipleRedis =====> ", e);
+		}
+	}	
 	
 	/**
 	 * 

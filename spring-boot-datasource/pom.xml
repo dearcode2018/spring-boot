@@ -86,7 +86,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${jdbc.mysql.version}</version>
         </dependency>
 
 		
