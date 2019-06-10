@@ -1,0 +1,46 @@
+
+server:
+  port: 7070
+ 
+  servlet:
+    context-path: /
+ 
+spring:
+  application:
+    name: spring-boot-actuator
+  profiles:
+    active:
+    - dev
+
+  autoconfigure:
+    exclude:
+    - 
+
+  http:
+    log-request-details: true
+
+# spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
+  devtools:
+    restart:
+      enabled: true
+      additional-paths:
+      - src/main/java
+      - src/main/resource
+
+management:
+  endpoints: 
+    web: 
+      exposure: 
+        include: '*' # 暴露所有的端点
+  endpoint:
+    shutdown:
+      enabled: true
+
+
+
+
+
+
+
+
+

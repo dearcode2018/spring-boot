@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @description 
  * @author qianye.zheng
  */
-@Component
+//@Component
 public class MyApplicationRunner implements ApplicationRunner
 {
 

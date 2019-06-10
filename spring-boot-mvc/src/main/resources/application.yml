@@ -9,7 +9,6 @@ server:
 spring:
   profiles:
     active:
-    - test
     - dev
 
   autoconfigure:

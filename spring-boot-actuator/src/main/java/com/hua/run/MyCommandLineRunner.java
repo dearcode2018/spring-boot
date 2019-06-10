@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @description 
  * @author qianye.zheng
  */
-@Component
+//@Component
 public class MyCommandLineRunner implements CommandLineRunner
 {
 

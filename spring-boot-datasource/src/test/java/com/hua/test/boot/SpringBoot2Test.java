@@ -33,7 +33,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
-import com.zaxxer.hikari.HikariDataSource;
 
 
 /**
@@ -103,7 +102,7 @@ public final class SpringBoot2Test extends BaseTest {
 	@Test
 	public void test() {
 		try {
-			//HikariDataSource
+			
 			
 		} catch (Exception e) {
 			log.error("test =====> ", e);
