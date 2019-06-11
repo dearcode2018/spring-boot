@@ -22,6 +22,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 要包含 devtools依赖，还需要显式声明引入该依赖，继承的方式无效，应该是Boot打包插件做了优化 -->
+					<!-- 启用dev功能，需要禁用该属性，在生产环境慎用 -->
+					<excludeDevtools>false</excludeDevtools>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -54,7 +59,12 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>jul-to-slf4j</artifactId>
-				</exclusion>									
+				</exclusion>	
+				<!-- 排除和log4j2冲突 -->	
+				<exclusion>
+   					 <groupId>org.apache.logging.log4j</groupId>
+ 					 <artifactId>log4j-to-slf4j</artifactId>  					 				
+				</exclusion>													
 			</exclusions>
 		</dependency>	
 		
@@ -68,7 +78,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
-		</dependency>	
+		</dependency>
 		
 	</dependencies>
 

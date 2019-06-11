@@ -68,7 +68,12 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>jul-to-slf4j</artifactId>
-				</exclusion>									
+				</exclusion>	
+				<!-- 排除和log4j2冲突 -->	
+				<exclusion>
+   					 <groupId>org.apache.logging.log4j</groupId>
+ 					 <artifactId>log4j-to-slf4j</artifactId>  					 				
+				</exclusion>												
 			</exclusions>
 		</dependency>	
 		
@@ -81,7 +86,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
+			<!-- 让依赖工程继承该依赖 -->
+			<!-- <optional>true</optional> -->
 		</dependency>	
 
         <dependency>

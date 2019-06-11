@@ -1,0 +1,38 @@
+Spring Boot devtool
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+
+
+1) 在开发环境加入spring-boot-devtools 进入开发模式，修改yml等配置文件获取value直接生效，无须重启.
+2) 没有 spring-boot-devtools，可以通过spring-boot-starter-actuator暴露的端点刷新相关配置
+在spring-cloud架构下的@RefreshScope注解可以刷新Bean.
+
+spring-boot-devtools引入注意
+1) 需要显式声明spring-boot-devtools依赖
+2) 将打包配置参数 excludeDevtools 设置为false
+
+本地热更新
+1) 由于修改源码也会触发重启，因此在企业开发工作中用处不大，用云配置加IDE热更新功能即可
+2) 
+
+远程热更新
+1) 可以将本地变更的代码快速高效部署到远程，实现快速调试
+2) 配置spring.devtools.remote.secret值，将包部署到远程
+3) 本地构建一个run，mainClass选择org.springframework.boot.devtools.RemoteSpringApplication
+程序参数输入 远程应用的地址和端口，例如 http://192.168.5.11:7070
+4) 点击run，本地修改某个源代码，会自动部署到远程. 支持改方法声明发布到远程
+5) 一般在频繁修改调试时会用到，其他时间不会开启这个功能.
+
+
+
+
+
+
+
+
+
+
+
+

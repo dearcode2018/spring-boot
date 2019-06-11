@@ -153,14 +153,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- 解决 web项目pom.xml报错 -->
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<version>${maven.plugin.war.version}</version>
-				</configuration>
-			</plugin>
-
 		</plugins>
 	</build>
 	

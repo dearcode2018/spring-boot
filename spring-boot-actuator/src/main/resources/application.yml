@@ -33,10 +33,14 @@ management:
       exposure: 
         include: '*' # 暴露所有的端点
   endpoint:
+    health:
+      show-details: always
     shutdown:
       enabled: true
 
-
+custome: 
+ foo: 
+  name: lisi # 
 
 
 
