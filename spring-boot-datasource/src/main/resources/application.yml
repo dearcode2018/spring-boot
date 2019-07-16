@@ -52,7 +52,3 @@ datasource:
     connection-timeout: 10000
     connection-test-query: SELECT 1
 
-
-
-
-

@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * PushMessageTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -36,7 +36,7 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * PushMessageTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")

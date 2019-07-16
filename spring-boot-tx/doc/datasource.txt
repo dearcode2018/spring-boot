@@ -1,0 +1,43 @@
+Spring Boot
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+数据源/事务:对象内方法调方法，不起作用。
+手工方式:数据源ThreadHold.setDataSource,事务注入的transactionMannger
+
+A对象方法调B对象方法:数据源和事务用默认的或者自己声明的。
+
+事务注解加和不加:数据不持久化到库，当然，前提是关闭了数据源的自动提交(autoCommit)
+(当前验证 用 HikariDataSource 设置autoCommit不起作用，原因待查)
+
+
+事务超时问题。事务AOP 传播性。
+
+应用场景
+1) 只读数据的Service:只读事务  | 标注: @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+
+2) 读多写少的Service:只读事务/调对象内方法用手工事务并且指定写的数据源
+或调另一对象的方法，事务为requires_new，指定数据源。
+
+3) 写多读少: 写的数据源加非只读事务. 调用B对象的读方法，需要注意的是B对象的方法
+需要加@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+这样就不会受调用方的事务的影响，若不加该注解则数据源的切换实际上是没有生效的，
+因为受调用方写事务的影响.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -33,6 +33,7 @@
 		<module>spring-boot-shiro</module>
 		<module>spring-boot-security</module>		
 		<module>spring-boot-test</module>	
+		<module>spring-boot-tx</module>
 		<module>spring-boot-web</module>	
 		<module>spring-boot-webflux</module>	
 		<module>spring-boot-cache</module>
