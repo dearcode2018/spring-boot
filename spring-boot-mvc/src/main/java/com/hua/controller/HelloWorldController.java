@@ -6,13 +6,15 @@
  */
 package com.hua.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.entity.User;
+import com.hua.util.ClassPathUtil;
+import com.hua.util.FileUtil;
+import com.hua.util.StringUtil;
 
  /**
  * @type HelloWorldController
@@ -84,6 +86,30 @@ public class HelloWorldController extends BaseController
 		user.setId(id);
 		user.setPassword("123456");
 		//System.out.println(JacksonUtil.writeAsString(user));
+		
+		return user;
+	}
+	
+	/**
+	 * 
+	 * @description 模拟内存溢出，观察系统运行状况
+	 * @param amount
+	 * @return
+	 * @author qianye.zheng
+	 */
+	@GetMapping(value = "/outOfMemoryError")
+	public User outOfMemoryError(final Integer amount)
+	{
+		User user = new User();
+		user.setNickname("张三");
+		user.setPassword("123456");
+		String content = FileUtil.getString(ClassPathUtil.getClassSubpath("/info_01.txt"));
+		StringBuilder builder = StringUtil.getBuilder();
+		// 循环遍历，直至内存溢出
+		for (int i = 0; i < amount; i++)
+		{
+			builder.append(content);
+		}
 		
 		return user;
 	}
