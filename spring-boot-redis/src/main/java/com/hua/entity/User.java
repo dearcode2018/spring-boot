@@ -17,7 +17,7 @@ import com.hua.bean.BaseBean;
  * @author qye.zheng
  * User
  */
-public final class User extends BaseBean {
+public class User extends BaseBean {
 
 	 /* long */
 	private static final long serialVersionUID = 1L;

@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * SpringBootRedisTest.java
+ * CacheAnnotationTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -30,30 +30,31 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.hua.ApplicationStarter;
+import com.hua.entity.User;
+import com.hua.service.CacheAnnotationService;
 import com.hua.test.BaseTest;
+import com.hua.util.JacksonUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootRedisTest
+ * CacheAnnotationTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration(value = "src/main/webapp")
+//@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootRedisTest extends BaseTest {
+public final class CacheAnnotationTest extends BaseTest {
 
 	
 	/*
@@ -80,8 +81,8 @@ public final class SpringBootRedisTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	@Resource
+	private CacheAnnotationService cacheAnnotationService;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -93,8 +94,25 @@ public final class SpringBootRedisTest extends BaseTest {
 	 * 
 	 */
 	
-	@Resource(name = "firstRedisTemplate")
-	private StringRedisTemplate stringRedisTemplate;
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testCachePut() {
+		try {
+			User user = new User();
+			user.setId("123");
+			user.setUsername("张三FromDB");
+			cacheAnnotationService.cachePut(user);
+			
+		} catch (Exception e) {
+			log.error("testCachePut =====> ", e);
+		}
+	}
 	
 	/**
 	 * 
@@ -104,15 +122,32 @@ public final class SpringBootRedisTest extends BaseTest {
 	 */
 	//@DisplayName("test")
 	@Test
-	public void testRedis() {
+	public void testCacheable() {
 		try {
-			String key = "COM:VALUE:DBy";
-			System.out.println(stringRedisTemplate.hasKey(key));
-			
-			System.out.println(stringRedisTemplate.boundValueOps(key).get());
+			User user = cacheAnnotationService.cacheable("123");
+			System.out.println(JacksonUtil.writeAsString(user));
+		} catch (Exception e) {
+			log.error("testCacheable =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testCacheEvict() {
+		try {
+			User user = new User();
+			user.setId("123");
+			user.setUsername("张三FromDB");
+			cacheAnnotationService.cacheEvict(user);
 			
 		} catch (Exception e) {
-			log.error("testRedis =====> ", e);
+			log.error("testCacheEvict =====> ", e);
 		}
 	}
 	
@@ -126,6 +161,7 @@ public final class SpringBootRedisTest extends BaseTest {
 	@Test
 	public void test() {
 		try {
+			
 			
 		} catch (Exception e) {
 			log.error("test =====> ", e);
