@@ -33,6 +33,7 @@ spring:
     password: dev_redis_1234
     database: 14
     timeout: 100000
+    
     jedis:
       pool:
         max-idle: 50

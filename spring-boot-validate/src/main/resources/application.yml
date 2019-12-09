@@ -1,0 +1,49 @@
+
+server:
+  port: 7070
+ 
+  servlet:
+    context-path: /
+   #context-path: /spring-boot-mvc
+ 
+spring:
+  profiles:
+    active:
+    - dev
+
+  autoconfigure:
+    exclude:
+    - 
+
+  http:
+    log-request-details: true
+
+# spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
+  devtools:
+    restart:
+      enabled: false
+      additional-paths:
+      - src/main/java
+
+  # 映射资源
+
+  # 静态资源
+#  resources:
+#    static-locations:
+#    - /webjars/**
+#    - /static/**
+
+  # favicon.ico 放在 静态资源目录下，或类根路径下都可以
+  mvc:
+    favicon:
+      enabled: true
+    static-path-pattern: /static/**
+    # 
+    contentnegotiation:
+      favor-parameter: true 
+
+
+
+
+
+

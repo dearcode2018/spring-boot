@@ -18,10 +18,13 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
+
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @type FirstRedisConfig
@@ -59,12 +62,21 @@ public class FirstRedisConfig
 	 */
 	public RedisConnectionFactory connectionFactory()
 	{
-		RedisStandaloneConfiguration re = new RedisStandaloneConfiguration();
+		final RedisStandaloneConfiguration re = new RedisStandaloneConfiguration();
 		re.setHostName(firstRedisProperties.getHost());
 		re.setPassword(firstRedisProperties.getPassword());
 		re.setDatabase(firstRedisProperties.getDatabase());
-
-		return new JedisConnectionFactory(re);
+		final JedisClientConfiguration.JedisClientConfigurationBuilder  builder = JedisClientConfiguration.builder();
+		final JedisPoolConfig poolConfig = new JedisPoolConfig();
+		poolConfig.setMinIdle(firstRedisProperties.getMinIdle());
+		poolConfig.setMaxIdle(firstRedisProperties.getMaxIdle());
+		poolConfig.setMaxTotal(firstRedisProperties.getMaxTotal());
+		poolConfig.setMaxWaitMillis(firstRedisProperties.getMaxWaitMillis());
+		poolConfig.setTestOnCreate(true);
+		builder.usePooling().poolConfig(poolConfig);
+		builder.readTimeout(Duration.ofMillis(firstRedisProperties.getReadTimeout())).connectTimeout(Duration.ofMillis(firstRedisProperties.getConnectTimeout()));
+		
+		return new JedisConnectionFactory(re, builder.build());
 	}
 	
 	/**

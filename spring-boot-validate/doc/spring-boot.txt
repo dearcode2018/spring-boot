@@ -1,0 +1,25 @@
+Spring Boot
+
+1.配置文件
+使用 application.properties 或 application.yaml
+
+默认使用的是内嵌的tomcat容器
+Tomcat started on port(s): 8080 (http) with context path ''
+
+banner.txt 文件中的内容作为容器启动的显示内容，为空则默认使用spring boot
+默认的内容.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

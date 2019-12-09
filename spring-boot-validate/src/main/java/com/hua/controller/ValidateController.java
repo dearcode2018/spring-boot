@@ -9,13 +9,15 @@ package com.hua.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.bean.PersonSearchBean;
@@ -29,8 +31,8 @@ import com.hua.bean.ResultBean;
  */
 // 控制器
 @RestController
-@RequestMapping("/person")
-public class PersonController extends BaseController
+@RequestMapping("/validate")
+public class ValidateController extends BaseController
 {
 	
 	//@Value("${system.name}")
@@ -46,10 +48,9 @@ public class PersonController extends BaseController
 	 * @param searchBean
 	 * @return
 	 */
-	@RequestMapping(value={"/postNotInBody"}, method = {RequestMethod.POST})
-	@ResponseBody
+	@PostMapping(value={"/postNotInBody"})
 	public ResultBean postNotInBody(final HttpServletRequest request, 
-			final HttpServletResponse response, final PersonSearchBean searchBean) {
+			final HttpServletResponse response, final @Valid PersonSearchBean searchBean) {
 		/*
 		 * @RequestBody 注解: 处理放在请求消息体中的报文，格式由客户端的Content-Type参数决定
 		 */
@@ -73,8 +74,7 @@ public class PersonController extends BaseController
 	 * @param searchBean
 	 * @return
 	 */
-	@RequestMapping(value={"/postInBody"}, method = {RequestMethod.POST})
-	@ResponseBody
+	@PostMapping(value={"/postInBody"})
 	public ResultBean postInBody(final HttpServletRequest request, 
 			final HttpServletResponse response, @RequestBody(required = true) final PersonSearchBean searchBean) {
 		/*
@@ -102,7 +102,6 @@ public class PersonController extends BaseController
 	 */
 	//@RequestMapping(value={"/getAndPost"}, method = {RequestMethod.GET, RequestMethod.POST})
 	@GetMapping(value={"/getAndPost"})
-	@ResponseBody
 	public ResultBean getAndPost(final HttpServletRequest request, 
 			final HttpServletResponse response, final PersonSearchBean searchBean) {
 		log.info("getAndPost =====> name = " + searchBean.getName());
@@ -125,10 +124,9 @@ public class PersonController extends BaseController
 	 * @param searchBean
 	 * @return
 	 */
-	@RequestMapping(value={"/search"}, method = {RequestMethod.POST, RequestMethod.GET})
-	@ResponseBody
+	@PostMapping(value={"/search"})
 	public ResultBean search(final HttpServletRequest request, 
-			final HttpServletResponse response, final PersonSearchBean searchBean) {
+			final HttpServletResponse response, @RequestBody(required = true) @Valid final PersonSearchBean searchBean) {
 		ResultBean result = new ResultBean();
 		result.setMessage("收到[" + searchBean.getName() + "]的请求");
 		result.setMessageCode("205");

@@ -41,6 +41,7 @@
 		<module>spring-boot-message</module>
 		<module>spring-boot-mvc</module>
 		<module>spring-boot-log</module>
+		<module>spring-boot-validate</module>
 	</modules>
  
 	<!-- 公共属性 -->
