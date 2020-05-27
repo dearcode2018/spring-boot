@@ -26,7 +26,7 @@ spring:
   # 这些脚本删除现有表，在每次重启时删除所有触发器
   quartz:
     # 任务存储类型 memory(默认) | jdbc
-    job-store-type: jdbc
+    job-store-type: memory
     jdbc:
       # 初始化 模式(数据库)
       initialize-schema: always
@@ -54,12 +54,12 @@ spring:
       pool:
         size: 10     
          
-  datasource:
-    hikari:
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/spring?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-      username: root
-      password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    hikari:
+#      jdbc-url: jdbc:mysql://127.0.0.1:3306/spring?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: root
+#      driver-class-name: com.mysql.cj.jdbc.Driver
 
 
 

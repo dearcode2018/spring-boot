@@ -29,7 +29,7 @@ spring:
   redis:
     #host: 192.168.5.11
     host: 172.25.62.67
-    port: 6379
+    port: 6479
     password: dev_redis_1234
     database: 14
     timeout: 100000
@@ -43,7 +43,7 @@ spring:
   # 多个redis， 第二个redis
   redis2:
     host: 172.25.62.67
-    port: 6379
+    port: 6479
     password: dev_redis_1234
     database: 15
     timeout: 100000

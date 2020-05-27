@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * CustomConfigTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.config;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -31,14 +33,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
+import com.hua.config.CustomConfigBean;
 import com.hua.test.BaseTest;
+import com.hua.util.JacksonUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * CustomConfigTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
@@ -47,9 +51,9 @@ import com.hua.test.BaseTest;
 @ExtendWith(SpringExtension.class)
 //@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+webEnvironment = SpringBootTest.WebEnvironment.NONE)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootJunit5Test extends BaseTest {
+public final class CustomConfigTest extends BaseTest {
 
 	
 	/*
@@ -76,8 +80,8 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	@Resource
+	private CustomConfigBean customConfigBean;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -89,7 +93,23 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 
 	 */
 	
-	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testCustomConfig() {
+		try {
+			
+			System.out.println(customConfigBean);
+			
+		} catch (Exception e) {
+			log.error("testCustomConfig =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

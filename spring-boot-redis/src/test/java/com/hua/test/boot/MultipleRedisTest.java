@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.AfterEach;
@@ -30,6 +32,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisPubSubCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -126,6 +129,24 @@ public final class MultipleRedisTest extends BaseTest {
 	 */
 	//@DisplayName("test")
 	@Test
+	public void testPubSub() {
+		try {
+			
+			TimeUnit.SECONDS.sleep(300);
+	
+		} catch (Exception e) {
+			log.error("testPubSub =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
 	public void test() {
 		try {
 			
@@ -145,7 +166,7 @@ public final class MultipleRedisTest extends BaseTest {
 	@Test
 	public void testTemp() {
 		try {
-			
+
 			
 		} catch (Exception e) {
 			log.error("testTemp=====> ", e);

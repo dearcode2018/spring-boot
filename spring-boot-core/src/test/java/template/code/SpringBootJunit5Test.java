@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -29,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hua.ApplicationStarter;
+import com.hua.bean.Person;
 import com.hua.test.BaseTest;
 
 
@@ -87,7 +90,28 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 
 	 */
 	
+	/*
+	 * 通过@Import(DefaultImportSelector.class)
+	 * 注入指定的bean
+	 */
+	@Resource
+	private Person person;
 	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testSpringBoot() {
+		try {
+		System.out.println(person.toString());
+			
+		} catch (Exception e) {
+			log.error("testSpringBoot =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

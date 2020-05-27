@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -45,6 +46,7 @@ public class FirstRedisConfig
 	 * @throws UnknownHostException
 	 * @author qianye.zheng
 	 */
+	@Primary
 	@Bean("firstRedisTemplate")
 	public StringRedisTemplate stringRedisTemplate()
 	{
@@ -60,23 +62,26 @@ public class FirstRedisConfig
 	 * @return
 	 * @author qianye.zheng
 	 */
+	//@Primary
+	@Bean
 	public RedisConnectionFactory connectionFactory()
 	{
 		final RedisStandaloneConfiguration re = new RedisStandaloneConfiguration();
 		re.setHostName(firstRedisProperties.getHost());
 		re.setPassword(firstRedisProperties.getPassword());
 		re.setDatabase(firstRedisProperties.getDatabase());
-		final JedisClientConfiguration.JedisClientConfigurationBuilder  builder = JedisClientConfiguration.builder();
-		final JedisPoolConfig poolConfig = new JedisPoolConfig();
-		poolConfig.setMinIdle(firstRedisProperties.getMinIdle());
-		poolConfig.setMaxIdle(firstRedisProperties.getMaxIdle());
-		poolConfig.setMaxTotal(firstRedisProperties.getMaxTotal());
-		poolConfig.setMaxWaitMillis(firstRedisProperties.getMaxWaitMillis());
-		poolConfig.setTestOnCreate(true);
-		builder.usePooling().poolConfig(poolConfig);
-		builder.readTimeout(Duration.ofMillis(firstRedisProperties.getReadTimeout())).connectTimeout(Duration.ofMillis(firstRedisProperties.getConnectTimeout()));
+		re.setPort(firstRedisProperties.getPort());
+		//final JedisClientConfiguration.JedisClientConfigurationBuilder  builder = JedisClientConfiguration.builder();
+		//final JedisPoolConfig poolConfig = new JedisPoolConfig();
+		//poolConfig.setMinIdle(firstRedisProperties.getMinIdle());
+		//poolConfig.setMaxIdle(firstRedisProperties.getMaxIdle());
+		//poolConfig.setMaxTotal(firstRedisProperties.getMaxTotal());
+		//poolConfig.setMaxWaitMillis(firstRedisProperties.getMaxWaitMillis());
+		//poolConfig.setTestOnCreate(true);
+		//builder.usePooling().poolConfig(poolConfig);
+		//builder.readTimeout(Duration.ofMillis(firstRedisProperties.getReadTimeout())).connectTimeout(Duration.ofMillis(firstRedisProperties.getConnectTimeout()));
 		
-		return new JedisConnectionFactory(re, builder.build());
+		return new JedisConnectionFactory(re);
 	}
 	
 	/**

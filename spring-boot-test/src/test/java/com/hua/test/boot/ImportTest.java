@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * ImportTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.boot;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -31,6 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
+import com.hua.bean.Person;
 import com.hua.test.BaseTest;
 
 
@@ -38,7 +41,7 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * ImportTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
@@ -49,7 +52,7 @@ import com.hua.test.BaseTest;
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootJunit5Test extends BaseTest {
+public final class ImportTest extends BaseTest {
 
 	
 	/*
@@ -76,8 +79,12 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	/*
+	 * 通过@Import(DefaultImportSelector.class)
+	 * 导入指定的bean
+	 */
+	@Resource
+	private Person person;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -89,7 +96,23 @@ public final class SpringBootJunit5Test extends BaseTest {
 	 * 
 	 */
 	
-	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	//@DisplayName("test")
+	@Test
+	public void testImport() {
+		try {
+			
+			System.out.println(person);
+			
+		} catch (Exception e) {
+			log.error("testImport =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

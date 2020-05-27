@@ -103,7 +103,7 @@ public class HelloWorldController extends BaseController
 		User user = new User();
 		user.setNickname("张三");
 		user.setPassword("123456");
-		String content = FileUtil.getString(ClassPathUtil.getClassSubpath("/info_01.txt"));
+		String content = FileUtil.getString(ClassPathUtil.getClassPath("/info_01.txt"));
 		StringBuilder builder = StringUtil.getBuilder();
 		// 循环遍历，直至内存溢出
 		for (int i = 0; i < amount; i++)

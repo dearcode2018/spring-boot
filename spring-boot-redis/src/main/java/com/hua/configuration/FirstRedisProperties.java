@@ -28,6 +28,9 @@ public class FirstRedisProperties
 	
 	private Integer database;
 	
+	/* 端口 */
+	private Integer port;
+	
 	/* 连接超时时间，单位: 毫秒 */
 	private Long connectTimeout;
 	

@@ -43,7 +43,7 @@ cd %MYSQL_HOME%
 cd bin
 :: 执行mysql 启动命令
 :: 在命令前加上 start /b 可以让后面的命令在后台运行
-start /b mysqld -u root
+start /b mysqld
 
 :: 启动指定的数据库
 :: mysql -u username -pPassword db_name

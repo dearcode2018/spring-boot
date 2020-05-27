@@ -21,7 +21,7 @@ import org.springframework.context.annotation.ImportResource;
 /* @SpringBootApplication已经包含 @Configuration @EnableAutoConfiguration @ComponentScan */
 //@SpringBootApplication(scanBasePackages = {"com.hua"})
 /* 该类在根包(basePackage)下，则无须再指定scanBasePackages */
-@EnableCaching
+//@EnableCaching
 @SpringBootApplication
 /* 启动指定特性 */
 //@Configuration

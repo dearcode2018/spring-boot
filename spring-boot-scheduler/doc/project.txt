@@ -1,6 +1,6 @@
 【项目信息】
-项目名称 : spring
-中文名称 : Spring
+项目名称 : spring-boot-scheduler
+中文名称 : 定时器
 项目版本 : version 1.0
 
 主要技术 : 
@@ -11,11 +11,27 @@
 
 【项目规划】
 
-1)
+1) 单线程执行
+无线程池配置
 
-2)
-
-3)
+2) 多线程方式1
+在配置文件中配置了task的线程池，无需再标注@EnableAsync和@Async
+  task:
+    # 任务执行
+    execution:
+      pool:
+        max-size: 16
+        # 队列容量
+        queue-capacity: 100
+        # 闲置时间(超时将回收空闲线程)
+        keep-alive: 10s
+    # 任务调度
+    scheduling:
+      pool:
+        size: 10  
+3) 多线程方式2
+无配置task
+标注@EnableAsync和@Async
 
 4)
 

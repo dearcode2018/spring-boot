@@ -6,6 +6,9 @@
  */
 package com.hua;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.Schedules;
@@ -16,8 +19,14 @@ import org.springframework.stereotype.Component;
  * @description 
  * @author qianye.zheng
  */
+/*
+ * 通过@ConditionalOnProperty控制任务是否开启
+ */
+@ConditionalOnProperty(name = "schedule.enable", havingValue = "true")
 @Component
 @EnableScheduling
+// 开启线程池调度任务的方式，对应@Async
+//@EnableAsync
 public class ScheduledTask
 {
 
@@ -36,6 +45,7 @@ public class ScheduledTask
 	 * fixedRate 固定频率，指定间隔时间，单位毫秒
 	 * @author qianye.zheng
 	 */
+	//@Async
 	@Scheduled(fixedRate = 1000 * 10)
 	public void task1()
 	{
@@ -47,6 +57,7 @@ public class ScheduledTask
 	 * @description 
 	 * @author qianye.zheng
 	 */
+	//@Async
 	@Schedules({@Scheduled(initialDelay = 1 * 1000, fixedDelay = 5 * 1000),
 		@Scheduled(cron = "50 * * * * ?")	
 	})

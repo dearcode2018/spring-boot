@@ -34,6 +34,9 @@ public class SecondRedisConfig
 	@Value("${spring.redis2.database}")
 	private Integer database;
 	
+	@Value("${spring.redis2.port}")
+	private Integer port;
+	
 	/**
 	 * 
 	 * @description 
@@ -62,6 +65,7 @@ public class SecondRedisConfig
     	re.setDatabase(database);
     	re.setPassword(password);
     	re.setHostName(host);
+		re.setPort(port);
         JedisConnectionFactory jedis = new JedisConnectionFactory(re);
 
         return jedis;

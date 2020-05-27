@@ -22,7 +22,7 @@ import com.zaxxer.hikari.HikariDataSource;
  * @description 
  * @author qianye.zheng
  */
-@Configuration
+//@Configuration
 public class SchedulerConfiguration
 {
 	

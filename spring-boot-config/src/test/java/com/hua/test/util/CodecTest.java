@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootJunit5Test.java
+ * CodecTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.util;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -26,70 +26,188 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
+import com.hua.util.StringUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootJunit5Test
+ * CodecTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
-// for Junit 5.x
-@ExtendWith(SpringExtension.class)
-//@WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public final class SpringBootJunit5Test extends BaseTest {
+public final class CodecTest extends BaseTest {
 
 	
-	/*
-	配置方式1: 
-	@WebAppConfiguration(value = "src/main/webapp")  
-	@ContextConfiguration(locations = {
-			"classpath:conf/xml/spring-bean.xml", 
-			"classpath:conf/xml/spring-config.xml", 
-			"classpath:conf/xml/spring-mvc.xml", 
-			"classpath:conf/xml/spring-service.xml"
-		})
-	@ExtendWith(SpringExtension.class)
-	
-	配置方式2: 	
-	@WebAppConfiguration(value = "src/main/webapp")  
-	@ContextHierarchy({  
-		 @ContextConfiguration(name = "parent", locations = "classpath:spring-config.xml"),  
-		 @ContextConfiguration(name = "child", locations = "classpath:spring-mvc.xml")  
-		}) 
-	@ExtendWith(SpringExtension.class)
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
 	 */
+	//@DisplayName("test")
+	@Test
+	public void testToUniCode() {
+		try {
+			String str = "张三";
+			System.out.println();
+		} catch (Exception e) {
+			log.error("testToUniCode =====> ", e);
+		}
+	}
 	
 	/**
-	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	//@DisplayName("test")
+	@Test
+	public void printASCIICode() {
+		try {
+			
+			
+			char ch = 0;
+			for (int i = 0; i < 128; i++) {
+				System.out.printf("ASCII[ %d ] = %c", i, ch);
+				System.out.println();
+				ch++;
+			}
+		
+			/*
+可视字符输出如下: [0, 127]
+ASCII[ 12 ] = 
+ASCII[ 33 ] = !
+ASCII[ 34 ] = "
+ASCII[ 35 ] = #
+ASCII[ 36 ] = $
+ASCII[ 37 ] = %
+ASCII[ 38 ] = &
+ASCII[ 39 ] = '
+ASCII[ 40 ] = (
+ASCII[ 41 ] = )
+ASCII[ 42 ] = *
+ASCII[ 43 ] = +
+ASCII[ 44 ] = ,
+ASCII[ 45 ] = -
+ASCII[ 46 ] = .
+ASCII[ 47 ] = /
+ASCII[ 48 ] = 0
+ASCII[ 49 ] = 1
+ASCII[ 50 ] = 2
+ASCII[ 51 ] = 3
+ASCII[ 52 ] = 4
+ASCII[ 53 ] = 5
+ASCII[ 54 ] = 6
+ASCII[ 55 ] = 7
+ASCII[ 56 ] = 8
+ASCII[ 57 ] = 9
+ASCII[ 58 ] = :
+ASCII[ 59 ] = ;
+ASCII[ 60 ] = <
+ASCII[ 61 ] = =
+ASCII[ 62 ] = >
+ASCII[ 63 ] = ?
+ASCII[ 64 ] = @
+ASCII[ 65 ] = A
+ASCII[ 66 ] = B
+ASCII[ 67 ] = C
+ASCII[ 68 ] = D
+ASCII[ 69 ] = E
+ASCII[ 70 ] = F
+ASCII[ 71 ] = G
+ASCII[ 72 ] = H
+ASCII[ 73 ] = I
+ASCII[ 74 ] = J
+ASCII[ 75 ] = K
+ASCII[ 76 ] = L
+ASCII[ 77 ] = M
+ASCII[ 78 ] = N
+ASCII[ 79 ] = O
+ASCII[ 80 ] = P
+ASCII[ 81 ] = Q
+ASCII[ 82 ] = R
+ASCII[ 83 ] = S
+ASCII[ 84 ] = T
+ASCII[ 85 ] = U
+ASCII[ 86 ] = V
+ASCII[ 87 ] = W
+ASCII[ 88 ] = X
+ASCII[ 89 ] = Y
+ASCII[ 90 ] = Z
+ASCII[ 91 ] = [
+ASCII[ 92 ] = \
+ASCII[ 93 ] = ]
+ASCII[ 94 ] = ^
+ASCII[ 95 ] = _
+ASCII[ 96 ] = `
+ASCII[ 97 ] = a
+ASCII[ 98 ] = b
+ASCII[ 99 ] = c
+ASCII[ 100 ] = d
+ASCII[ 101 ] = e
+ASCII[ 102 ] = f
+ASCII[ 103 ] = g
+ASCII[ 104 ] = h
+ASCII[ 105 ] = i
+ASCII[ 106 ] = j
+ASCII[ 107 ] = k
+ASCII[ 108 ] = l
+ASCII[ 109 ] = m
+ASCII[ 110 ] = n
+ASCII[ 111 ] = o
+ASCII[ 112 ] = p
+ASCII[ 113 ] = q
+ASCII[ 114 ] = r
+ASCII[ 115 ] = s
+ASCII[ 116 ] = t
+ASCII[ 117 ] = u
+ASCII[ 118 ] = v
+ASCII[ 119 ] = w
+ASCII[ 120 ] = x
+ASCII[ 121 ] = y
+ASCII[ 122 ] = z
+ASCII[ 123 ] = {
+ASCII[ 124 ] = |
+ASCII[ 125 ] = }
+ASCII[ 126 ] = ~
+			 */
+			
+		} catch (Exception e) {
+			log.error("printASCIICode =====> ", e);
+		}
+	}
 	
 	/**
-	 * 引当前项目用其他项目之后，然后可以使用
-	 * SpringJunitTest模板测试的其他项目
 	 * 
-	 * 可以使用所引用目标项目的所有资源
-	 * 若引用的项目的配置与本地的冲突或无法生效，需要
-	 * 将目标项目的配置复制到当前项目同一路径下
+	 * 描述: 
+	 * @author qye.zheng
 	 * 
 	 */
-	
-	
+	//@DisplayName("test")
+	@Test
+	public void testUnicode() {
+		try {
+			String str = "广州";
+			//System.out.println((char) str.codePointAt(0));
+			//System.out.println((char) str.codePointAt(1));
+			//System.out.println((char) 24191);
+			
+			str = "张三";
+			System.out.println(StringUtil.chineseToUnicode(str));
+			
+			str = "李四";
+			System.out.println(StringUtil.chineseToUnicode(str));
+			
+		} catch (Exception e) {
+			log.error("testUnicode =====> ", e);
+		}
+	}
 	
 	/**
 	 * 

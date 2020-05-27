@@ -5,11 +5,12 @@ server:
   servlet:
     context-path: /
    #context-path: /spring-boot-mvc
- 
+  
 spring:
   profiles:
     active:
     - dev
+
 
   autoconfigure:
     exclude:
@@ -41,8 +42,15 @@ spring:
     # 
     contentnegotiation:
       favor-parameter: true 
-
-
+  jackson:
+    default-property-inclusion: always
+  servlet:
+    multipart:
+      max-file-size: 10KB
+      max-request-size: 20KB
+        
+      
+        
 
 
 

@@ -9,7 +9,7 @@ package com.hua.bean;
 
 import java.sql.Timestamp;
 
-import com.hua.constant.ext.UserType;
+import com.hua.constant.sys.UserType;
 
 /**
  * 描述: 
@@ -17,7 +17,7 @@ import com.hua.constant.ext.UserType;
  * @author qye.zheng
  * Person
  */
-public final class Person extends BaseBean {
+public class Person extends BaseBean {
 
 	 /* long */
 	private static final long serialVersionUID = 1L;

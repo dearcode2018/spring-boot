@@ -28,7 +28,7 @@ public final class StartMyBatisGenerator
 		/**
 		 * -verbose: 输出进度
 		 */
-		String[] params = {"-configfile", ClassPathUtil.getClassSubpath("/mybatis-generator.xml"), 
+		String[] params = {"-configfile", ClassPathUtil.getClassPath("/mybatis-generator.xml"), 
 				"-overwrite", "-verbose"};
 		ShellRunner.main(params);
 	}

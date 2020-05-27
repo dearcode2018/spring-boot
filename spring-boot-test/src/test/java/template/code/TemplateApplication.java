@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * PersonControllerTest.java
+ * TemplateApplication.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.controller;
+package template.code;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -20,97 +20,51 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import javax.annotation.Resource;
-
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.hua.ApplicationStarter;
-import com.hua.bean.PersonSearchBean;
-import com.hua.bean.ResultBean;
 import com.hua.test.BaseTest;
-import com.hua.util.JacksonUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * PersonControllerTest
+ * TemplateApplication
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@MapperScan(basePackages = {"com.hua.mapper"})
-public class PersonControllerTest extends BaseTest {
+// spring boot 应用
+/*
+* 注意，@SpringBootApplication(scanBasePackages = {"com.hua.controller.*"})
+* 这样配置是错误的，scanBasePackages后面加.*是错误，填写基本包结构即可
+* "com.hua.controller 或 com.hua，无需做任何匹配.
+* 
+* 通过main方法来运行驱动程序的运行，如果需要实现动态修改代码的方式
+* 则直接打开 main方法的debug模式来运行
+*即 Debug As... 而不仅仅是 Run As ...
+* 
+*/
+@SpringBootApplication(scanBasePackages = {"com.hua"})
+// 类不能声明为final
+public class TemplateApplication extends BaseTest {
 
-    /* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
-   @LocalServerPort
-   protected int port;
-   
-   protected String prefix;
-   
-   protected String url;
-   
-   /* org.springframework.boot.test.web.client.TestRestTemplate */
-   @Resource
-   private TestRestTemplate testRestTemplate;
 	
-	//@Resource
-	//private PersonDao personDao;
+	/*
+	 * 可以用Debug As ... 模式来运行main方法，实现动态部署的效果.
+	 */
 	
-   /**
-    * 
-    * @description 
-    * @author qianye.zheng
-    */
-   @Before
-   public void beforeMethod()
-   {
-	   prefix = "/person";
-	   System.out.println("port: " + port);
-   }
-   
-    
 	/**
 	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
+	 * @description 
+	 * @param args
+	 * @author qianye.zheng
 	 */
-	@Test
-	public void testPostInBody() {
-		try {
-			url = prefix + "/postNotInBody";
-			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("zhangsan");
-			searchBean.setPassword("1234567");
-			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-			headers.add("Content-Type", "application/json;charset=UTF-8");
-			headers.add("Accept", "application/json");
-			
-			HttpEntity<String> httpEntity = new HttpEntity<String>(JacksonUtil.writeAsString(searchBean), headers);
-			
-			ResponseEntity<ResultBean> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST, httpEntity, ResultBean.class);
-			
-			System.out.println(JacksonUtil.writeAsString(responseEntity.getBody()));
-			
-		} catch (Exception e) {
-			log.error("testPostInBody =====> ", e);
-		}
+	public static void main(String[] args)
+	{
+		SpringApplication.run(TemplateApplication.class, args);
 	}
-    
+	
 	/**
 	 * 
 	 * 描述: 
