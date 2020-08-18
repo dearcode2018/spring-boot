@@ -14,9 +14,6 @@ spring:
     exclude:
     - 
 
-  http:
-    log-request-details: true
-
 # spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
   devtools:
     restart:
@@ -29,7 +26,7 @@ spring:
   redis:
     #host: 192.168.5.11
     host: 172.25.62.67
-    port: 6479
+    port: 6379
     password: dev_redis_1234
     database: 14
     timeout: 100000
