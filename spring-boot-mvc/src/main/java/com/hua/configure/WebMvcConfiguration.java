@@ -1,7 +1,10 @@
 package com.hua.configure;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -10,6 +13,9 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.converter.AbstractHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -35,6 +41,36 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Value("${data.fileUpload.maxSizeK:5000}")
 	private Integer maxUploadFileSizeK;
 	
+	/**
+	 * @description 
+	 * @param converters
+	 * @author qianye.zheng
+	 */
+	
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		Iterator<HttpMessageConverter<?>> it = converters.iterator();
+		while (it.hasNext()) {
+			HttpMessageConverter<?> e = it.next();
+			/*
+			 * // 顺带设置了编码 if (e instanceof StringHttpMessageConverter) {
+			 * ((StringHttpMessageConverter)
+			 * e).setDefaultCharset(StandardCharsets.UTF_8); } // 在客户端没有设置
+			 * "Accept", "application/json"，服务端设置UTF-8编码解决中文乱码问题 if (e
+			 * instanceof MappingJackson2HttpMessageConverter) {
+			 * ((MappingJackson2HttpMessageConverter)
+			 * e).setDefaultCharset(StandardCharsets.UTF_8); }
+			 */
+			// 将所有转换器的默认编码设置为 UTF-8
+			if (e instanceof AbstractHttpMessageConverter) {
+				((AbstractHttpMessageConverter<?>) e).setDefaultCharset(StandardCharsets.UTF_8); 
+			}
+			if (e instanceof FormHttpMessageConverter) {
+				((FormHttpMessageConverter) e).setCharset(StandardCharsets.UTF_8); 
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * spring.servlet.multipart.max-file-size = 100MB

@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * TemplateControllerTest.java
+ * VersionControllerTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.controller;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +52,7 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * TemplateControllerTest
+ * VersionControllerTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
@@ -61,7 +62,7 @@ import com.hua.test.BaseTest;
 @WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public final class TemplateControllerTest extends BaseTest {
+public final class VersionControllerTest extends BaseTest {
 
 	
 	/*
@@ -115,10 +116,154 @@ public final class TemplateControllerTest extends BaseTest {
 	 * 
 	 */
 	@Test
+	public void testGetV1() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/get";
+			// 请求构建器
+			// get 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			// 解决响应的中文乱码问题，如果客户端不设置，需要服务端进行设置，暂未知道如何解决
+			//requestBuilder.header("Accept", "application/json;charset=UTF-8");
+			requestBuilder.header("version", 1);
+			requestBuilder.cookie(new Cookie("myC", "cVal"));
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("id", "11空间aa");
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testMockMVC =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testGetV2() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/get";
+			// 请求构建器
+			// get 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			requestBuilder.header("version", 2);
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("id", "1232");
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testMockMVC =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testGetV3() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/get";
+			// 请求构建器
+			// get 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			requestBuilder.header("version", 3);
+			/*
+			 * 设置请求参数
+			 */
+			requestBuilder.param("id", "1233");
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testMockMVC =====> ", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
 	public void testMockMVC() {
 		try {
 			// 页面/服务 地址
-			String url = prefix + "/";
+			String url = "/api/sys/login";
 			// 请求构建器
 			// get 方法
 			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
@@ -334,7 +479,7 @@ public final class TemplateControllerTest extends BaseTest {
 	@Tag(" [每个测试-方法]结束之后运行")
 	@BeforeEach
 	public void beforeMethod() {
-		prefix = "/";
+		prefix = "/vPrefix";
 		System.out.println("beforeMethod()");
 	}
 	
