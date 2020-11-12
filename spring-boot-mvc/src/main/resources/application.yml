@@ -16,8 +16,6 @@ spring:
     exclude:
     - 
 
-  http:
-    log-request-details: true
 
 # spring.devtools.restart.enabled 禁用devtools自动重启功能，直接用IDE的热部署
   devtools:
@@ -36,8 +34,6 @@ spring:
 
   # favicon.ico 放在 静态资源目录下，或类根路径下都可以
   mvc:
-    favicon:
-      enabled: true
     static-path-pattern: /static/**
     # 
     contentnegotiation:

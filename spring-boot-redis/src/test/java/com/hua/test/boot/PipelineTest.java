@@ -269,7 +269,6 @@ public final class PipelineTest extends BaseTest {
 	public void testTemp() {
 		try {
 			
-			
 		} catch (Exception e) {
 			log.error("testTemp=====> ", e);
 		}
