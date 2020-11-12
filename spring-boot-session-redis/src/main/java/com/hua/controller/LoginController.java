@@ -47,7 +47,7 @@ public class LoginController
     	Integer userId = 123;
         HttpSession session = request.getSession();
         session.setAttribute("loginUserId", userId);
-        firstRedisTemplate.opsForValue().set("loginUser:" + userId, session.getId());
+        //firstRedisTemplate.opsForValue().set("loginUser:" + userId, session.getId());
 
         return new ResultBean(true, "登录成功！");
     }

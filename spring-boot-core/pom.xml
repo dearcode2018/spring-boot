@@ -87,7 +87,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<!-- 让依赖工程继承该依赖 -->
-			<!-- <optional>true</optional> -->
+			<optional>true</optional>
 		</dependency>	
 
         <dependency>

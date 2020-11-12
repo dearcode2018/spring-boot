@@ -56,15 +56,16 @@ public class SpringBootTest extends BaseTest {
 	@Test
 	public void testSpringBoot() {
 		try {
-		
-			
+			String
+
+
 		} catch (Exception e) {
 			log.error("testSpringBoot =====> ", e);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 描述: 
 	 * @author qye.zheng
 	 * 

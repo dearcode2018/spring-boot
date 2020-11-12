@@ -28,7 +28,7 @@ public class FirstRedisConfig
 	@Value("${spring.redis.host}")
 	private String host;
 	
-	@Value("${spring.redis.password}")
+	//@Value("${spring.redis.password}")
 	private String password;
 	
 	@Value("${spring.redis.database}")

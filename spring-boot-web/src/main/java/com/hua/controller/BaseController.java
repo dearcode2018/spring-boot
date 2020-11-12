@@ -22,6 +22,7 @@ public abstract class BaseController {
 	
 	/* apache commons log */
 	protected Log log = LogFactory.getLog(this.getClass().getName());
-	
+
+	protected int a = 123;
 	
 }
