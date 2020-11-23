@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * SpringBootTest.java
+ * SpringBootTemplateTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.boot;
+package template.code;
 
 // 静态导入
 import static org.junit.Assert.assertArrayEquals;
@@ -22,11 +22,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hua.start.ApplicationStarter;
 import com.hua.test.BaseTest;
 
 
@@ -34,36 +34,19 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * SpringBootTest
+ * SpringBootTemplateTest
  */
-@Configuration
-@ComponentScan
-@EnableAutoConfiguration
-public class SpringBootTest extends BaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ApplicationStarter.class}, 
+webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+//@MapperScan(basePackages = {"com.hua.mapper"})
+public class SpringBootTemplateTest extends BaseTest {
 
-/*	public static void main(String[] args)
-	{
-		// 启动 spring web
-		SpringApplication.run(SpringBootTest.class, args);
-	}*/
+	//@Resource
+	//private PersonDao personDao;
 	
 	/**
 	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testSpringBoot() {
-		try {
-
-		} catch (Exception e) {
-			log.error("testSpringBoot =====> ", e);
-		}
-	}
-
-	/**
-	 *
 	 * 描述: 
 	 * @author qye.zheng
 	 * 
