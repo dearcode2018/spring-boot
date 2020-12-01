@@ -44,6 +44,7 @@
 		<module>spring-boot-mvc</module>
 		<module>spring-boot-log</module>
 		<module>spring-boot-validate</module>
+		<module>spring-boot-mail</module>
         <module>afassss</module>
     </modules>
  
