@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * TemplateControllerTest.java
+ * LoginControllerTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package template.code;
+package com.hua.test.session;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +39,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.session.Session;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -47,6 +51,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.hua.constant.CacheKeys;
 import com.hua.test.common.BaseControllerTest;
 import com.hua.util.ClassPathUtil;
 import com.hua.util.ProjectUtil;
@@ -56,13 +61,15 @@ import com.hua.util.ProjectUtil;
  * 描述: 
  * 
  * @author qye.zheng
- * TemplateControllerTest
+ * LoginControllerTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
-public final class TemplateControllerTest extends BaseControllerTest {
+//@SpringBootTest(classes = {ApplicationStarter.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@EnableRedisHttpSession
+public final class LoginControllerTest extends BaseControllerTest {
 
 	
 	/*
@@ -89,8 +96,7 @@ public final class TemplateControllerTest extends BaseControllerTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+
 	
 	//@PathVariable
 	
@@ -109,6 +115,267 @@ public final class TemplateControllerTest extends BaseControllerTest {
 	 * 
 	 */
 	
+	/**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testLogin() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/login";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            
+            String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
+            //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
+            // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
+            MockHttpSession session = new MockHttpSessionWrapper();
+            requestBuilder.session(session);
+            
+            /*
+             * 设置请求参数
+             */
+            requestBuilder.param("username", "admin");
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+	
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testGet() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/get";
+            // 请求构建器
+            // get 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+                      
+            /*
+             * 构造session，设置相关信息，跟缓存建立关联
+             * sessionId 在登录后，从服务端日志中获取，可以设置一个较长时间的值
+             */
+            String sessionId = "cdf6ae30-23da-4d7c-8973-5b79686c7b3f";
+            //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
+            // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
+            MockHttpSession session = new MockHttpSessionWrapper(sessionId);
+            requestBuilder.session(session);
+            
+            /*
+             * 设置请求参数
+             */
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testGetExperiment() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/get";
+            // 请求构建器
+            // get 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 通过传cookie的方式不行，因为缺少session对象，无法从redis中读取信息
+             * 单独使用 MockHttpSession 以及 MockHttpSession和 Cookie结合的方式
+             * 均无法走通后面的流程，可以看出，应该是注入 RedisSession 才可以
+             */
+            //Cookie cookie = new Cookie("SESSION", "OGNjOTlkYTctNGM3YS00OTk3LWIwYTgtZDkxY2U1MGRjZTQ1");
+            //Cookie cookie = new Cookie("gua-cookie", "OGNjOTlkYTctNGM3YS00OTk3LWIwYTgtZDkxY2U1MGRjZTQ1");
+            //requestBuilder.cookie(cookie);
+            
+            /*
+             * 构造session，设置相关信息，跟缓存建立关联
+             */
+            String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
+            //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
+            // 请求对象关联会话对象
+            MockHttpSession session = new MockHttpSessionWrapper(sessionId);
+            requestBuilder.session(session);
+            
+            // 
+            //requestBuilder.header("Cookie", "SESSION=NTQ1ZTIzMTAtZmE0ZS00ODE1LWIxMWQtN2NmYmZkZTE3NTY1");
+            /*
+             * 设置请求参数
+             */
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+
+    /**
+  * 
+  * 描述: 
+  * @author qye.zheng
+  * 
+  */
+ //@DisplayName("test")
+ @Test
+ public void testGetSession() {
+     try {
+         String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
+         Session session = redisIndexedSessionRepository.findById(sessionId);
+         Object value = session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+         System.out.println(value);
+         
+         MockHttpSessionWrapper wrapper = new MockHttpSessionWrapper(sessionId);
+         Object value2 = wrapper.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+         System.out.println(value2);
+         
+     } catch (Exception e) {
+         log.error("test =====> ", e);
+     }
+ }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testGetOld() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/get";
+            // 请求构建器
+            // get 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 通过传cookie的方式不行，因为缺少session对象，无法从redis中读取信息
+             * 单独使用 MockHttpSession 以及 MockHttpSession和 Cookie结合的方式
+             * 均无法走通后面的流程，可以看出，应该是注入 RedisSession 才可以
+             */
+            //Cookie cookie = new Cookie("SESSION", "OGNjOTlkYTctNGM3YS00OTk3LWIwYTgtZDkxY2U1MGRjZTQ1");
+            Cookie cookie = new Cookie("gua-cookie", "OGNjOTlkYTctNGM3YS00OTk3LWIwYTgtZDkxY2U1MGRjZTQ1");
+            requestBuilder.cookie(cookie);
+            
+            /*
+             * 构造session，设置相关信息，跟缓存建立关联
+             */
+            String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
+            MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
+            // 请求对象关联会话对象
+            requestBuilder.session(session);
+            
+            // 
+            //requestBuilder.header("Cookie", "SESSION=NTQ1ZTIzMTAtZmE0ZS00ODE1LWIxMWQtN2NmYmZkZTE3NTY1");
+            /*
+             * 设置请求参数
+             */
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
 	/**
 	 * 
 	 * 描述: 
@@ -324,7 +591,6 @@ public final class TemplateControllerTest extends BaseControllerTest {
 		}
 	}
 	
-	
 	/**
 	 * 
 	 * 描述: 
@@ -420,7 +686,7 @@ public final class TemplateControllerTest extends BaseControllerTest {
 	@Tag(" [每个测试-方法]结束之后运行")
 	@BeforeEach
 	public void beforeMethod() {
-		prefix = "/";
+		prefix = "/user";
 		System.out.println("beforeMethod()");
 	}
 	

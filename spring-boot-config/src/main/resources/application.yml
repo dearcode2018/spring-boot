@@ -36,7 +36,9 @@ logging:
     tomcat: INFO
 
 
-
+config:
+  value: abckkk
+  values: a,b,c,d
 
 
 

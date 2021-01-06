@@ -43,6 +43,7 @@ public class HelloWorldController extends BaseController
 	public User get(final String id)
 	{
 		System.out.println("values= " + value);
+		System.out.println(this.getClass().getResource("/").getPath());
 		User user = new User();
 		user.setNickname("张三");
 		user.setId(id);

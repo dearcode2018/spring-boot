@@ -116,6 +116,9 @@ public final class SpringBootConfigTest extends BaseTest {
 	@Value("${spring.profiles.active}")
 	private String springConfig1;
 	
+	@Value("${config.hash.blank:hi i am student.}")
+	private String hasBlank;
+	
 	/**
 	 * 配置
 	 * 1.Spring自身的配置: application-*.properties
@@ -139,7 +142,7 @@ public final class SpringBootConfigTest extends BaseTest {
 		try {
 			
 			System.out.println(springConfig1);
-			
+			System.out.println(hasBlank);
 		} catch (Exception e) {
 			log.error("testSpringConfig1 =====> ", e);
 		}

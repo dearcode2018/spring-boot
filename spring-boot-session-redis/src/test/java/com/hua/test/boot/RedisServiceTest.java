@@ -94,10 +94,10 @@ public final class RedisServiceTest extends BaseTest {
 	 */
 	
 	//@Resource
-	//private StringRedisTemplate firstRedisTemplate;
+	//private StringRedisTemplate redisTemplate;
 	
-	@Resource
-	private RedisTemplate<String, byte[]> firstRedisTemplate;
+	//@Resource
+	private RedisTemplate<String, byte[]> redisTemplate;
 	
 	/**
 	 * 
@@ -110,7 +110,7 @@ public final class RedisServiceTest extends BaseTest {
 	public void testGetValue() {
 		try {
 			String key = "spring:session:sessions:c55d0241-5df0-4190-9143-d06409fede14";
-			//byte[] data = firstRedisTemplate.boundHashOps(key).get("sessionAttr:loginUserId");
+			//byte[] data = redisTemplate.boundHashOps(key).get("sessionAttr:loginUserId");
 			//System.out.println();
 		} catch (Exception e) {
 			log.error("testGetValue =====> ", e);

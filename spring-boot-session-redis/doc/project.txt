@@ -1,6 +1,6 @@
 【项目信息】
-项目名称 : spring
-中文名称 : Spring
+项目名称 : spring-boot-session-redis
+中文名称 : Session-Redis
 项目版本 : version 1.0
 
 主要技术 : 

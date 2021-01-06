@@ -1,11 +1,11 @@
 /**
  * 描述: 
- * ThreadPoolExecutorTest.java
+ * SessionRedisTest.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.test.boot;
+package com.hua.test.session;
 
 //静态导入
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -20,25 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-
-import javax.annotation.Resource;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.client.RestTemplate;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
@@ -48,18 +36,18 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * ThreadPoolExecutorTest
+ * SessionRedisTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration(value = "src/main/webapp")
+//@ExtendWith(SpringExtension.class)
+//@WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class ThreadPoolExecutorTest extends BaseTest {
+public final class SessionRedisTest extends BaseTest {
 
 	
 	/*
@@ -86,14 +74,8 @@ public final class ThreadPoolExecutorTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	@Resource
-	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
-	
-	
-	private List<Thread> threads = new ArrayList<>(10);
-	
-	@Resource
-	private RestTemplate restTemplate;
+	//@Resource
+	//private UserController userController;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -105,132 +87,8 @@ public final class ThreadPoolExecutorTest extends BaseTest {
 	 * 
 	 */
 	
-    /**
-     * 
-     * 描述: 
-     * @author qye.zheng
-     * 
-     */
-    //@DisplayName("test")
-    @Test
-    public void testShutdown() {
-        try {
-            System.out.println("do something");
-            threadPoolTaskExecutor.submit(new SomeTask());
-            //threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(false);
-            
-            threadPoolTaskExecutor.shutdown();
-            threads.forEach(x -> x.interrupt());
-            //threadPoolTaskExecutor.getThreadPoolExecutor().shutdownNow();
-            // 中断线程组
-            //threadPoolTaskExecutor.getThreadGroup().destroy();
-            
-            System.out.println("do otherthing");
-            
-        } catch (Exception e) {
-            log.error("test =====> ", e);
-        }
-    }
 	
-    /**
-     * 
-     * @type SomeTask
-     * @description 
-     * @author qianye.zheng
-     */
-    class SomeTask implements Callable<String> {
-        /**
-         * @description 
-         * @return
-         * @throws Exception
-         * @author qianye.zheng
-         */
-        @Override
-        public String call() throws Exception {
-            System.out.println("do some task");
-            // 打断点 或 其他阻塞模拟
-            try {
-                while (true) {
-                    if (Thread.currentThread().isInterrupted()) { // 线程池shutdown()，各个线程收到中断信号
-                        return "stop signal";
-                    }
-                    //TimeUnit.MILLISECONDS.sleep(200);
-                    System.out.println("do other task");
-                }
-            } catch (Exception e) {
-                log.error("发生异常: {}", e);
-            }
-            System.out.println("finish quickly");
-            
-            return "normal signal";
-        }
-    }
-    
-    /**
-     * 
-     * 描述: 
-     * @author qye.zheng
-     * 
-     */
-    //@DisplayName("test")
-    @Test
-    public void testShutdownWithInterrupt() {
-        try {
-            System.out.println("do something");
-            threadPoolTaskExecutor.submit(new SomeTask2());
-            //threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(false);
-            
-            threads.forEach(x -> {
-                System.out.println("id1 = " + x.getId());
-                x.interrupt();
-                
-            });
-            threadPoolTaskExecutor.shutdown();
-            //threadPoolTaskExecutor.getThreadPoolExecutor().shutdownNow();
-            // 中断线程组
-            //threadPoolTaskExecutor.getThreadGroup().destroy();
-            
-            System.out.println("do otherthing");
-            
-        } catch (Exception e) {
-            log.error("test =====> ", e);
-        }
-    }   
-    
-    /**
-     * 
-     * @type SomeTask
-     * @description 
-     * @author qianye.zheng
-     */
-    class SomeTask2 implements Callable<String> {
-        /**
-         * @description 
-         * @return
-         * @throws Exception
-         * @author qianye.zheng
-         */
-        @Override
-        public String call() throws Exception {
-            threads.add(Thread.currentThread());
-            System.out.println("id2 = " + Thread.currentThread().getId());
-            System.out.println("do some task");
-            // 打断点 或 其他阻塞模拟
-            try {
-                 System.out.println("do other task");
-                 url = "http://localhost:7070/hello/get";
-                 // IO阻塞
-                 restTemplate.getForEntity(url, String.class, "123");
-                 
-            } catch (Exception e) {
-                log.error("发生异常: {}", e);
-            }
-            System.out.println("finish quickly");
-            
-            return "normal signal";
-        }
-    }
-    
+	
 	/**
 	 * 
 	 * 描述: 
@@ -258,10 +116,7 @@ public final class ThreadPoolExecutorTest extends BaseTest {
 	@Test
 	public void testTemp() {
 		try {
-            url = "http://localhost:7070/hello/get";
-            SimpleClientHttpRequestFactory factory = (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();
-            // IO阻塞
-            restTemplate.getForEntity(url, String.class, "123");
+			
 			
 		} catch (Exception e) {
 			log.error("testTemp=====> ", e);

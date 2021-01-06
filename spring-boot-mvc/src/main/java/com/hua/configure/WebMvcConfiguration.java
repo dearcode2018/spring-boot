@@ -13,10 +13,12 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -134,6 +136,24 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 				return LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			}
 		};
+	}
+	
+	/**
+	 * 
+	 * @description 
+	 * @return
+	 * @author qianye.zheng
+	 */
+	@Bean
+	public RestTemplate restTemplate() {
+	    final RestTemplate template = new RestTemplate();
+	    final SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+	    // 超时时间
+	    factory.setConnectTimeout(60 * 1000);
+	    factory.setReadTimeout(60 * 1000);
+	    template.setRequestFactory(factory);
+	    
+	    return template;
 	}
 	
 }

@@ -6,10 +6,10 @@
  */
 package com.hua.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.bean.ResultBean;
+import com.hua.constant.CacheKeys;
 import com.hua.entity.User;
 
 /**
@@ -25,12 +26,16 @@ import com.hua.entity.User;
  * @author qianye.zheng
  */
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/user")
 public class LoginController
 {
  
-    @Autowired
-    private StringRedisTemplate firstRedisTemplate;
+    /**
+     * 名称可以为: redisService/redisService
+     * 不要命名为redisTemplate，因为这是另外一个Bean的名称对应RedisTemplate
+     */
+    @Resource
+    private StringRedisTemplate redisService;
  
     /**
      * 
@@ -41,13 +46,14 @@ public class LoginController
      * @return
      * @author qianye.zheng
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResultBean login(HttpServletRequest request, String account, String password)
     {
-    	Integer userId = 123;
+    	Long userId = 123L;
         HttpSession session = request.getSession();
-        session.setAttribute("loginUserId", userId);
-        //firstRedisTemplate.opsForValue().set("loginUser:" + userId, session.getId());
+        System.out.println("sessionId = " + session.getId());
+        session.setAttribute(CacheKeys.Login.USER_ID.getCacheKey(), userId);
+        //redisService.opsForValue().set("loginUser:" + userId, session.getId());
 
         return new ResultBean(true, "登录成功！");
     }
@@ -59,8 +65,8 @@ public class LoginController
      * @return
      * @author qianye.zheng
      */
-    @GetMapping(value = "/getUserInfo")
-    public ResultBean get(long userId)
+    @GetMapping(value = "/get")
+    public ResultBean get()
     {
         User user = new User();
         user.setId("123");

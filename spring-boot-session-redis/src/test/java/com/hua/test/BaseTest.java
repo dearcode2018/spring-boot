@@ -12,6 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import com.hua.log.BaseLog;
 
@@ -28,6 +29,14 @@ import com.hua.log.BaseLog;
 public class BaseTest extends BaseLog {
 	
 	
+	/* @LocalServerPort 提供了 @Value("${local.server.port}") 的代替 */
+	//@LocalServerPort
+	protected int port;
+
+	protected String prefix;
+
+	protected String url;
+
 	/**
 	 * 
 	 * 描述: [所有测试]开始之前运行
