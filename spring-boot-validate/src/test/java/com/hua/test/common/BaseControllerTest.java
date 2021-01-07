@@ -7,22 +7,11 @@
  */
 package com.hua.test.common;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedHashSet;
-
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.lang.Nullable;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.session.FlushMode;
-import org.springframework.session.Session;
-import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,12 +21,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
-import com.hua.test.common.BaseControllerTest.MockHttpSessionWrapper;
 import com.hua.util.StringUtil;
 
 
@@ -63,7 +50,6 @@ import com.hua.util.StringUtil;
 @WebAppConfiguration(value = "src/main/webapp")
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-//@ActiveProfiles(profiles = {"dev"})
 public abstract class BaseControllerTest extends BaseTest {
 
     /**
@@ -77,143 +63,6 @@ public abstract class BaseControllerTest extends BaseTest {
 
     @Resource
     protected WebApplicationContext webApplicationContext;
-    
-    @Resource
-    protected RedisIndexedSessionRepository redisIndexedSessionRepository;
-    
-    protected String sessionId = "";
-    
-    //@Resource
-    //protected RedisSessionRepository redisSessionRepository;
-    
-    /**
-     * 
-     * @type MockHttpSessionWrapper
-     * @description 扩展模拟HttpSession
-     * @author qianye.zheng
-     */
-    public class MockHttpSessionWrapper extends MockHttpSession {
-        
-        private Session session;
-        
-        private ServletContext servletContext;
-       
-        /**
-         * 创建新的HttpSession
-         * @description 构造方法
-         * @param id
-         * @author qianye.zheng
-         */
-        public MockHttpSessionWrapper() {
-            super(webApplicationContext.getServletContext());
-            servletContext = webApplicationContext.getServletContext();
-            // 在Mock环境下，立即写入才能生效
-            redisIndexedSessionRepository.setFlushMode(FlushMode.IMMEDIATE);
-            session = redisIndexedSessionRepository.createSession();
-        }
-        
-        /**
-         * 用sessionId关联到 RedisSession
-         * @description 构造方法
-         * @param id
-         * @author qianye.zheng
-         */
-        public MockHttpSessionWrapper(final String id) {
-            super(webApplicationContext.getServletContext());
-            servletContext = webApplicationContext.getServletContext();
-            session = redisIndexedSessionRepository.findById(id);
-        }
-        
-        @Override
-        public long getCreationTime() {
-            return session.getCreationTime().toEpochMilli();
-        }
-
-        @Override
-        public String getId() {
-            return session.getId();
-        }
-        
-        @Override
-        public long getLastAccessedTime() {
-            return session.getLastAccessedTime().toEpochMilli();
-        }
-
-        @Override
-        public ServletContext getServletContext() {
-            return servletContext;
-        }
-
-        /**
-         * 
-         * @description 
-         * @param interval 秒
-         * @author qianye.zheng
-         */
-        @Override
-        public void setMaxInactiveInterval(int interval) {
-            session.setMaxInactiveInterval(Duration.ofSeconds(interval));
-        }
-
-        @Override
-        public int getMaxInactiveInterval() {
-            return (int) session.getMaxInactiveInterval().getSeconds();
-        }
-
-        @Override
-        public Object getAttribute(String name) {
-            return session.getAttribute(name);
-        }
-
-        @Override
-        public Object getValue(String name) {
-            return getAttribute(name);
-        }
-
-        @Override
-        public Enumeration<String> getAttributeNames() {
-            return Collections.enumeration(new LinkedHashSet<>(session.getAttributeNames()));
-        }
-
-        @Override
-        public String[] getValueNames() {
-            return StringUtils.toStringArray(session.getAttributeNames());
-        }
-
-        @Override
-        public void setAttribute(String name, @Nullable Object value) {
-            session.setAttribute(name, value);
-        }
-
-        @Override
-        public void putValue(String name, Object value) {
-            setAttribute(name, value);
-        }
-
-        @Override
-        public void removeAttribute(String name) {
-            session.removeAttribute(name);
-        }
-
-        @Override
-        public void removeValue(String name) {
-            removeAttribute(name);
-        }
-        
-        /**
-         * Invalidates this session then unbinds any objects bound to it.
-         * @throws IllegalStateException if this method is called on an already invalidated session
-         */
-        @Override
-        public void invalidate() {
-               super.invalidate();
-        }
-        
-        @Override
-        public boolean isNew() {
-           return super.isNew();
-        }
-    }
 
     /**
      * @param url 服务相对url
@@ -307,11 +156,7 @@ public abstract class BaseControllerTest extends BaseTest {
      * @author qianye.zheng
      */
     private void buildCommonParam(final MockHttpServletRequestBuilder requestBuilder) {
-        if (!StringUtils.isEmpty(sessionId)) {
-            // 构造session
-            MockHttpSession session = new MockHttpSessionWrapper(sessionId);
-            requestBuilder.session(session);
-        }
+       
     }
 
 }

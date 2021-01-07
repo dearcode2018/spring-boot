@@ -134,7 +134,7 @@ public final class LoginControllerTest extends BaseControllerTest {
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
             requestBuilder.header("Accept", "application/json");
             
-            String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
+            //String sessionId = "8cc99da7-4c7a-4997-b0a8-d91ce50dce45";
             //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
             // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
             MockHttpSession session = new MockHttpSessionWrapper();
@@ -190,7 +190,7 @@ public final class LoginControllerTest extends BaseControllerTest {
              * 构造session，设置相关信息，跟缓存建立关联
              * sessionId 在登录后，从服务端日志中获取，可以设置一个较长时间的值
              */
-            String sessionId = "cdf6ae30-23da-4d7c-8973-5b79686c7b3f";
+            String sessionId = "fa89c960-a460-491f-8821-5dc1d6fa5a54";
             //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
             // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
             MockHttpSession session = new MockHttpSessionWrapper(sessionId);

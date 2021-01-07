@@ -20,31 +20,36 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.hua.ApplicationStarter;
-import com.hua.test.BaseTest;
+import com.hua.test.common.BaseControllerTest;
+import com.hua.util.ClassPathUtil;
+import com.hua.util.ProjectUtil;
 
 
 /**
@@ -57,11 +62,7 @@ import com.hua.test.BaseTest;
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public final class TemplateControllerTest extends BaseTest {
+public final class TemplateControllerTest extends BaseControllerTest {
 
 	
 	/*
@@ -118,7 +119,7 @@ public final class TemplateControllerTest extends BaseTest {
 	public void testMockMVC() {
 		try {
 			// 页面/服务 地址
-			String url = "/api/sys/login";
+			String url = prefix + "/";
 			// 请求构建器
 			// get 方法
 			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
@@ -153,6 +154,91 @@ public final class TemplateControllerTest extends BaseTest {
 			log.error("testMockMVC =====> ", e);
 		}
 	}
+	
+	/**
+     * 
+     * 描述: 文件上传
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testUpload() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/upload";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = get(url);
+            // 文件上传
+            MockMultipartHttpServletRequestBuilder requestBuilder = fileUpload(url);
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 设置请求参数
+             */
+            // 文件
+            String path = null;
+            InputStream inputStream = null;
+            MockMultipartFile file = null;
+            path = ClassPathUtil.getClassSubpath("/upload/upload.xlsx", true);
+            inputStream = new FileInputStream(path);
+            //file = new MockMultipartFile("file", "白熊_01.jpg", "application/octet-stream", inputStream);
+            file = new MockMultipartFile("file", "啊哈abc.xlsx", "", inputStream);
+            requestBuilder.file(file);
+            // 响应对象
+            MockHttpServletResponse response = perform(requestBuilder);
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            System.out.println("响应数据:");
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testUpload =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 文件下载
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testDownload() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/download";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            /*
+             * 设置请求参数
+             */
+          
+            
+            // mvc 结果
+            //MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 响应对象
+            MockHttpServletResponse response = perform(requestBuilder);
+            
+            OutputStream outputStream =new FileOutputStream(ProjectUtil.getAbsolutePath("/doc/a.xlsx", true));
+            //outputStream.write(response.getContentAsByteArray());
+            //outputStream.flush();
+            IOUtils.write(response.getContentAsByteArray(), outputStream);
+            
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testExport =====> ", e);
+        }
+    }
 	
 	/**
 	 * 控制器 单元测试
@@ -334,8 +420,8 @@ public final class TemplateControllerTest extends BaseTest {
 	@Tag(" [每个测试-方法]结束之后运行")
 	@BeforeEach
 	public void beforeMethod() {
+		prefix = "/";
 		System.out.println("beforeMethod()");
-		   prefix = "/";
 	}
 	
 	/**

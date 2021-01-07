@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,22 +29,18 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.hua.ApplicationStarter;
 import com.hua.bean.PersonSearchBean;
-import com.hua.test.BaseTest;
+import com.hua.bean.SomeQuery;
+import com.hua.test.common.BaseControllerTest;
 import com.hua.util.JacksonUtil;
 
 
@@ -59,11 +54,7 @@ import com.hua.util.JacksonUtil;
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public final class ValidateControllerTest extends BaseTest {
+public final class ValidateControllerTest extends BaseControllerTest {
 
 	
 	/*
@@ -95,10 +86,6 @@ public final class ValidateControllerTest extends BaseTest {
 	
 	//@PathVariable
 	
-	//@Resource(type = WebApplicationContext.class)
-	//@Autowired
-	@Resource
-    private WebApplicationContext webApplicationContext; 
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -110,6 +97,309 @@ public final class ValidateControllerTest extends BaseTest {
 	 * 
 	 */
 	
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testRequired1() {
+        try {
+            String code = null;
+            code = "1234";
+            // 页面/服务 地址
+            String url = prefix + "/required1/" + code;
+            /*
+             *  传空参数，由于是路径参数，没有参数导致404 
+             *  org.springframework.web.servlet.PageNotFound - No mapping for GET /validate/required1/
+             */
+            //url = prefix + "/required1/";
+            // 请求构建器
+            // get 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            //requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json;charset=utf8");
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testRequired2() {
+        try {
+            String code = null;
+            code = "1234";
+            // 页面/服务 地址
+            String url = prefix + "/required2?code=" + code;
+            // 传空字符串
+            url = prefix + "/required2?code=";
+            /*
+             *  不传参数，无法校验通过，抛出MissingServletRequestParameterException 
+             * @ExceptionHandler 捕获到
+             * Required String parameter 'code' is not present
+             */
+            url = prefix + "/required2";
+            // 请求构建器
+            // get 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            //requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testAddCheck() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/addCheck";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 设置请求参数
+             */
+            SomeQuery param = new SomeQuery();
+            param.setName("张三2021");
+            //param.setPassword("123456");
+            param.setKeyword("关键字搜索啊");
+            param.setSpecialCheck(1990L);
+            
+            requestBuilder.content(JacksonUtil.writeAsString(param));
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testUpdateCheck() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/updateCheck";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 设置请求参数
+             */
+            SomeQuery param = new SomeQuery();
+            param.setName("张三2021");
+            //param.setPassword("123456");
+            param.setKeyword("关键字搜索啊");
+            param.setSpecialCheck(1990L);
+            
+            requestBuilder.content(JacksonUtil.writeAsString(param));
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testQueryCheck() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/queryCheck";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 设置请求参数
+             */
+            SomeQuery param = new SomeQuery();
+            param.setName("张三2021");
+            param.setPassword("123456");
+            param.setKeyword("关键字搜索啊");
+            param.setSpecialCheck(1990L);
+            
+            requestBuilder.content(JacksonUtil.writeAsString(param));
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testMultiCheck() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/multiCheck";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 设置请求参数
+             */
+            SomeQuery param = new SomeQuery();
+            param.setName("张三2021");
+            param.setPassword("123456");
+            //param.setKeyword("关键字搜索啊");
+            param.setSpecialCheck(1990L);
+            
+            requestBuilder.content(JacksonUtil.writeAsString(param));
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
 	/**
 	 * 
 	 * 描述: 
