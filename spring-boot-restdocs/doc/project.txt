@@ -1,0 +1,75 @@
+【项目信息】
+项目名称 : spring
+中文名称 : Spring
+项目版本 : version 1.0
+
+主要技术 : 
+
+项目描述 : 
+
+项目备注 : 
+
+【项目规划】
+
+1) 引入 restdocs 依赖
+3) 单元测试: (去掉 @WebAppConfiguration @SpringBootTest )
+@ExtendWith(value = {RestDocumentationExtension.class, SpringExtension.class})
+@WebMvcTest
+参考PersonControllerTest
+3) 构建方式
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html</backend>
+							<doctype>book</doctype>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.restdocs</groupId>
+						<artifactId>spring-restdocs-asciidoctor</artifactId>
+						<version>2.0.5.RELEASE</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+4) 编写 index.adoc 文件
+src\main\asciidoc\index.adoc
+
+5) 运行各个test，生成 target\generated-snippets
+6) 执行 mvn install 生成 target\generated-docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -34,8 +34,9 @@
 		<module>spring-boot-scheduler</module>
 		<module>spring-boot-session-redis</module>
 		<module>spring-boot-shiro</module>
-		<module>spring-boot-security</module>		
+		<module>spring-boot-security</module>
 		<module>spring-boot-test</module>	
+		<module>spring-boot-restdocs</module>		
 		<module>spring-boot-tx</module>
 		<module>spring-boot-web</module>	
 		<module>spring-boot-webflux</module>	

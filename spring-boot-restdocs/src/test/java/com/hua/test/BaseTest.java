@@ -32,7 +32,6 @@ public class BaseTest extends BaseLog {
     protected String prefix;
 
     protected String url;
-    
 	
 	/**
 	 * 
