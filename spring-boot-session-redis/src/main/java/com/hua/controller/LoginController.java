@@ -66,8 +66,15 @@ public class LoginController
      * @author qianye.zheng
      */
     @GetMapping(value = "/get")
-    public ResultBean get()
+    public ResultBean get(final HttpServletRequest request)
     {
+        HttpSession session = request.getSession();
+        // 移除属性
+        //session.removeAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+        Object value = session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+        System.out.println(value);
+        //session.setAttribute("yearMonth", "2021-01");
+        //System.out.println("从session缓冲中读取到: " + session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey()));
         User user = new User();
         user.setId("123");
         user.setUsername("guangzhou");
@@ -75,5 +82,26 @@ public class LoginController
         resultBean.setData(user);
         
         return resultBean;
+    }
+    
+    /**
+     * 
+     * @description 退出登录
+     * @param request
+     * @param account
+     * @param password
+     * @return
+     * @author qianye.zheng
+     */
+    @PostMapping("/logout")
+    public ResultBean logout(HttpServletRequest request, String account, String password) {
+        HttpSession session = request.getSession();
+        System.out.println("sessionId = " + session.getId());
+        // 让会话失效
+        //session.invalidate();
+        // 移除属性
+        session.removeAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+
+        return new ResultBean(true, "退出登录成功！");
     }
 }

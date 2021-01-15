@@ -45,17 +45,28 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         // 无论访问的地址是不是正确的，都进行登录验证，登录成功后的访问再进行分发，404的访问自然会进入到错误控制器中
+        // 不要创建新的会话，会话失效之后，则无法根据cookie获取对应的会话对象
+        
+        //HttpSession session = request.getSession(false);
         HttpSession session = request.getSession();
-         
+        if (null == session) {
+            System.out.println("未登录");
+            
+            return false;
+        }
+        Long userId = 123L;
+        session.setAttribute(CacheKeys.Login.USER_ID.getCacheKey(), userId);
+        //session.setAttribute("id-name", "current-name-gz2111");
+        
         /*
          * Cookie[] cookies = request.getCookies();
          * for (Cookie cookie : cookies) {
          * System.out.println(cookie.getName() + ":" + cookie.getValue());
          * }
          */
-        Long userId = (Long) session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
-        System.out.println("sessionId = " + session.getId() + ", userId = " + userId);
-        if (null != userId) {
+        userId = (Long) session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
+        //System.out.println("sessionId = " + session.getId() + ", userId = " + userId);
+        if (null != session.getId()) {
             return true;
         }
         /*

@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -27,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
@@ -74,8 +77,8 @@ public final class SessionRedisTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	//@Resource
-	//private UserController userController;
+	@Resource
+	private RedisTemplate<String, Integer> redisTemplate;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -116,7 +119,7 @@ public final class SessionRedisTest extends BaseTest {
 	@Test
 	public void testTemp() {
 		try {
-			
+		    redisTemplate.boundHashOps("spring:session:sessions:5ccce162-91d5-4d13-8167-841b07357859").put("sessionAttr:webappRoleId", 61);
 			
 		} catch (Exception e) {
 			log.error("testTemp=====> ", e);

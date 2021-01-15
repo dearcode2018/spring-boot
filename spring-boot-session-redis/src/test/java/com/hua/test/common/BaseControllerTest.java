@@ -37,7 +37,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.hua.ApplicationStarter;
 import com.hua.test.BaseTest;
-import com.hua.test.common.BaseControllerTest.MockHttpSessionWrapper;
 import com.hua.util.StringUtil;
 
 
@@ -81,7 +80,7 @@ public abstract class BaseControllerTest extends BaseTest {
     @Resource
     protected RedisIndexedSessionRepository redisIndexedSessionRepository;
     
-    protected String sessionId = "";
+    protected String sessionId = "54079973-4e2c-4a9b-b939-9125b07a3dab";
     
     //@Resource
     //protected RedisSessionRepository redisSessionRepository;
@@ -121,6 +120,8 @@ public abstract class BaseControllerTest extends BaseTest {
         public MockHttpSessionWrapper(final String id) {
             super(webApplicationContext.getServletContext());
             servletContext = webApplicationContext.getServletContext();
+            // 在Mock环境下，立即写入才能生效
+            redisIndexedSessionRepository.setFlushMode(FlushMode.IMMEDIATE);
             session = redisIndexedSessionRepository.findById(id);
         }
         
@@ -206,7 +207,8 @@ public abstract class BaseControllerTest extends BaseTest {
          */
         @Override
         public void invalidate() {
-               super.invalidate();
+            super.invalidate();
+            session.setMaxInactiveInterval(Duration.ZERO);
         }
         
         @Override
@@ -307,7 +309,7 @@ public abstract class BaseControllerTest extends BaseTest {
      * @author qianye.zheng
      */
     private void buildCommonParam(final MockHttpServletRequestBuilder requestBuilder) {
-        if (!StringUtils.isEmpty(sessionId)) {
+        if (StringUtil.isNotEmpty(sessionId)) {
             // 构造session
             MockHttpSession session = new MockHttpSessionWrapper(sessionId);
             requestBuilder.session(session);

@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -128,7 +129,7 @@ public final class LoginControllerTest extends BaseControllerTest {
             String url = prefix + "/login";
             // 请求构建器
             // get 方法
-            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            //MockHttpServletRequestBuilder requestBuilder = get(url);
             // post 方法
             MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
@@ -180,21 +181,17 @@ public final class LoginControllerTest extends BaseControllerTest {
             String url = prefix + "/get";
             // 请求构建器
             // get 方法
-            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            MockHttpServletRequestBuilder requestBuilder = get(url);
             // post 方法
-            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            //MockHttpServletRequestBuilder requestBuilder = post(url);
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
             requestBuilder.header("Accept", "application/json");
-                      
             /*
              * 构造session，设置相关信息，跟缓存建立关联
              * sessionId 在登录后，从服务端日志中获取，可以设置一个较长时间的值
              */
-            String sessionId = "fa89c960-a460-491f-8821-5dc1d6fa5a54";
             //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
             // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
-            MockHttpSession session = new MockHttpSessionWrapper(sessionId);
-            requestBuilder.session(session);
             
             /*
              * 设置请求参数
@@ -217,6 +214,58 @@ public final class LoginControllerTest extends BaseControllerTest {
             // 异常对象
             //Exception exception = mvcResult.getResolvedException();
             
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testLogout() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/logout";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = post(url);
+            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header("Accept", "application/json");
+            /*
+             * 构造session，设置相关信息，跟缓存建立关联
+             * sessionId 在登录后，从服务端日志中获取，可以设置一个较长时间的值
+             */
+            //MockHttpSession session = new MockHttpSession(webApplicationContext.getServletContext(), sessionId);
+            // 请求对象关联会话对象 - 构造一个自定义的MockHttpSession对象
+            
+            /*
+             * 设置请求参数
+             */
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            TimeUnit.SECONDS.sleep(10);
             
         } catch (Exception e) {
             log.error("testMockMVC =====> ", e);
@@ -236,9 +285,9 @@ public final class LoginControllerTest extends BaseControllerTest {
             String url = prefix + "/get";
             // 请求构建器
             // get 方法
-            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            MockHttpServletRequestBuilder requestBuilder = get(url);
             // post 方法
-            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            //MockHttpServletRequestBuilder requestBuilder = post(url);
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
             requestBuilder.header("Accept", "application/json");
             /*
@@ -325,9 +374,9 @@ public final class LoginControllerTest extends BaseControllerTest {
             String url = prefix + "/get";
             // 请求构建器
             // get 方法
-            MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            MockHttpServletRequestBuilder requestBuilder = get(url);
             // post 方法
-            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+            //MockHttpServletRequestBuilder requestBuilder = post(url);
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
             requestBuilder.header("Accept", "application/json");
             /*
@@ -389,9 +438,9 @@ public final class LoginControllerTest extends BaseControllerTest {
 			String url = prefix + "/";
 			// 请求构建器
 			// get 方法
-			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			//MockHttpServletRequestBuilder requestBuilder = get(url);
 			// post 方法
-			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			MockHttpServletRequestBuilder requestBuilder = post(url);
 			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
 			requestBuilder.header("Accept", "application/json");
 			/*
@@ -480,7 +529,7 @@ public final class LoginControllerTest extends BaseControllerTest {
             String url = prefix + "/download";
             // 请求构建器
             // get 方法
-            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            //MockHttpServletRequestBuilder requestBuilder = get(url);
             // post 方法
             MockHttpServletRequestBuilder requestBuilder = post(url);
             requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
@@ -550,11 +599,11 @@ public final class LoginControllerTest extends BaseControllerTest {
 			// 页面/服务 地址
 			String url = "/api/sys/login";
 			// 请求构建器
-			//RequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			//RequestBuilder requestBuilder = get(url);
 			// get 方法
-			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			//MockHttpServletRequestBuilder requestBuilder = get(url);
 			// post 方法
-			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			MockHttpServletRequestBuilder requestBuilder = post(url);
 			//String json = "{\"username\":\"admin\", \"password\":\"123456\"}";
 			//requestBuilder.content(json);
 			/*
