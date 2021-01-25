@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xml>
+	<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="baseBean">
+		<id>123</id>
+	</data>
+	<message>收到[null]的请求</message>
+	<messageCode>205</messageCode>
+	<success>true</success>
+</xml>

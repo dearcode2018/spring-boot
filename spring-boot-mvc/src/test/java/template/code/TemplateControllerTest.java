@@ -35,6 +35,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -121,8 +123,8 @@ public final class TemplateControllerTest extends BaseControllerTest {
 			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 			// post 方法
 			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
-			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
-			requestBuilder.header("Accept", "application/json");
+			requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+			requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 			/*
 			 * 设置请求参数
 			 */
@@ -167,7 +169,7 @@ public final class TemplateControllerTest extends BaseControllerTest {
             //MockHttpServletRequestBuilder requestBuilder = get(url);
             // 文件上传
             MockMultipartHttpServletRequestBuilder requestBuilder = fileUpload(url);
-            requestBuilder.header("Accept", "application/json");
+            requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
             /*
              * 设置请求参数
              */
@@ -212,7 +214,7 @@ public final class TemplateControllerTest extends BaseControllerTest {
             //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
             // post 方法
             MockHttpServletRequestBuilder requestBuilder = post(url);
-            requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+            requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
             /*
              * 设置请求参数
              */

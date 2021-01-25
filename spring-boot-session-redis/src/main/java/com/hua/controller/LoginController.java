@@ -7,7 +7,9 @@
 package com.hua.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -46,7 +48,8 @@ public class LoginController
      * @return
      * @author qianye.zheng
      */
-    @PostMapping("/login")
+    //@PostMapping("/login")
+    @GetMapping("/login")
     public ResultBean login(HttpServletRequest request, String account, String password)
     {
     	Long userId = 123L;
@@ -66,20 +69,28 @@ public class LoginController
      * @author qianye.zheng
      */
     @GetMapping(value = "/get")
-    public ResultBean get(final HttpServletRequest request)
+    public ResultBean get(final HttpServletRequest request, HttpServletResponse response)
     {
         HttpSession session = request.getSession();
         // 移除属性
         //session.removeAttribute(CacheKeys.Login.USER_ID.getCacheKey());
         Object value = session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey());
         System.out.println(value);
+        ResultBean resultBean = new ResultBean();
         //session.setAttribute("yearMonth", "2021-01");
         //System.out.println("从session缓冲中读取到: " + session.getAttribute(CacheKeys.Login.USER_ID.getCacheKey()));
-        User user = new User();
-        user.setId("123");
-        user.setUsername("guangzhou");
-        ResultBean resultBean = new ResultBean();
-        resultBean.setData(user);
+        /*
+         * User user = new User();
+         * user.setId("123");
+         * user.setUsername("guangzhou");
+         * resultBean.setData(user);
+         * Cookie cookie = new Cookie("abc33", "233");
+         * cookie.setDomain(".hua.com");
+         * cookie.setPath("/");
+         * response.addCookie(cookie);
+         */
+        session.setMaxInactiveInterval(1000);
+        
         
         return resultBean;
     }

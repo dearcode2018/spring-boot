@@ -10,9 +10,9 @@ package com.hua.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.bean.PersonSearchBean;
 import com.hua.bean.ResultBean;
+import com.hua.entity.User;
 
 /**
  * 描述: 
@@ -47,7 +48,7 @@ public class PersonController extends BaseController
 	 * @param searchBean
 	 * @return
 	 */
-	@RequestMapping(value={"/postNotInBody"}, method = {RequestMethod.POST})
+	@PostMapping(value = "/postNotInBody")
 	@ResponseBody
 	public ResultBean postNotInBody(final HttpServletRequest request, 
 			final HttpServletResponse response, final PersonSearchBean searchBean) {
@@ -60,6 +61,11 @@ public class PersonController extends BaseController
 		result.setMessage("收到[" + searchBean.getName() + "]的请求");
 		result.setMessageCode("205");
 		result.setSuccess(true);
+		User user = new User();
+		user.setId("123");
+		user.setUsername("张三");
+		user.setPassword("ollldd");
+		result.setData(user);
 		
 		return result;
 	}

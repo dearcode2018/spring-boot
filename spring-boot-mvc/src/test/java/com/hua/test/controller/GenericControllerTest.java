@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * PersonControllerTest.java
+ * GenericControllerTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -20,59 +20,50 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import javax.annotation.Resource;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.hua.ApplicationStarter;
 import com.hua.bean.PersonSearchBean;
-import com.hua.bean.ResultBean;
-import com.hua.test.BaseTest;
-import com.hua.util.JacksonUtil;
+import com.hua.test.common.BaseControllerTest;
+import com.hua.util.ClassPathUtil;
+import com.hua.util.ProjectUtil;
 
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * PersonControllerTest
+ * GenericControllerTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
 //@Tags({@Tag("测试类标签1"), @Tag("测试类标签2")})
 // for Junit 5.x
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration(value = "src/main/webapp")
-@SpringBootTest(classes = {ApplicationStarter.class}, 
-webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public final class PersonControllerTest extends BaseTest {
+public final class GenericControllerTest extends BaseControllerTest {
 
 	
 	/*
@@ -106,12 +97,6 @@ public final class PersonControllerTest extends BaseTest {
 	
 	//@Resource(type = WebApplicationContext.class)
 	//@Autowired
-	@Resource
-    private WebApplicationContext webApplicationContext; 
-	
-	   /* org.springframework.boot.test.web.client.TestRestTemplate */
-	   //@Resource
-	   private TestRestTemplate testRestTemplate;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -123,132 +108,112 @@ public final class PersonControllerTest extends BaseTest {
 	 * 
 	 */
 	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testPostInBody() {
-		try {
-			// 页面/服务 地址
-			String url = prefix + "/postNotInBody";
-			// 请求构建器
-			// get 方法
-			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-			// post 方法
-			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
-			requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-			//requestBuilder.header(HttpHeaders.ACCEPT, "application/json");
-			// application/xml
-			requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML_VALUE);
-			
-			/*
-			 * 设置请求参数
-			 */
-			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("张三1");
-			searchBean.setPassword("1234567");
-			requestBuilder.content(JacksonUtil.writeAsString(searchBean));
-			
-			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
-			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
-			// mvc 结果
-			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-			// 请求body
-			//requestBuilder.content("{}");		
-			
-			// 响应对象
-			MockHttpServletResponse response = mvcResult.getResponse();
-			// 获取字符串形式的响应内容
-			String result = response.getContentAsString();
-			
-			System.out.println(result);
-			
-			// 异常对象
-			//Exception exception = mvcResult.getResolvedException();
-			
-			
-		} catch (Exception e) {
-			log.error("testPostInBody =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testGet() {
-		try {
-			// 页面/服务 地址
-			String url = prefix + "/get/MX939KD";
-			// 请求构建器
-			// get 方法
-			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-			// post 方法
-			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
-			requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-			requestBuilder.header(HttpHeaders.ACCEPT, "application/json");
-			/*
-			 * 设置请求参数
-			 */
-			requestBuilder.param("username", "admin");
-			
-			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
-			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
-			// mvc 结果
-			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-			// 请求body
-			//requestBuilder.content("{}");		
-			
-			// 响应对象
-			MockHttpServletResponse response = mvcResult.getResponse();
-			// 获取字符串形式的响应内容
-			String result = response.getContentAsString();
-			
-			System.out.println(result);
-			
-			// 异常对象
-			//Exception exception = mvcResult.getResolvedException();
-			
-			
-		} catch (Exception e) {
-			log.error("testGet =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	@Test
-	public void testPostInBody2() {
-		try {
-			url = prefix + "/postNotInBody";
-			PersonSearchBean searchBean = new PersonSearchBean();
-			searchBean.setName("张三");
-			searchBean.setPassword("1234567");
-			MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-			headers.add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-			headers.add(HttpHeaders.ACCEPT, "application/json");
-			
-			HttpEntity<String> httpEntity = new HttpEntity<String>(JacksonUtil.writeAsString(searchBean), headers);
-			
-			ResponseEntity<ResultBean> responseEntity = testRestTemplate.exchange(url, HttpMethod.POST, httpEntity, ResultBean.class);
-			
-			System.out.println(JacksonUtil.writeAsString(responseEntity.getBody()));
-			
-		} catch (Exception e) {
-			log.error("testPostInBody2 =====> ", e);
-		}
-	}
-	
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testPostKeValueV1() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/v1/postKeyValue";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = post(url);
+            // application/x-www-form-urlencoded
+            requestBuilder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+            requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+            /*
+             * 设置请求参数
+             */
+            PersonSearchBean searchBean = new PersonSearchBean();
+            searchBean.setName("张三");
+            searchBean.setPassword("1234567");
+            requestBuilder.param("name", searchBean.getName());
+            requestBuilder.param("password", searchBean.getPassword());
+            
+            //requestBuilder.content("name=" + searchBean.getName() + "&password=" + searchBean.getPassword());
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testPostKeValueV2() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/v2/postKeyValue";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = post(url);
+            // application/x-www-form-urlencoded
+            requestBuilder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+            requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+            /*
+             * 设置请求参数
+             */
+            PersonSearchBean searchBean = new PersonSearchBean();
+            searchBean.setName("张三");
+            searchBean.setPassword("1234567");
+            //requestBuilder.param("name", searchBean.getName());
+            //requestBuilder.param("password", searchBean.getPassword());
+            
+            requestBuilder.content("name=" + searchBean.getName() + "&password=" + searchBean.getPassword());
+            
+            // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+            MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+            // mvc 结果
+            MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 请求body
+            //requestBuilder.content("{}");     
+            
+            // 响应对象
+            MockHttpServletResponse response = mvcResult.getResponse();
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+           
+        } catch (Exception e) {
+            log.error("testMockMVC =====> ", e);
+        }
+    }
+    
 	/**
 	 * 
 	 * 描述: 
@@ -259,14 +224,14 @@ public final class PersonControllerTest extends BaseTest {
 	public void testMockMVC() {
 		try {
 			// 页面/服务 地址
-			String url = "/api/sys/login";
+			String url = prefix + "/";
 			// 请求构建器
 			// get 方法
 			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
 			// post 方法
 			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
 			requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
-			requestBuilder.header(HttpHeaders.ACCEPT, "application/json");
+			requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 			/*
 			 * 设置请求参数
 			 */
@@ -294,6 +259,91 @@ public final class PersonControllerTest extends BaseTest {
 			log.error("testMockMVC =====> ", e);
 		}
 	}
+	
+	/**
+     * 
+     * 描述: 文件上传
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testUpload() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/upload";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = get(url);
+            // 文件上传
+            MockMultipartHttpServletRequestBuilder requestBuilder = fileUpload(url);
+            requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+            /*
+             * 设置请求参数
+             */
+            // 文件
+            String path = null;
+            InputStream inputStream = null;
+            MockMultipartFile file = null;
+            path = ClassPathUtil.getClassSubpath("/upload/upload.xlsx", true);
+            inputStream = new FileInputStream(path);
+            //file = new MockMultipartFile("file", "白熊_01.jpg", "application/octet-stream", inputStream);
+            file = new MockMultipartFile("file", "啊哈abc.xlsx", "", inputStream);
+            requestBuilder.file(file);
+            // 响应对象
+            MockHttpServletResponse response = perform(requestBuilder);
+            // 获取字符串形式的响应内容
+            String result = response.getContentAsString();
+            System.out.println("响应数据:");
+            System.out.println(result);
+            
+            // 异常对象
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testUpload =====> ", e);
+        }
+    }
+    
+    /**
+     * 
+     * 描述: 文件下载
+     * @author qye.zheng
+     * 
+     */
+    @Test
+    public void testDownload() {
+        try {
+            // 页面/服务 地址
+            String url = prefix + "/download";
+            // 请求构建器
+            // get 方法
+            //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+            // post 方法
+            MockHttpServletRequestBuilder requestBuilder = post(url);
+            requestBuilder.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+            /*
+             * 设置请求参数
+             */
+          
+            
+            // mvc 结果
+            //MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+            // 响应对象
+            MockHttpServletResponse response = perform(requestBuilder);
+            
+            OutputStream outputStream =new FileOutputStream(ProjectUtil.getAbsolutePath("/doc/a.xlsx", true));
+            //outputStream.write(response.getContentAsByteArray());
+            //outputStream.flush();
+            IOUtils.write(response.getContentAsByteArray(), outputStream);
+            
+            //Exception exception = mvcResult.getResolvedException();
+            
+            
+        } catch (Exception e) {
+            log.error("testExport =====> ", e);
+        }
+    }
 	
 	/**
 	 * 控制器 单元测试
@@ -475,8 +525,8 @@ public final class PersonControllerTest extends BaseTest {
 	@Tag(" [每个测试-方法]结束之后运行")
 	@BeforeEach
 	public void beforeMethod() {
+		prefix = "/generic";
 		System.out.println("beforeMethod()");
-		   prefix = "/person";
 	}
 	
 	/**

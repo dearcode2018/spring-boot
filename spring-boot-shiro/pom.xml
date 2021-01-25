@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>com.hua</groupId>
 		<artifactId>spring-boot-entire</artifactId>
-		<version>0.0.1</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>spring-boot-shiro</artifactId>
 	<name>spring-boot-shiro</name>
 	<packaging>jar</packaging>
 	
 	<properties>
-		<web.version>0.0.1</web.version>
+		<web.version>1.0.0</web.version>
 	</properties>
 
 	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->

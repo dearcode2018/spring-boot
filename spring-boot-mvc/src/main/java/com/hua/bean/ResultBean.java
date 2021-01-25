@@ -7,8 +7,7 @@
  */
 package com.hua.bean;
 
-
-
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 描述: 
@@ -16,7 +15,8 @@ package com.hua.bean;
  * @author qye.zheng
  * ResultBean
  */
-//@XmlRootElement(name = "resultBean", namespace = "http://spring.hua.com")
+@XmlRootElement(name = "resultBean", namespace = "http://spring.hua.com")
+//@XmlRootElement(name = "xml")
 public final class ResultBean extends BaseBean {
 
 	 /* long */

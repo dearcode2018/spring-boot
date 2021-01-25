@@ -6,6 +6,7 @@
  */
 package com.hua.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,8 +41,7 @@ public class HelloWorldController extends BaseController
 	 * @author qianye.zheng
 	 */
 	@GetMapping({"/get", "/get23"})
-	public User get(final String id)
-	{
+	public ResponseEntity<User> get(final String id) {
 		System.out.println("values= " + value);
 		System.out.println(this.getClass().getResource("/").getPath());
 		User user = new User();
@@ -50,7 +50,7 @@ public class HelloWorldController extends BaseController
 		user.setPassword("12345678");
 		//System.out.println(JacksonUtil.writeAsString(user));
 		
-		return user;
+		return ResponseEntity.ok(user);
 	}
 	
 	/**

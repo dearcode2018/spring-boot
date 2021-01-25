@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -73,7 +75,7 @@ public abstract class BaseControllerTest extends BaseTest {
     protected MockHttpServletRequestBuilder post(final String url) {
         final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
         requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
-        requestBuilder.header("Accept", "application/json");
+        requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         // 构建公共参数
         buildCommonParam(requestBuilder);
 
@@ -88,7 +90,7 @@ public abstract class BaseControllerTest extends BaseTest {
      */
     protected MockHttpServletRequestBuilder get(final String url) {
         final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
-        requestBuilder.header("Accept", "application/json");
+        requestBuilder.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         // 构建公共参数
         buildCommonParam(requestBuilder);
 

@@ -10,7 +10,7 @@
   
   <groupId>com.hua</groupId>
   <artifactId>spring-boot-entire</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>spring-boot-entire</name>
   <description>spring-boot Maven Entire Project</description>
@@ -52,11 +52,11 @@
 	<properties>
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.version>0.0.1</maven.version>
-		<common.version>0.0.1</common.version>		
-		<web.version>0.0.1</web.version>
+		<maven.version>1.0.0</maven.version>
+		<common.version>1.0.0</common.version>		
+		<web.version>1.0.0</web.version>
 		<spring-boot-starter-parent.version>2.0.2.RELEASE</spring-boot-starter-parent.version>		
-		<spring.boot.core.version>0.0.1</spring.boot.core.version>
+		<spring.boot.core.version>1.0.0</spring.boot.core.version>
 		<maven.plugin.source.version>2.4</maven.plugin.source.version>
 		<maven.plugin.assembly.version>2.5.5</maven.plugin.assembly.version>
 		<maven.plugin.dependency.version>2.10</maven.plugin.dependency.version>
