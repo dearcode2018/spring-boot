@@ -46,6 +46,8 @@
 		<module>spring-boot-log</module>
 		<module>spring-boot-validate</module>
 		<module>spring-boot-mail</module>
+		<module>spring-boot-starter</module>
+		<module>spring-boot-starter-use</module>
     </modules>
  
 	<!-- 公共属性 -->
@@ -71,6 +73,7 @@
         <!-- jdbc -->
         <jdbc.mysql.version>8.0.11</jdbc.mysql.version>	
         <springBoot.admin.version>2.3.1</springBoot.admin.version>	
+		<hua.spring-boot-starter.version>1.0.0</hua.spring-boot-starter.version>
 	</properties>  
   
   	<dependencies>
@@ -168,11 +171,33 @@
 				</configuration>
 			</plugin>
 
+			<!-- 要将源码放上去，需要加入这个插件 -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.hua</groupId>
+				<artifactId>common</artifactId>
+				<version>${common.version}</version>
+			</dependency>		
+		
 			<dependency>
 			  <groupId>de.codecentric</groupId>
 			  <artifactId>spring-boot-admin-server</artifactId>
@@ -189,7 +214,14 @@
 			    <groupId>de.codecentric</groupId>
 			    <artifactId>spring-boot-admin-starter-client</artifactId>
 			    <version>${springBoot.admin.version}</version>
-			</dependency>										
+			</dependency>	
+			
+			<!-- 自定义starter -->
+	         <dependency>
+	             <groupId>com.hua</groupId>
+	             <artifactId>spring-boot-starter</artifactId>
+	             <version>${hua.spring-boot-starter.version}</version>
+	         </dependency>													
 		</dependencies>
 	</dependencyManagement>
 	

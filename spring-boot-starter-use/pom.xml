@@ -2,28 +2,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<!-- 继承 spring boot -->
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.6.RELEASE</version>
+		<groupId>com.hua</groupId>
+		<artifactId>spring-boot-entire</artifactId>
+		<version>1.0.0</version>
 	</parent>
-	<groupId>com.hua</groupId>
-	<artifactId>spring-boot-template-single</artifactId>
-	<version>1.0.0</version>
-	<name>spring-boot-template-single</name>
+	<artifactId>spring-boot-starter-use</artifactId>
+	<name>spring-boot-starter-use</name>
 	<packaging>jar</packaging>
 	
 	<properties>
-		<common.version>1.0.0</common.version>
+	
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.hua</groupId>
-			<artifactId>common</artifactId>
-			<version>${common.version}</version>
-		</dependency>	
+			<artifactId>spring-boot-core</artifactId>
+			<version>${spring.boot.core.version}</version>
+		</dependency>		
 	
 <!-- 		<dependency>
 			<groupId>com.hua</groupId>
@@ -62,6 +59,12 @@
              <artifactId>spring-boot-starter-actuator</artifactId>
          </dependency>
 		
+		<!-- 自定义starter -->
+         <dependency>
+             <groupId>com.hua</groupId>
+             <artifactId>spring-boot-starter</artifactId>
+         </dependency>	
+			
 	</dependencies>
 
 	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->
@@ -72,6 +75,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!-- 是否忽略spring-boot-maven-plugin 打包 -->
+					<skip>false</skip>
 					<!-- 打包引入devtools依赖，需要改为false -->
 					<excludeDevtools>true</excludeDevtools>
 				</configuration>

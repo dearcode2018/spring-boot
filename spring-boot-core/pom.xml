@@ -15,24 +15,9 @@
 	
 	</properties>
 
-	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->
 	<build>
 		<plugins>
-			<!-- 要将源码放上去，需要加入这个插件 -->
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<configuration>
-					<attach>true</attach>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

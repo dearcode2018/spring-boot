@@ -15,21 +15,6 @@
 	
 	</properties>
 
-	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->
-	<build>
-		<plugins>
-			<!-- package as an executable jar -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<!-- 打包引入devtools依赖，需要改为false -->
-					<excludeDevtools>true</excludeDevtools>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.hua</groupId>
@@ -75,5 +60,20 @@
          </dependency>
 		
 	</dependencies>
+
+	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->
+	<build>
+		<plugins>
+			<!-- package as an executable jar -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 打包引入devtools依赖，需要改为false -->
+					<excludeDevtools>true</excludeDevtools>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

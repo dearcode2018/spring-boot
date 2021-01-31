@@ -1,0 +1,86 @@
+【项目信息】
+项目名称 : spring-boot-starter
+中文名称 : 
+项目版本 : version 1.0
+
+主要技术 : 
+
+项目描述 : 
+
+项目备注 : 
+
+【项目规划】
+
+starter端
+1) pom.xml配置
+<!-- 继承 spring boot -->
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.3.6.RELEASE</version>
+</parent>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-configuration-processor</artifactId>
+	<optional>true</optional>
+</dependency>	
+
+2) StarterConfigProperties
+@ConfigurationProperties(prefix = "starter.config")
+@Data
+3) com.hua.config.StarterConfiguration
+@Configuration
+@EnableConfigurationProperties(StarterConfigProperties.class)
+// 配置初始化条件
+@ConditionalOnProperty(prefix = "starter.config", name = "open", havingValue = "true")
+4) META-INF
+路径: src/main/resouces/META-INF/spring.factories
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.hua.config.StarterConfiguration
+
+5)
+
+use starter端
+1) 引入依赖
+<!-- 自定义starter -->
+ <dependency>
+     <groupId>com.hua</groupId>
+     <artifactId>spring-boot-starter</artifactId>
+ </dependency>	
+2) 加入配置
+#
+starter.config.open=true
+starter.config.name=Pacific Ocean Zone
+starter.config.number=235
+3) 注入Bean
+@Resource
+private StarterService starterService;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,9 +10,8 @@
 	<artifactId>spring-boot-test</artifactId>
 	<name>spring-boot-test</name>
 	<packaging>jar</packaging>
-	
 	<properties>
-				
+		<start-class>com.hua.ApplicationStarter</start-class>
 	</properties>
 
 	<!-- 使用spring boot 构建插件 运行: mvn spring-boot:run -->

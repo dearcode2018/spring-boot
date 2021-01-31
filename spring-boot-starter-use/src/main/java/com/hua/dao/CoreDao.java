@@ -1,18 +1,18 @@
 /**
  * 描述: 
- * CoreService.java
+ * CoreDao.java
  * 
  * @author qye.zheng
  *  version 1.0
  */
-package com.hua.service;
+package com.hua.dao;
 
 /**
  * 描述: 
  * 
  * @author qye.zheng
- * CoreService
+ * CoreDao
  */
-public interface CoreService {
+public interface CoreDao<T> {
 
 }
