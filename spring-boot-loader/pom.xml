@@ -10,6 +10,7 @@
 	<artifactId>spring-boot-loader</artifactId>
 	<name>spring-boot-loader</name>
 	<packaging>jar</packaging>
+	<description>Spring Boot Loader Framework</description>
 	
 	<properties>
 				
