@@ -28,6 +28,7 @@
 		<module>spring-boot-devtool</module>		
 		<module>spring-boot-oauth2</module>
 		<module>spring-boot-oauth2-github</module>	
+		<module>spring-boot-loader</module>
 		<module>spring-boot-tomcat</module>	
 		<module>spring-boot-mybatis</module>
 		<module>spring-boot-redis</module>

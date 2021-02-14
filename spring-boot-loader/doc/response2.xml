@@ -1,0 +1,81 @@
+<xml>
+<error>0</error>
+<total/>
+<data>
+<video>
+<md5checksum>
+<![CDATA[ 44b145c6bea7dd826191990dfb38d1fd ]]>
+</md5checksum>
+<tag>
+<![CDATA[ 标签 ]]>
+</tag>
+<mp4>
+<![CDATA[http://mpv.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_1.mp4]]>
+</mp4>
+<title>
+<![CDATA[ upload上传视频 ]]>
+</title>
+<df>2</df>
+<times>
+<![CDATA[ 0 ]]>
+</times>
+<mp4_1>
+<![CDATA[http://mpv.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_1.mp4]]>
+</mp4_1>
+<vid>
+<![CDATA[ 36e77ba39cc4768ab541cb6bf4f775a0_3 ]]>
+</vid>
+<mp4_2>
+<![CDATA[http://mpv.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_2.mp4]]>
+</mp4_2>
+<cataid>
+<![CDATA[ 1 ]]>
+</cataid>
+<swf_link>
+<![CDATA[http://player.polyv.net/videos/36e77ba39cc4768ab541cb6bf4f775a0_3.swf]]>
+</swf_link>
+<status>
+<![CDATA[ 10 ]]>
+</status>
+<seed>1</seed>
+<flv2>
+<![CDATA[http://plvod01.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_2.flv]]>
+</flv2>
+<flv1>
+<![CDATA[http://plvod01.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_1.flv]]>
+</flv1>
+<sourcefile>
+<![CDATA[ ]]>
+</sourcefile>
+<playerwidth>
+<![CDATA[ 600 ]]>
+</playerwidth>
+<hls/>
+<default_video>
+<![CDATA[http://plvod01.videocc.net/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_1.flv]]>
+</default_video>
+<duration>
+<![CDATA[ 00:00:33 ]]>
+</duration>
+<filesize/>
+<first_image>
+<![CDATA[http://img.videocc.net/uimage/3/36e77ba39c/0/36e77ba39cc4768ab541cb6bf4f775a0_0.jpg]]>
+</first_image>
+<original_definition>
+<![CDATA[ 672x378 ]]>
+</original_definition>
+<context>
+<![CDATA[ 视频文档描述 ]]>
+</context>
+<previewVid>
+<![CDATA[ m63c44pl69mm7435lp871mp3pn7n448l0_6 ]]>
+</previewVid>
+<playerheight>
+<![CDATA[ 490 ]]>
+</playerheight>
+<ptime>
+<![CDATA[ 2017-12-04 10:36:18 ]]>
+</ptime>
+</video>
+</data>
+</xml>
