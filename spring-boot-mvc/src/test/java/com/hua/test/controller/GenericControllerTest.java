@@ -135,6 +135,7 @@ public final class GenericControllerTest extends BaseControllerTest {
             searchBean.setPassword("1234567");
             requestBuilder.param("name", searchBean.getName());
             requestBuilder.param("password", searchBean.getPassword());
+            requestBuilder.param("duration", "7d");
             
             //requestBuilder.content("name=" + searchBean.getName() + "&password=" + searchBean.getPassword());
             

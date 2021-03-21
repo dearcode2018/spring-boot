@@ -7,6 +7,12 @@
  */
 package com.hua.bean;
 
+import java.time.Duration;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 描述: 
@@ -15,42 +21,15 @@ package com.hua.bean;
  * PersonSearchBean
  */
 @SuppressWarnings({"serial"})
+@Data
+@EqualsAndHashCode(callSuper=false)
 public final class PersonSearchBean extends BaseBean
 {
 	private String name;
 	
 	private String password;
-
-	/**
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public String getPassword()
-	{
-		return password;
-	}
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private Duration duration;
 	
 }

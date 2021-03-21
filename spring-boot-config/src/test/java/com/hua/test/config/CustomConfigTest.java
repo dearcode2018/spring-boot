@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import java.net.URLEncoder;
+
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.AfterEach;
@@ -105,7 +107,7 @@ public final class CustomConfigTest extends BaseTest {
 		try {
 			
 			System.out.println(customConfigBean);
-			
+			System.out.println(URLEncoder.encode("{}", "UTF-8"));
 		} catch (Exception e) {
 			log.error("testCustomConfig =====> ", e);
 		}

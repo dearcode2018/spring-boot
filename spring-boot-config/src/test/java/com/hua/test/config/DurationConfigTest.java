@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * ConfigureServiceTest.java
+ * DurationConfigTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -20,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import java.util.List;
-
-import javax.annotation.Resource;
+import java.time.Duration;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,12 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
-import com.hua.service.ConfigureService;
 import com.hua.test.BaseTest;
 
 
@@ -46,7 +41,7 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * ConfigureServiceTest
+ * DurationConfigTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
@@ -57,7 +52,7 @@ import com.hua.test.BaseTest;
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class ConfigureServiceTest extends BaseTest {
+public final class DurationConfigTest extends BaseTest {
 
 	
 	/*
@@ -84,20 +79,8 @@ public final class ConfigureServiceTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	@Resource
-	private ConfigureService configureService;
-	
-	@Value("${config.value:default}")
-	private String value;
-	
-	@Value("${config.values}")
-	private List<String> values;
-	
 	//@Resource
-	private PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer;
-	
-	@Resource
-	private ConfigurableEnvironment configurableEnvironment;
+	//private UserController userController;
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -109,26 +92,30 @@ public final class ConfigureServiceTest extends BaseTest {
 	 * 
 	 */
 	
-	   /**
-     * 
-     * 描述: 
-     * @author qye.zheng
-     * 
-     */
-    //@DisplayName("test")
-    @Test
-    public void testReadValue() {
-        try {
-            System.out.println(value);
-            System.out.println(values);
-            for (String e : values) {
-                System.out.print(e + ",");
-            }
-            System.out.println();
-        } catch (Exception e) {
-            log.error("test =====> ", e);
-        }
-    }
+	/* 不区分大小写，d-天，h-时，m-分，s-秒，ms-毫秒(不写，默认)，us-微妙，ns-纳秒 */
+	@Value("${config.timeout1:1ns}")
+	private Duration nanosecond;
+	
+	@Value("${config.timeout2:1us}")
+	private Duration microsecond;
+	
+	@Value("${config.timeout3:1}")
+	private Duration millesecond1;
+	
+	@Value("${config.timeout4:1ms}")
+	private Duration millesecond2;
+	
+	@Value("${config.timeout5:1s}")
+	private Duration second;
+	
+	@Value("${config.timeout6:1m}")
+	private Duration minute;
+	
+	@Value("${config.timeout7:1h}")
+	private Duration hour;
+	
+	@Value("${config.timeout8:1d}")
+	private Duration day;
 	
 	/**
 	 * 
@@ -138,48 +125,24 @@ public final class ConfigureServiceTest extends BaseTest {
 	 */
 	//@DisplayName("test")
 	@Test
-	public void testThirdConfig() {
+	public void testDuration() {
 		try {
-			System.out.println(configureService.thirdConfig().toString());
-		} catch (Exception e) {
-			log.error("testThirdConfig =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	//@DisplayName("test")
-	@Test
-	public void testPropertySource() {
-		try {
-			configureService.singleConfigure();
+			System.out.println(String.format("nanosecond: %d", nanosecond.toNanos()));
+			System.out.println(String.format("microsecond: %d", microsecond.toNanos()));
+			System.out.println(String.format("millesecond1: %d", millesecond1.toMillis()));
+			System.out.println(String.format("millesecond2: %d", millesecond2.toMillis()));
+			System.out.println(String.format("second-millis: %d", second.toMillis()));
+			System.out.println(String.format("minute: %d", minute.toMinutes()));
+			System.out.println(String.format("hour: %d", hour.toHours()));
+			System.out.println(String.format("day: %d", day.toDays()));
 			
-		} catch (Exception e) {
-			log.error("testPropertySource =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	//@DisplayName("test")
-	@Test
-	public void testGetProperty() {
-		try {
-			//PropertySource<String> propertySource = propertySourcesPlaceholderConfigurer.getAppliedPropertySources().get("a");
-			String configValue = configurableEnvironment.getProperty("config.value");
-			assertNotNull(configValue);
+			System.out.println(String.format("hour-minute: %d", hour.toMinutes()));
+			
 		} catch (Exception e) {
 			log.error("test =====> ", e);
 		}
 	}
+	
 	
 	/**
 	 * 

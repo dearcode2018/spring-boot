@@ -37,7 +37,7 @@ logging:
 
 
 config:
-  value: abckkk
+  value: "'#'{some}"
   values: a,b,c,d
 
 

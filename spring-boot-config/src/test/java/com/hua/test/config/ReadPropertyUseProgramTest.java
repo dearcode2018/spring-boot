@@ -1,6 +1,6 @@
 /**
  * 描述: 
- * ConfigureServiceTest.java
+ * ReadPropertyUseProgramTest.java
  * 
  * @author qye.zheng
  *  version 1.0
@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.AfterEach;
@@ -31,14 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hua.ApplicationStarter;
-import com.hua.service.ConfigureService;
 import com.hua.test.BaseTest;
 
 
@@ -46,7 +41,7 @@ import com.hua.test.BaseTest;
  * 描述: 
  * 
  * @author qye.zheng
- * ConfigureServiceTest
+ * ReadPropertyUseProgramTest
  */
 //@DisplayName("测试类名称")
 //@Tag("测试类标签")
@@ -57,7 +52,7 @@ import com.hua.test.BaseTest;
 @SpringBootTest(classes = {ApplicationStarter.class}, 
 webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@MapperScan(basePackages = {"com.hua.mapper"})
-public final class ConfigureServiceTest extends BaseTest {
+public final class ReadPropertyUseProgramTest extends BaseTest {
 
 	
 	/*
@@ -84,21 +79,10 @@ public final class ConfigureServiceTest extends BaseTest {
 	 * 而启动spring 及其mvc环境，然后通过注入方式，可以走完 spring mvc 完整的流程.
 	 * 
 	 */
-	@Resource
-	private ConfigureService configureService;
-	
-	@Value("${config.value:default}")
-	private String value;
-	
-	@Value("${config.values}")
-	private List<String> values;
-	
 	//@Resource
-	private PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer;
-	
+	//private UserController userController;
 	@Resource
 	private ConfigurableEnvironment configurableEnvironment;
-	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
 	 * SpringJunitTest模板测试的其他项目
@@ -108,60 +92,6 @@ public final class ConfigureServiceTest extends BaseTest {
 	 * 将目标项目的配置复制到当前项目同一路径下
 	 * 
 	 */
-	
-	   /**
-     * 
-     * 描述: 
-     * @author qye.zheng
-     * 
-     */
-    //@DisplayName("test")
-    @Test
-    public void testReadValue() {
-        try {
-            System.out.println(value);
-            System.out.println(values);
-            for (String e : values) {
-                System.out.print(e + ",");
-            }
-            System.out.println();
-        } catch (Exception e) {
-            log.error("test =====> ", e);
-        }
-    }
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	//@DisplayName("test")
-	@Test
-	public void testThirdConfig() {
-		try {
-			System.out.println(configureService.thirdConfig().toString());
-		} catch (Exception e) {
-			log.error("testThirdConfig =====> ", e);
-		}
-	}
-	
-	/**
-	 * 
-	 * 描述: 
-	 * @author qye.zheng
-	 * 
-	 */
-	//@DisplayName("test")
-	@Test
-	public void testPropertySource() {
-		try {
-			configureService.singleConfigure();
-			
-		} catch (Exception e) {
-			log.error("testPropertySource =====> ", e);
-		}
-	}
 	
 	/**
 	 * 
@@ -174,8 +104,10 @@ public final class ConfigureServiceTest extends BaseTest {
 	public void testGetProperty() {
 		try {
 			//PropertySource<String> propertySource = propertySourcesPlaceholderConfigurer.getAppliedPropertySources().get("a");
+			// 通过API方式读取配置，等同于 @Value("${xx.xx}")
 			String configValue = configurableEnvironment.getProperty("config.value");
 			assertNotNull(configValue);
+			System.out.println(configValue);
 		} catch (Exception e) {
 			log.error("test =====> ", e);
 		}
