@@ -24,7 +24,7 @@ public final class BusinessParamReq {
 	private List<BigDecimal> cashs = Collections.emptyList();
 	
 	@DecimalMin(value = "1.00", message = "数值不能小于1.00")
-	@DecimalMax(value = "9999.99", message = "数值不能大于9999.99")
+	@DecimalMax(value = "10.99", message = "数值不能大于10.99")
 	private BigDecimal cashMin;
 	
 }
