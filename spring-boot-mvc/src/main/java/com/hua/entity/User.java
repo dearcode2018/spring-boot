@@ -7,9 +7,14 @@
  */
 package com.hua.entity;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hua.bean.BaseBean;
+import com.hua.format.BigDecimalSerialize;
+
+import lombok.Data;
 
 /**
  * 描述: 
@@ -17,6 +22,7 @@ import com.hua.bean.BaseBean;
  * @author qye.zheng
  * User
  */
+@Data
 public final class User extends BaseBean {
 
 	 /* long */
@@ -43,112 +49,11 @@ public final class User extends BaseBean {
 	/* 上一次登录-IP地址 */
 	private String lastLoginIp;
 	
+	@JsonSerialize(using = BigDecimalSerialize.class)
+	private BigDecimal salary;
+	
 	/** 无参构造方法 */
 	public User() {}
-
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public UserType getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(UserType type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the lastLoginTime
-	 */
-	public Timestamp getLastLoginTime()
-	{
-		return lastLoginTime;
-	}
-
-	/**
-	 * @param lastLoginTime the lastLoginTime to set
-	 */
-	public void setLastLoginTime(Timestamp lastLoginTime)
-	{
-		this.lastLoginTime = lastLoginTime;
-	}
-
-	/**
-	 * @return the lastLoginIp
-	 */
-	public String getLastLoginIp() {
-		return lastLoginIp;
-	}
-
-	/**
-	 * @param lastLoginIp the lastLoginIp to set
-	 */
-	public void setLastLoginIp(String lastLoginIp) {
-		this.lastLoginIp = lastLoginIp;
-	}
-
-	/**
-	 * @return the nickname
-	 */
-	public String getNickname()
-	{
-		return nickname;
-	}
-
-	/**
-	 * @param nickname the nickname to set
-	 */
-	public void setNickname(String nickname)
-	{
-		this.nickname = nickname;
-	}
-
-	/**
-	 * @return the valid
-	 */
-	public boolean isValid()
-	{
-		return valid;
-	}
-
-	/**
-	 * @param valid the valid to set
-	 */
-	public void setValid(boolean valid)
-	{
-		this.valid = valid;
-	}
 
 	
 }

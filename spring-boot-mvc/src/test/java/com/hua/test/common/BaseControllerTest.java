@@ -7,8 +7,15 @@
  */
 package com.hua.test.common;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -23,9 +30,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.hua.ApplicationStarter;
+import com.hua.constant.Constant;
 import com.hua.test.BaseTest;
 import com.hua.util.StringUtil;
 
@@ -159,6 +169,42 @@ public abstract class BaseControllerTest extends BaseTest {
      */
     private void buildCommonParam(final MockHttpServletRequestBuilder requestBuilder) {
        
+    }
+    
+    /**
+     * 
+     * @description 
+     * @param target
+     * @return
+     * @author qianye.zheng
+     */
+    protected MultiValueMap<String, String> parseParam(final Object target) {
+    	final MultiValueMap<String, String> result = new LinkedMultiValueMap<>();
+    	final Class<?> clazz = target.getClass();
+    	// 子类属性
+    	final Field[] subFields = clazz.getDeclaredFields();
+    	// 父类属性
+    	final Field[] superFields = clazz.getSuperclass().getDeclaredFields();
+    	List<Field> fields = Lists.newArrayList();
+    	fields.addAll(Arrays.asList(subFields));
+    	fields.addAll(Arrays.asList(superFields));
+    	for (Field field : fields) {
+    		try {
+    			field.setAccessible(true);
+    			final Object value = field.get(target);
+    			// 忽略空
+    			if (null == value) continue;
+        		if (value instanceof Collection) { // 集合转换成逗号隔开的字符串
+        			result.add(field.getName(), StringUtils.join((Collection<?>) value, Constant.COMMA));
+        		} else {
+        			result.add(field.getName(), value.toString());
+        		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	
+    	return result;
     }
 
 }

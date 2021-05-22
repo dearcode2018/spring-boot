@@ -7,12 +7,12 @@
  */
 package com.hua.bean;
 
-import javax.validation.constraints.Email;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import com.hua.validate.ObjectCheck;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +26,7 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings({"serial"})
 @Data
 @EqualsAndHashCode(callSuper=false)
+@ObjectCheck(message = "对象参数不正确")
 public final class PersonSearchBean extends BaseBean
 {
 	/**
@@ -36,12 +37,14 @@ public final class PersonSearchBean extends BaseBean
 	@NotNull(message = "名称不能为空")
 	private String name;
 	
-	@NotBlank(message = "密码不能为空")
+	//@NotBlank(message = "密码不能为空")
 	private String password;
 	
 	//@Email
 	//@Length
 	private String email;
-
+	
+	private String email2;
+	
 	
 }

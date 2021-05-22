@@ -7,9 +7,7 @@
  */
 package com.hua.bean;
 
-import java.time.Duration;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hua.constant.Month;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +27,9 @@ public final class PersonSearchBean extends BaseBean
 	
 	private String password;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING)
-	private Duration duration;
+	//@JsonFormat(shape = JsonFormat.Shape.STRING)
+	//private Duration duration;
+	
+	private Month value;
 	
 }

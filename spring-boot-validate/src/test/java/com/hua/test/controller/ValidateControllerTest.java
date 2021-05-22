@@ -20,9 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -36,8 +40,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.hua.bean.BusinessParamReq;
 import com.hua.bean.PersonSearchBean;
 import com.hua.bean.SomeQuery;
 import com.hua.test.common.BaseControllerTest;
@@ -86,6 +90,69 @@ public final class ValidateControllerTest extends BaseControllerTest {
 	
 	//@PathVariable
 	
+	/**
+	 * 引当前项目用其他项目之后，然后可以使用
+	 * SpringJunitTest模板测试的其他项目
+	 * 
+	 * 可以使用所引用目标项目的所有资源
+	 * 若引用的项目的配置与本地的冲突或无法生效，需要
+	 * 将目标项目的配置复制到当前项目同一路径下
+	 * 
+	 */
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testParamValidate() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/param-validate";
+			// 请求构建器
+			// get 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			
+			/*
+			 * 设置请求参数
+			 */
+			BusinessParamReq req = new BusinessParamReq();
+			List<BigDecimal> cashes = Lists.newArrayList();
+			// 9999.99
+			cashes.add(BigDecimal.valueOf(0.1));
+			cashes.add(BigDecimal.valueOf(9999.99));
+			req.setCashs(cashes);
+			req.setCashMin(BigDecimal.valueOf(0.1));
+			requestBuilder.content(JacksonUtil.writeAsString(req));
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testPostInBody =====> ", e);
+		}
+	}
 	
 	/**
 	 * 引当前项目用其他项目之后，然后可以使用
@@ -96,6 +163,58 @@ public final class ValidateControllerTest extends BaseControllerTest {
 	 * 将目标项目的配置复制到当前项目同一路径下
 	 * 
 	 */
+	
+	/**
+	 * 
+	 * 描述: 
+	 * @author qye.zheng
+	 * 
+	 */
+	@Test
+	public void testPostInBody() {
+		try {
+			// 页面/服务 地址
+			String url = prefix + "/postNotInBody";
+			// 请求构建器
+			// get 方法
+			//MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(url);
+			// post 方法
+			MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
+			requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
+			requestBuilder.header("Accept", "application/json");
+			
+			/*
+			 * 设置请求参数
+			 */
+			PersonSearchBean searchBean = new PersonSearchBean();
+			searchBean.setName("张三1");
+			searchBean.setPassword("1234567");
+			searchBean.setEmail("123");
+			searchBean.setEmail2("1232");
+			requestBuilder.content(JacksonUtil.writeAsString(searchBean));
+			
+			// 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
+			MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
+			// mvc 结果
+			MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+			// 请求body
+			//requestBuilder.content("{}");		
+			
+			// 响应对象
+			MockHttpServletResponse response = mvcResult.getResponse();
+			// 获取字符串形式的响应内容
+			String result = response.getContentAsString();
+			
+			System.out.println(result);
+			
+			// 异常对象
+			//Exception exception = mvcResult.getResolvedException();
+			
+			
+		} catch (Exception e) {
+			log.error("testPostInBody =====> ", e);
+		}
+	}
 	
     /**
      * 
@@ -122,6 +241,10 @@ public final class ValidateControllerTest extends BaseControllerTest {
             //MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(url);
             //requestBuilder.header("Content-Type", "application/json;charset=UTF-8");
             requestBuilder.header("Accept", "application/json;charset=utf8");
+            
+            requestBuilder.param("email", "123");
+            //requestBuilder.param("email2", "124");
+            
             // 模拟 mvc 对象，设置 WebApplicationContext，然后构建 模拟mvc对象
             MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build(); 
             // mvc 结果

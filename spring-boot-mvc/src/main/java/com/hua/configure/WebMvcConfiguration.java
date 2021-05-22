@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +20,11 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.hua.interceptor.ResourceInterceptor;
 
 
 /**
@@ -42,6 +46,17 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	/* 上传文件最大值，单位: K */
 	@Value("${data.fileUpload.maxSizeK:5000}")
 	private Integer maxUploadFileSizeK;
+	
+	@Resource
+	ResourceInterceptor resourceInterceptor;
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(resourceInterceptor).addPathPatterns("/**");
+	}
 	
 	/**
 	 * @description 

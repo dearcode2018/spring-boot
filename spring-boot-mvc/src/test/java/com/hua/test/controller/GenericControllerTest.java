@@ -48,6 +48,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.hua.bean.PersonSearchBean;
+import com.hua.constant.Month;
 import com.hua.test.common.BaseControllerTest;
 import com.hua.util.ClassPathUtil;
 import com.hua.util.ProjectUtil;
@@ -133,9 +134,16 @@ public final class GenericControllerTest extends BaseControllerTest {
             PersonSearchBean searchBean = new PersonSearchBean();
             searchBean.setName("张三");
             searchBean.setPassword("1234567");
-            requestBuilder.param("name", searchBean.getName());
-            requestBuilder.param("password", searchBean.getPassword());
-            requestBuilder.param("duration", "7d");
+            searchBean.setValue(Month.AUGUST);
+            //requestBuilder.param("name", searchBean.getName());
+            //requestBuilder.param("password", searchBean.getPassword());
+            //requestBuilder.param("value", "August");
+            
+            requestBuilder.content("{\"name\":\"张三\", \"value\":\"August\"}");
+            
+            //requestBuilder.param("duration", "7d");
+            
+            //requestBuilder.params(parseParam(searchBean));
             
             //requestBuilder.content("name=" + searchBean.getName() + "&password=" + searchBean.getPassword());
             

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hua.annotation.AddCheck;
 import com.hua.annotation.QueryCheck;
-import com.hua.annotation.SpecialCheck;
 import com.hua.annotation.UpdateCheck;
+import com.hua.bean.BusinessParamReq;
 import com.hua.bean.PersonSearchBean;
 import com.hua.bean.ResultBean;
 import com.hua.bean.SomeQuery;
@@ -42,6 +42,29 @@ public class ValidateController extends BaseController {
     // @Value("${system.name}")
     // private String name;
     
+	/**
+     * 
+     * 描述:
+     * @author qye.zheng
+     * 
+     * @param request
+     * @param response
+     * @param searchBean
+     * @return
+     */
+    @PostMapping(value = { "/param-validate" })
+    public ResultBean paramValidate(@RequestBody @Valid final BusinessParamReq req) {
+        /*
+         * @RequestBody 注解: 处理放在请求消息体中的报文，格式由客户端的Content-Type参数决定
+         */
+        ResultBean result = new ResultBean();
+        result.setMessage("收到请求");
+        result.setMessageCode("205");
+        result.setSuccess(true);
+        
+        return result;
+    }
+    
     /**
      * 
      * 描述:
@@ -54,7 +77,7 @@ public class ValidateController extends BaseController {
      */
     @PostMapping(value = { "/postNotInBody" })
     public ResultBean postNotInBody(final HttpServletRequest request, final HttpServletResponse response,
-            final @Valid PersonSearchBean searchBean) {
+    		@RequestBody @Valid final PersonSearchBean searchBean) {
         /*
          * @RequestBody 注解: 处理放在请求消息体中的报文，格式由客户端的Content-Type参数决定
          */

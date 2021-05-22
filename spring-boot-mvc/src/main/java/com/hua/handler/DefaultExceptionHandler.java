@@ -22,7 +22,7 @@ import com.hua.util.JacksonUtil;
  * @description 默认异常处理器
  * @author qianye.zheng
  */
-@Service
+//@Service
 public class DefaultExceptionHandler implements HandlerExceptionResolver {
 
 	private static Logger logger = LoggerFactory.getLogger(DefaultExceptionHandler.class);

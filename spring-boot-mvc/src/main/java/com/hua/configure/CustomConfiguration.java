@@ -9,11 +9,13 @@ package com.hua.configure;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,8 @@ public class CustomConfiguration
 	 * @return
 	 * @author qianye.zheng
 	 */
-	@Bean
+	//@ConditionalOnProperty()
+	//@Bean
 	public HandlerInterceptor interceptor1()
 	{
 		
@@ -164,6 +167,7 @@ public class CustomConfiguration
 	 * @return
 	 * @author qianye.zheng
 	 */
+	//@ConditionalOnProperty(prefix = "a.b", name = "*")
 	@Bean
 	public WebMvcConfigurer corsConfigurer()
 	{

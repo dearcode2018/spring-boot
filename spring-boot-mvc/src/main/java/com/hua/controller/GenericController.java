@@ -6,6 +6,7 @@
  */
 package com.hua.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class GenericController extends BaseController {
     @PostMapping(value = "/v1/postKeyValue")
     @ResponseBody
     public ResultBean postKeValue(final HttpServletRequest request, 
-            final HttpServletResponse response, final PersonSearchBean searchBean) {
+            final HttpServletResponse response, @RequestBody final PersonSearchBean searchBean) {
         /*
          * @RequestBody 注解: 处理放在请求消息体中的报文，格式由客户端的Content-Type参数决定
          */
@@ -55,6 +56,7 @@ public class GenericController extends BaseController {
         result.setMessageCode("205");
         result.setSuccess(true);
         User user = new User();
+        user.setSalary(BigDecimal.valueOf(20));
         user.setId("123");
         user.setUsername("张三");
         user.setPassword("ollldd");
